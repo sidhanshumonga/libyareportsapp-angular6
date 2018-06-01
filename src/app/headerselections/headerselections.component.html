@@ -1,0 +1,29 @@
+<mat-card id="headselections" style="width:initial">
+  <mat-card-content>
+    <div class="head-div">
+      <!-- selection dropdown for reports -->
+      <mat-form-field>
+        <mat-select placeholder="Select report" [(ngModel)]="reportName">
+          <mat-option *ngFor="let report of reports" [value]="report.value">
+            {{ report.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="head-div">
+      <!-- toggle for enabling dataset dropdown -->
+      <mat-slide-toggle class="mat-primary" [(ngModel)]="checked" [disabled]="reportName=='Ewarn Report'">Multiple datasets ?</mat-slide-toggle>
+    </div>
+    <div class="head-div">
+      <!-- selection dropdown for datasets -->
+      <mat-form-field>
+        <mat-select placeholder="Select Dataset" [disabled]="!checked || reportName=='Ewarn Report'" [formControl]="multidatasets"
+          [(ngModel)]="selectedvalues" multiple>
+          <mat-option *ngFor="let dataset of datasets" [value]="dataset.value" (click)="chips($event, selectedvalues)">
+            {{ dataset.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

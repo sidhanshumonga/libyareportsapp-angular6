@@ -1,0 +1,8 @@
+mat-card#headselections{
+    background-color: #9FA8DA;
+    text-align: center;
+  }
+  .head-div{
+    display: inline-block !important;
+    width:32%;
+  }

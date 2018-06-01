@@ -1,0 +1,12 @@
+.example-tree-progress-bar {
+    margin-left: 30px;
+  }
+  mat-tree-node,  mat-tree{
+      background: transparent
+  }
+  mat-tree-node{
+      vertical-align: text-top;
+  }
+  mat-card#outree{
+    background-color: #9FA8DA;
+  }

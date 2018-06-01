@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Submission and Creation status</title>
+  <base href="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
+</head>
+
+<body>
+  <app-root>
+    <div style="padding-top: 15%; text-align: center;">
+      <img src="assets/img/balls-5.svg" alt="">
+      <h4 style="margin-top: 50px;">Loading Submission and Creation Status</h4>
+    </div>
+  </app-root>
+  <script type="text/javascript" src="../../../dhis-web-core-resource/react-15/react-15.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-core-resource/lodash-functional/lodash-functional.js"></script>
+
+  <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/header-bar/babel-polyfill.js?_rev=0.1.7"></script>-->
+  <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=0.1.7"></script>-->
+  <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.plugin.min.js"></script>
+
+  <script type="text/javascript" src="../../../dhis-web-commons/bootstrap/js/bootstrap.min.js"></script>
+  <script>
+    //  angular.module('administrativeUnitApp', ['ngResource','ngCookies',
+    //    'd2HeaderBar']);
+    //  window.dhis2 = window.dhis2 || {};
+    //  dhis2.settings = dhis2.settings || {};
+    try {
+      if ('Dhis2HeaderBar' in window) {
+        Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), '../../../api', { noLoadingIndicator: true });
+      }
+    } catch (e) {
+      if ('console' in window) {
+        console.error(e);
+      }
+    }
+  </script>
+</body>
+
+</html>
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Libya report app</title>
+  <base href="">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
+</head>
+
+<body>
+  <app-root>
+  </app-root>
+
+<script type="text/javascript" src="runtime.js"></script><script type="text/javascript" src="polyfills.js"></script><script type="text/javascript" src="styles.js"></script><script type="text/javascript" src="vendor.js"></script><script type="text/javascript" src="main.js"></script></body>
+
+</html>

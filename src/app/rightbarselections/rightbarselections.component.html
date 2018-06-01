@@ -1,0 +1,41 @@
+<mat-card id="rightselections">
+  <mat-card-subtitle>Period Selections</mat-card-subtitle>
+  <mat-card-content>
+    <mat-grid-list cols="1" rowHeight="60px">
+
+      <!-- selection dropdown for reports -->
+      <mat-grid-tile colspan="1" rowspan="1">
+        <mat-form-field>
+          <mat-select placeholder="Select Period" [(ngModel)]="selectedPeriodType">
+           <mat-option *ngFor="let period of periods" [value]="period" (click)="gotPeriodValue(period)">   <!--[disabled]="period=='Weekly'" -->
+              {{ period }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="1" rowspan="1">
+        <mat-form-field>
+          <mat-select placeholder="Select Year" [(ngModel)]="selectedYearModel">
+            <mat-option *ngFor="let year of years" [value]="year" (click)="getWeeks(year)">
+              {{ year}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <!-- selection dropdown for datasets -->
+        <mat-form-field>
+          <mat-select placeholder="Select an option" [disabled]="selectedPeriodType=='Yearly'">
+            <mat-option *ngFor="let option of options" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-raised-button color="primary">Generate Report</button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
