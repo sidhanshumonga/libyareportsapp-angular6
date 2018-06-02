@@ -382,7 +382,7 @@ module.exports = "mat-card#datasetschips{\n    background-color: #9FA8DA;\n    t
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"datasetschips\" style=\"width:initial;height:100%;\">\n  <mat-card-subtitle>Selected Datasets</mat-card-subtitle>\n  <mat-card-content>\n  <mat-chip-list #chipList>\n    <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" [value]=\"data.id\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n      (removed)=\"remove(data)\">\n      {{data.viewValue}}\n      <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n    </mat-chip>\n  </mat-chip-list>\n</mat-card-content>\n</mat-card>"
+module.exports = "<mat-card id=\"datasetschips\" style=\"width:initial;height:100%;\">\n  <mat-card-subtitle>Selected Datasets</mat-card-subtitle>\n  <mat-card-content>\n  <mat-chip-list #chipList>\n    <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" [value]=\"data.id\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n      (removed)=\"remove(data)\">\n      {{data.name}}\n      <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n    </mat-chip>\n  </mat-chip-list>\n</mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -463,7 +463,7 @@ module.exports = "mat-card#headselections{\n    background-color: #9FA8DA;\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"headselections\" style=\"width:initial\">\n  <mat-card-content>\n    <div class=\"head-div\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods(report)\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"head-div\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" [disabled]=\"reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"head-div\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\" [disabled]=\"dataset.value!=reportName\" [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </mat-card-content>\n</mat-card>"
+module.exports = "<mat-card id=\"headselections\" style=\"width:initial\">\n  <mat-card-content>\n    <div class=\"head-div\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods()\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"head-div\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" (click)=\"clearChips(checked)\" [disabled]=\"reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"head-div\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\" [disabled]=\"dataset.value!=reportName\" [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.name }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -481,6 +481,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var src_app_shared_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared.service */ "./src/app/shared.service.ts");
 /* harmony import */ var src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/ajaxservice.service */ "./src/app/ajaxservice.service.ts");
+/* harmony import */ var src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/CONSTANTS */ "./src/app/CONSTANTS.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -490,6 +491,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -531,7 +533,7 @@ var HeaderselectionsComponent = /** @class */ (function () {
                         if (attr[j].attribute.name == 'Report app' && attr[j].value == 'true') {
                             for (var k = 0; k < attr.length; k++) {
                                 if (attr[k].attribute.name != 'Report app' && attr[k].value == 'true') {
-                                    var obj = { 'viewValue': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
+                                    var obj = { 'name': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
                                     _this.datasetsArray.push(obj);
                                 }
                             }
@@ -541,12 +543,36 @@ var HeaderselectionsComponent = /** @class */ (function () {
             }
         });
     };
-    HeaderselectionsComponent.prototype.validatePeriods = function (value) {
-        if (this.reportName == "Ewarn Report")
+    HeaderselectionsComponent.prototype.validatePeriods = function () {
+        if (this.reportName == "Ewarn Report") {
             this.chipsService.callMethodToValidatePeriods(true);
-        else
+            if (!this.checked)
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASET_ID_EWARN_REPORT"]);
+        }
+        else {
             this.chipsService.callMethodToValidatePeriods(false);
+            if (this.reportName == "PHC Report" && !this.checked)
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASETS_ID_PHC"]);
+            if (this.reportName == "Hospital Report" && !this.checked)
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASETS_ID_HOSPITAL"]);
+            if (this.reportName == "Medical Center" && !this.checked)
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASETS_ID_MEDICALCENTER"]);
+        }
         this.getDatasets();
+    };
+    HeaderselectionsComponent.prototype.clearChips = function (val) {
+        if (!val)
+            this.chipsService.callMethodToChangeChips([]);
+        else {
+            if (this.reportName == "Ewarn Report")
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASET_ID_EWARN_REPORT"]);
+            if (this.reportName == "PHC Report")
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASETS_ID_PHC"]);
+            if (this.reportName == "Hospital Report")
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASETS_ID_HOSPITAL"]);
+            if (this.reportName == "Medical Center")
+                this.chipsService.callMethodToChangeChips(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_4__["DATASETS_ID_MEDICALCENTER"]);
+        }
     };
     HeaderselectionsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
