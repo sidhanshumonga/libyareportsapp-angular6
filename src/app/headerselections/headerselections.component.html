@@ -4,7 +4,7 @@
       <!-- selection dropdown for reports -->
       <mat-form-field>
         <mat-select placeholder="Select report" [(ngModel)]="reportName">
-          <mat-option *ngFor="let report of reports" [value]="report.value" (click)="validatePeriods(report)">
+          <mat-option *ngFor="let report of reports" [value]="report.value" (click)="validatePeriods()">
             {{ report.viewValue }}
           </mat-option>
         </mat-select>
@@ -12,7 +12,7 @@
     </div>
     <div class="head-div">
       <!-- toggle for enabling dataset dropdown -->
-      <mat-slide-toggle class="mat-primary" [(ngModel)]="checked" [disabled]="reportName=='Ewarn Report'">Multiple datasets ?</mat-slide-toggle>
+      <mat-slide-toggle class="mat-primary" [(ngModel)]="checked" (click)="clearChips(checked)" [disabled]="reportName=='Ewarn Report'">Multiple datasets ?</mat-slide-toggle>
     </div>
     <div class="head-div">
       <!-- selection dropdown for datasets -->
@@ -20,7 +20,7 @@
         <mat-select placeholder="Select Dataset" [disabled]="!checked || reportName=='Ewarn Report'" [formControl]="multidatasets"
           [(ngModel)]="selectedvalues" multiple>
           <mat-option *ngFor="let dataset of datasetsArray" [disabled]="dataset.value!=reportName" [value]="dataset" (click)="chips($event, selectedvalues)">
-            {{ dataset.viewValue }}
+            {{ dataset.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
