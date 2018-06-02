@@ -12,9 +12,8 @@ import { UtilityserviceService } from 'src/app/utilityservice.service'
   styleUrls: ['./rightbarselections.component.css']
 })
 export class RightbarselectionsComponent {
-  constructor() { 
-  }
-  selectedYearModel:string;
+
+  selectedYearModel: string;
 
 
   years = arrays.years;
@@ -22,26 +21,37 @@ export class RightbarselectionsComponent {
   sixmonths = arrays.sixmonths;
   quarters = arrays.quarters;
   periods = arrays.periods;
- 
-  
-  
-  options:string [];
+
+  optionValue: string;
+  disable: boolean;
 
 
-  gotPeriodValue = function(value){
-    if(value=="Monthly")this.options = this.months.map(x => x);
-    if(value=="Quarterly")this.options = this.quarters.map(x => x);
-    if(value=="Six-monthly")this.options = this.sixmonths.map(x => x);
-    if(value=="Weekly")this.getWeeks();
+
+  gotPeriodValue = function (value) {
+    if (value == "Monthly") this.options = this.months.map(x => x);
+    if (value == "Quarterly") this.options = this.quarters.map(x => x);
+    if (value == "Six-monthly") this.options = this.sixmonths.map(x => x);
+    if (value == "Weekly") this.getWeeks();
   };
 
-  getWeeks = function(){
-    var sd = new Date(this.selectedYearModel,0,1);
-    var ed = new Date(this.selectedYearModel,11,31);
+  getWeeks = function () {
+    var sd = new Date(this.selectedYearModel, 0, 1);
+    var ed = new Date(this.selectedYearModel, 11, 31);
 
     let utility = new UtilityserviceService();
-    this.options = utility.getweeks(sd,ed);
+    this.options = utility.getweeks(sd, ed);
   };
 
- 
+  constructor(private chipsService: SharedService) {
+
+    //method service which gets value from headerseletions
+    this.chipsService.periodValidateServiceMedthod.subscribe(
+      (value) => {
+        if (value) this.periods = ["Weekly"];
+        else {
+          this.periods = ["Monthly","Quarterly","Six-monthly","Yearly"];
+        }
+      }
+    );
+  }
 }
