@@ -1,6 +1,6 @@
 
 import {CdkTableModule} from '@angular/cdk/table';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule } from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MAT_CHIPS_DEFAULT_OPTIONS} from '@angular/material';
