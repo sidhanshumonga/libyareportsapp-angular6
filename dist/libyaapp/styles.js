@@ -580,8 +580,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/sidhanshu/libyaapp/src/styles.css */"./src/styles.css");
-module.exports = __webpack_require__(/*! /Users/sidhanshu/libyaapp/src/custom-themes.scss */"./src/custom-themes.scss");
+__webpack_require__(/*! /Users/sidhanshu/libyareportsapp-angular6/src/styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! /Users/sidhanshu/libyareportsapp-angular6/src/custom-themes.scss */"./src/custom-themes.scss");
 
 
 /***/ })

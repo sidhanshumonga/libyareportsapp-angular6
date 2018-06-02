@@ -27,12 +27,13 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*!******************************!*\
   !*** ./src/app/CONSTANTS.ts ***!
   \******************************/
-/*! exports provided: BASE_URL, months, quarters, sixmonths, years, periods, DATASET_ID_EWARN_REPORT, DATASETS_ID_PHC, DATASETS_ID_HOSPITAL, DATASETS_ID_MEDICALCENTER */
+/*! exports provided: BASE_URL, DATASETS_API, months, quarters, sixmonths, years, periods, DATASET_ID_EWARN_REPORT, DATASETS_ID_PHC, DATASETS_ID_HOSPITAL, DATASETS_ID_MEDICALCENTER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BASE_URL", function() { return BASE_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATASETS_API", function() { return DATASETS_API; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "months", function() { return months; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quarters", function() { return quarters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sixmonths", function() { return sixmonths; });
@@ -43,29 +44,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATASETS_ID_HOSPITAL", function() { return DATASETS_ID_HOSPITAL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATASETS_ID_MEDICALCENTER", function() { return DATASETS_ID_MEDICALCENTER; });
 var BASE_URL = "../../";
+var DATASETS_API = "dataSets.json?fields=name,id,attributeValues[value,attribute[id,name]]&paging=none";
 var months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "september",
-    "October",
-    "November",
-    "December"
+    { name: "January", value: "01" },
+    { name: "February", value: "02" },
+    { name: "March", value: "03" },
+    { name: "April", value: "04" },
+    { name: "May", value: "05" },
+    { name: "June", value: "06" },
+    { name: "July", value: "07" },
+    { name: "August", value: "08" },
+    { name: "september", value: "09" },
+    { name: "October", value: "10" },
+    { name: "November", value: "11" },
+    { name: "December", value: "12" }
 ];
 var quarters = [
-    "January-March",
-    "April-June",
-    "July-September",
-    "October-December"
+    { name: "January-March", value: "Q1" },
+    { name: "April-June", value: "Q2" },
+    { name: "July-September", value: "Q3" },
+    { name: "October-December", value: "Q4" }
 ];
 var sixmonths = [
-    "January-June",
-    "July-December"
+    { name: "January-June", value: "S1" },
+    { name: "July-December", value: "S2" },
 ];
 var years = [
     "2018",
@@ -79,15 +81,48 @@ var periods = [
     "Six-monthly",
     "Yearly"
 ];
-var DATASET_ID_EWARN_REPORT = "h1Q03rJqNQr";
+var DATASET_ID_EWARN_REPORT = { id: "h1Q03rJqNQr", name: "EWARN Reporting Dataset" };
 //phc datasets uid
-var DATASETS_ID_PHC = ['sl7pTQ0lY4K', 'yY9r5kbus3t', 'DVEYU2A2aF2', 'WRzYEN981Nb',
-    'dL7jX6E0UOB', 'NL5AxxiJt31', 'jqSaKxtj8IA', 'i5doaVaayYN', 'YcywkvYogw3', 'qq8aqH1YPjT',
-    'Ri1mp3YgF3s', 'n71AgyCV7gp'];
-var DATASETS_ID_HOSPITAL = ['tgGyJAaIahr', 'bGnNmKSuZlw', 'vQeZkk8Fz2y', 'CFDWUtgFaSX',
-    'ShLvZi45WYv', 'FN9wO5d2jmN', 'TKR665WfTQd', 'NVirEUvg4lE', 'fyIza2Ggy2G', 'n71AgyCV7gp'];
-var DATASETS_ID_MEDICALCENTER = ['KeIRqetnAE2', 'tgGyJAaIahr', 'hOAXV4EYKNG', 'vQeZkk8Fz2y',
-    'EUzM2mlJQm4', 'ShLvZi45WYv', 'FN9wO5d2jmN', 'w9qPPMwmPJy', 'NVirEUvg4lE', 'fyIza2Ggy2G', 'n71AgyCV7gp'];
+var DATASETS_ID_PHC = [
+    { id: 'sl7pTQ0lY4K', name: "Population Data Set" },
+    { id: 'yY9r5kbus3t', name: "PHC OPD Dataset" },
+    { id: 'DVEYU2A2aF2', name: "PHC Emergency Care Dataset" },
+    { id: 'WRzYEN981Nb', name: "Dental Services Dataset" },
+    { id: 'dL7jX6E0UOB', name: "Diabetes Services Dataset" },
+    { id: 'NL5AxxiJt31', name: "MCH and Family Planning Dataset" },
+    { id: 'jqSaKxtj8IA', name: "Immunisation Dataset" },
+    { id: 'i5doaVaayYN', name: "PHC Radiology Services Dataset" },
+    { id: 'YcywkvYogw3', name: "PHC Laboratory Services Dataset" },
+    { id: 'qq8aqH1YPjT', name: "Essential Drugs and Consumables Stocks Dataset" },
+    { id: 'Ri1mp3YgF3s', name: "PHC Human Resource Dataset" },
+    { id: 'n71AgyCV7gp', name: "Physiotherapy Services Dataset" }
+];
+var DATASETS_ID_HOSPITAL = [
+    { id: 'IgbqlaxE83v', name: "Hospital OPD Services Dataset" },
+    { id: 'tgGyJAaIahr', name: "Hospital/Medical Centre Emergency Care Dataset" },
+    { id: 'bGnNmKSuZlw', name: "Hospital IPD Services Dataset" },
+    { id: 'vQeZkk8Fz2y', name: "Hospital/Medical Centre Delivery and Birth Services Dataset" },
+    { id: 'CFDWUtgFaSX', name: "Hospital Surgery Services Dataset" },
+    { id: 'ShLvZi45WYv', name: "Hospital/Medical Centre Radiology Services Dataset" },
+    { id: 'FN9wO5d2jmN', name: "Hospital/Medical Centre Laboratory and Blood Bank Services Dataset" },
+    { id: 'TKR665WfTQd', name: "Hospital Human Resource Dataset" },
+    { id: 'NVirEUvg4lE', name: "Hospital/Medical Centre Infectious Disease and Deaths Dataset" },
+    { id: 'fyIza2Ggy2G', name: "Hospital/Medical Centre Infectious Disease Dataset (Age group)" },
+    { id: 'n71AgyCV7gp', name: "Physiotherapy Services Dataset" }
+];
+var DATASETS_ID_MEDICALCENTER = [
+    { id: 'KeIRqetnAE2', name: "Medical Centre OPD Services Dataset" },
+    { id: 'tgGyJAaIahr', name: "Hospital/Medical Centre Emergency Care Dataset" },
+    { id: 'hOAXV4EYKNG', name: "Medical Centre IPD Services Dataset" },
+    { id: 'vQeZkk8Fz2y', name: "Hospital/Medical Centre Delivery and Birth Services Dataset" },
+    { id: 'EUzM2mlJQm4', name: "Medical Centre Surgery Services Dataset" },
+    { id: 'ShLvZi45WYv', name: "Hospital/Medical Centre Radiology Services Dataset" },
+    { id: 'FN9wO5d2jmN', name: "Hospital/Medical Centre Laboratory and Blood Bank Services Dataset" },
+    { id: 'w9qPPMwmPJy', name: "Medical Centre Human Resource Dataset" },
+    { id: 'NVirEUvg4lE', name: "Hospital/Medical Centre Infectious Disease and Deaths Dataset" },
+    { id: 'fyIza2Ggy2G', name: "Hospital/Medical Centre Infectious Disease Dataset (Age group)" },
+    { id: 'n71AgyCV7gp', name: "Physiotherapy Services Dataset" }
+];
 
 
 /***/ }),
@@ -104,6 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AjaxserviceService", function() { return AjaxserviceService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/CONSTANTS */ "./src/app/CONSTANTS.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -115,17 +151,17 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var httpOptions = {
     headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json' })
 };
 var AjaxserviceService = /** @class */ (function () {
     function AjaxserviceService(http) {
         this.http = http;
-        // private heroesUrl = x.BASE_URL + "dataSets.json?fields=name,id,attributeValues[value,attribute[id,name]]&paging=none"; 
-        this.heroesUrl = "http://localhost:8080/libya_dhis2/api/dataSets.json?fields=name,id,attributeValues[value,attribute[id,name]]&paging=none";
+        this.dataseturl = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["DATASETS_API"];
     }
     AjaxserviceService.prototype.getDatasets = function () {
-        return this.http.get(this.heroesUrl);
+        return this.http.get(this.dataseturl);
     };
     AjaxserviceService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -346,7 +382,7 @@ module.exports = "mat-card#datasetschips{\n    background-color: #9FA8DA;\n    t
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"datasetschips\" style=\"width:initial;height:100%;\">\n  <mat-card-subtitle>Selected Datasets</mat-card-subtitle>\n  <mat-card-content>\n  <mat-chip-list #chipList>\n    <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n      (removed)=\"remove(data)\">\n      {{data}}\n      <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n    </mat-chip>\n  </mat-chip-list>\n</mat-card-content>\n</mat-card>"
+module.exports = "<mat-card id=\"datasetschips\" style=\"width:initial;height:100%;\">\n  <mat-card-subtitle>Selected Datasets</mat-card-subtitle>\n  <mat-card-content>\n  <mat-chip-list #chipList>\n    <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" [value]=\"data.id\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n      (removed)=\"remove(data)\">\n      {{data.viewValue}}\n      <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n    </mat-chip>\n  </mat-chip-list>\n</mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -427,7 +463,7 @@ module.exports = "mat-card#headselections{\n    background-color: #9FA8DA;\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"headselections\" style=\"width:initial\">\n  <mat-card-content>\n    <div class=\"head-div\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods(report)\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"head-div\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" [disabled]=\"reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"head-div\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\" [disabled]=\"dataset.value!=reportName\" [value]=\"dataset.viewValue\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </mat-card-content>\n</mat-card>"
+module.exports = "<mat-card id=\"headselections\" style=\"width:initial\">\n  <mat-card-content>\n    <div class=\"head-div\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods(report)\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"head-div\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" [disabled]=\"reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"head-div\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\" [disabled]=\"dataset.value!=reportName\" [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -495,10 +531,8 @@ var HeaderselectionsComponent = /** @class */ (function () {
                         if (attr[j].attribute.name == 'Report app' && attr[j].value == 'true') {
                             for (var k = 0; k < attr.length; k++) {
                                 if (attr[k].attribute.name != 'Report app' && attr[k].value == 'true') {
-                                    // if(attr[k].attribute.name == $scope.reportButton){
-                                    var obj = { 'viewValue': datasets[i].name, 'value': attr[k].attribute.name, }; // attr[k].attribute.name};
+                                    var obj = { 'viewValue': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
                                     _this.datasetsArray.push(obj);
-                                    // }
                                 }
                             }
                         }
@@ -742,7 +776,7 @@ module.exports = "mat-card#rightselections{\n    background-color: #9FA8DA;\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"rightselections\">\n  <mat-card-subtitle>Period Selections</mat-card-subtitle>\n  <mat-card-content>\n    <mat-grid-list cols=\"1\" rowHeight=\"60px\">\n\n      <!-- selection dropdown for reports -->\n      <mat-grid-tile colspan=\"1\" rowspan=\"1\">\n        <mat-form-field>\n          <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\">\n           <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">   <!--[disabled]=\"period=='Weekly'\" -->\n              {{ period }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n\n      <mat-grid-tile colspan=\"1\" rowspan=\"1\">\n        <mat-form-field>\n          <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\">\n            <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(year)\">\n              {{ year}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n      <mat-grid-tile>\n        <!-- selection dropdown for datasets -->\n        <mat-form-field>\n          <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\">\n            <mat-option *ngFor=\"let option of options\" [value]=\"option\">\n              {{ option }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n      <mat-grid-tile>\n        <button mat-raised-button color=\"primary\">Generate Report</button>\n      </mat-grid-tile>\n    </mat-grid-list>\n  </mat-card-content>\n</mat-card>"
+module.exports = "<mat-card id=\"rightselections\">\n  <mat-card-subtitle>Period Selections</mat-card-subtitle>\n  <mat-card-content>\n    <mat-grid-list cols=\"1\" rowHeight=\"60px\">\n\n      <!-- selection dropdown for reports -->\n      <mat-grid-tile colspan=\"1\" rowspan=\"1\">\n        <mat-form-field>\n          <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\">\n           <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">   <!--[disabled]=\"period=='Weekly'\" -->\n              {{ period }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n\n      <mat-grid-tile colspan=\"1\" rowspan=\"1\">\n        <mat-form-field>\n          <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\">\n            <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(selectedPeriodType)\">\n              {{ year }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n      <mat-grid-tile>\n        <!-- selection dropdown for datasets -->\n        <mat-form-field>\n          <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\" [(ngModel)]=\"optionvalue\">\n            <mat-option *ngFor=\"let option of options\" [value]=\"option.value\">\n              {{ option.name }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n      <mat-grid-tile>\n        <button mat-raised-button color=\"primary\" (click)=\"generateReport(selectedPeriodType,selectedYearModel,optionvalue)\">Generate Report</button>\n      </mat-grid-tile>\n    </mat-grid-list>\n  </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -792,11 +826,21 @@ var RightbarselectionsComponent = /** @class */ (function () {
             if (value == "Weekly")
                 this.getWeeks();
         };
-        this.getWeeks = function () {
-            var sd = new Date(this.selectedYearModel, 0, 1);
-            var ed = new Date(this.selectedYearModel, 11, 31);
-            var utility = new src_app_utilityservice_service__WEBPACK_IMPORTED_MODULE_3__["UtilityserviceService"]();
-            this.options = utility.getweeks(sd, ed);
+        this.getWeeks = function (type) {
+            if (type == "Weekly") {
+                var sd = new Date(this.selectedYearModel, 0, 1);
+                var ed = new Date(this.selectedYearModel, 11, 31);
+                var utility = new src_app_utilityservice_service__WEBPACK_IMPORTED_MODULE_3__["UtilityserviceService"]();
+                this.options = utility.getweeks(sd, ed);
+            }
+        };
+        //function to get reports on table
+        this.generateReport = function (period, year, option) {
+            if (period == "Yearly")
+                var reportPeriod = year;
+            else
+                var reportPeriod = year + option;
+            console.log(reportPeriod);
         };
         //method service which gets value from headerseletions
         this.chipsService.periodValidateServiceMedthod.subscribe(function (value) {
@@ -1079,7 +1123,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/sidhanshu/libyaapp/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/sidhanshu/libyareportsapp-angular6/src/main.ts */"./src/main.ts");
 
 
 /***/ })
