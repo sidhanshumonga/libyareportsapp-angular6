@@ -2,9 +2,9 @@
   <mat-card-subtitle>Selected Datasets</mat-card-subtitle>
   <mat-card-content>
   <mat-chip-list #chipList>
-    <mat-chip *ngFor="let data of datasetsm" [selectable]="selectable" (update)="selectionChange($event)" [removable]="removable"
+    <mat-chip *ngFor="let data of datasetsm" [selectable]="selectable" [value]="data.id" (update)="selectionChange($event)" [removable]="removable"
       (removed)="remove(data)">
-      {{data}}
+      {{data.viewValue}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
   </mat-chip-list>
