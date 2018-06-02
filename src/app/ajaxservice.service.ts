@@ -12,14 +12,11 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class AjaxserviceService {
-
- 
-  // private heroesUrl = x.BASE_URL + "dataSets.json?fields=name,id,attributeValues[value,attribute[id,name]]&paging=none"; 
-  private heroesUrl = "http://localhost:8080/libya_dhis2/api/dataSets.json?fields=name,id,attributeValues[value,attribute[id,name]]&paging=none"; 
-
+  private dataseturl = x.BASE_URL + x.DATASETS_API;
   constructor(private http: HttpClient) { }
-    getDatasets (): Observable<any> {
-      return this.http.get<any>(this.heroesUrl);
+  getDatasets(): Observable<any> {
+    return this.http.get<any>(this.dataseturl);
   }
 }
