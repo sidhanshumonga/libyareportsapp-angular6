@@ -34,13 +34,24 @@ export class RightbarselectionsComponent {
     if (value == "Weekly") this.getWeeks();
   };
 
-  getWeeks = function () {
-    var sd = new Date(this.selectedYearModel, 0, 1);
-    var ed = new Date(this.selectedYearModel, 11, 31);
+  getWeeks = function (type) {
+    if (type == "Weekly") {
+      var sd = new Date(this.selectedYearModel, 0, 1);
+      var ed = new Date(this.selectedYearModel, 11, 31);
 
-    let utility = new UtilityserviceService();
-    this.options = utility.getweeks(sd, ed);
+      let utility = new UtilityserviceService();
+      this.options = utility.getweeks(sd, ed);
+    }
   };
+
+  //function to get reports on table
+
+  generateReport = function (period, year, option) {
+    if (period == "Yearly") var reportPeriod = year;
+    else var reportPeriod = year + option;
+    console.log(reportPeriod);
+  };
+
 
   constructor(private chipsService: SharedService) {
 
@@ -49,7 +60,7 @@ export class RightbarselectionsComponent {
       (value) => {
         if (value) this.periods = ["Weekly"];
         else {
-          this.periods = ["Monthly","Quarterly","Six-monthly","Yearly"];
+          this.periods = ["Monthly", "Quarterly", "Six-monthly", "Yearly"];
         }
       }
     );
