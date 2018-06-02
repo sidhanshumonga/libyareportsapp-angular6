@@ -19,7 +19,7 @@
       <mat-form-field>
         <mat-select placeholder="Select Dataset" [disabled]="!checked || reportName=='Ewarn Report'" [formControl]="multidatasets"
           [(ngModel)]="selectedvalues" multiple>
-          <mat-option *ngFor="let dataset of datasetsArray" [disabled]="dataset.value!=reportName" [value]="dataset.viewValue" (click)="chips($event, selectedvalues)">
+          <mat-option *ngFor="let dataset of datasetsArray" [disabled]="dataset.value!=reportName" [value]="dataset" (click)="chips($event, selectedvalues)">
             {{ dataset.viewValue }}
           </mat-option>
         </mat-select>
