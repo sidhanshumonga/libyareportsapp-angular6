@@ -1,137 +1,166 @@
-import { Component, OnInit,Injectable } from '@angular/core';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import {CollectionViewer, SelectionChange} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, merge} from 'rxjs';
-import {map} from 'rxjs/operators';
-
-
-/** Flat node with expandable and level information */
-export class DynamicFlatNode {
-  constructor(public item: string, public level: number = 1, public expandable: boolean = false,
-              public isLoading: boolean = false) {}
-}
-
-
-/**
- * Database for dynamic data. When expanding a node in the tree, the data source will need to fetch
- * the descendants data from the database.
- */
-export class DynamicDatabase {
-  dataMap = new Map([
-    ['Fruits', ['Apple', 'Orange', 'Banana']],
-    ['Vegetables', ['Tomato', 'Potato', 'Onion']],
-    ['Apple', ['Fuji', 'Macintosh']],
-    ['Onion', ['Yellow', 'White', 'Purple']]
-  ]);
-
-  rootLevelNodes = ['Fruits', 'Vegetables'];
-
-  /** Initial data from database */
-  initialData(): DynamicFlatNode[] {
-    return this.rootLevelNodes.map(name => new DynamicFlatNode(name, 0, true));
-  }
-
-
-  getChildren(node: string): string[] | undefined {
-    return this.dataMap.get(node);
-  }
-
-  isExpandable(node: string): boolean {
-    return this.dataMap.has(node);
-  }
-}
-/**
- * File database, it can build a tree structured Json object from string.
- * Each node in Json object represents a file or a directory. For a file, it has filename and type.
- * For a directory, it has filename and children (a list of files or directories).
- * The input will be a json object string, and the output is a list of `FileNode` with nested
- * structure.
- */
-@Injectable()
-export class DynamicDataSource {
-
-  dataChange: BehaviorSubject<DynamicFlatNode[]> = new BehaviorSubject<DynamicFlatNode[]>([]);
-
-  get data(): DynamicFlatNode[] { return this.dataChange.value; }
-  set data(value: DynamicFlatNode[]) {
-    this.treeControl.dataNodes = value;
-    this.dataChange.next(value);
-  }
-
-  constructor(private treeControl: FlatTreeControl<DynamicFlatNode>,
-              private database: DynamicDatabase) {}
-
-  connect(collectionViewer: CollectionViewer): Observable<DynamicFlatNode[]> {
-    this.treeControl.expansionModel.onChange!.subscribe(change => {
-      if ((change as SelectionChange<DynamicFlatNode>).added ||
-        (change as SelectionChange<DynamicFlatNode>).removed) {
-        this.handleTreeControl(change as SelectionChange<DynamicFlatNode>);
-      }
-    });
-
-    return merge(collectionViewer.viewChange, this.dataChange).pipe(map(() => this.data));
-  }
-
-  /** Handle expand/collapse behaviors */
-  handleTreeControl(change: SelectionChange<DynamicFlatNode>) {
-    if (change.added) {
-      change.added.forEach((node) => this.toggleNode(node, true));
-    }
-    if (change.removed) {
-      change.removed.reverse().forEach((node) => this.toggleNode(node, false));
-    }
-  }
-
-  /**
-   * Toggle the node, remove from display list
-   */
-  toggleNode(node: DynamicFlatNode, expand: boolean) {
-    const children = this.database.getChildren(node.item);
-    const index = this.data.indexOf(node);
-    if (!children || index < 0) { // If no children, or cannot find the node, no op
-      return;
-    }
-
-    node.isLoading = true;
-
-    setTimeout(() => {
-      if (expand) {
-        const nodes = children.map(name =>
-          new DynamicFlatNode(name, node.level + 1, this.database.isExpandable(name)));
-        this.data.splice(index + 1, 0, ...nodes);
-      } else {
-        this.data.splice(index + 1, children.length);
-      }
-
-      // notify the change
-      this.dataChange.next(this.data);
-      node.isLoading = false;
-    }, 1000);
-  }
-}
+import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import { AjaxserviceService } from 'src/app/ajaxservice.service';
+import { UtilityserviceService } from 'src/app/utilityservice.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-orgunitlibrary',
   templateUrl: './orgunitlibrary.component.html',
   styleUrls: ['./orgunitlibrary.component.css'],
-  providers: [DynamicDatabase]
 })
-export class OrgunitlibraryComponent {
 
-  constructor(database: DynamicDatabase) {
-    this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);
-    this.dataSource = new DynamicDataSource(this.treeControl, database);
 
-    this.dataSource.data = database.initialData();
+export class OrgunitlibraryComponent implements OnInit {
+  displayedColumns = ['id', 'name'];
+  ouHeaders = [];
+  // row:string;
+  constructor(private orgunitService: AjaxserviceService, private onclicks: ElementRef, private util: UtilityserviceService) { }
+
+  ngOnInit() {
+    this.setOu();
+  }
+  selectedOrgUnit: string;
+  checked: string;
+  previousSelection: typearr = { id: "unknown", style: { color: "black" } };
+  hashmapForClasses = [];
+  hashmapForOuSelect = [];
+  mapClasses() {
+
+    //for expanding tree - class mapping
+    var classes = this.onclicks.nativeElement.querySelectorAll('.ouid');
+    for (var j = 0; j < classes.length; j++) {
+      if (this.hashmapForClasses[classes[j].attributes[2].value]) { }
+      else {
+        classes[j].addEventListener('click', this.setChildOu.bind(this));
+        this.hashmapForClasses[classes[j].attributes[2].value] = true;
+      }
+    }
+    //for selected ou id
+    var classesou = this.onclicks.nativeElement.querySelectorAll('.ouselect');
+    for (var j = 0; j < classesou.length; j++) {
+      if (this.hashmapForOuSelect[classesou[j].attributes[1].value]) { }
+      else {
+        classesou[j].addEventListener('click', this.ouselect.bind(this));
+        this.hashmapForOuSelect[classesou[j].attributes[1].value] = true;
+      }
+    }
+
+  };
+
+  ouselect(element) {
+    var rowid = element.currentTarget.parentElement;
+    element.currentTarget.style.color = "#3f51b5";
+    this.selectedOrgUnit = rowid.attributes[0].value;
+    if (this.previousSelection.id != element.currentTarget.id) {
+      this.previousSelection.style.color = "black";
+    }
+    this.previousSelection = element.currentTarget;
   }
 
-  treeControl: FlatTreeControl<DynamicFlatNode>;
+  setOu() {
+    this.orgunitService.getUserOu()
+      .subscribe(response => {
+        for (let i = 0; i < response.organisationUnits.length; i++) {
+          let child = false;
+          if (response.organisationUnits[i].children.length != 0) { child = true; }
+          let name = response.organisationUnits[i].name;
+          let id = response.organisationUnits[i].id;
+          this.ouHeaders.push({ "name": name, "id": id, "child": child });
+        }
+      });
+    setTimeout(() => {
+      this.printTable(this.ouHeaders);
+    }, 1000);
+  }
 
-  dataSource: DynamicDataSource;
+  setChildOu(row) {
+    if(row.currentTarget.parentElement.rowIndex==0)this.padding=10;
+    var ou = row.currentTarget.attributes[2].value;
+    var child = row.currentTarget.attributes[3].value;
+    this.checked = row.currentTarget.attributes[4].value;
+    var rowElement = row.currentTarget;
+    var numOfRowToDelete = 0;
+    var newou = [];
+    this.orgunitService.getChildOu(ou)
+      .subscribe(response => {
+        if (this.checked == "true") { numOfRowToDelete = response.children.length; }
+        else {
+          var parent = response.id;
+          for (let j = 0; j < response.ancestors.length; j++) {
+            parent = parent + " " + response.ancestors[j].id;
+          }
 
-  getLevel = (node: DynamicFlatNode) => { return node.level; };
+          for (let i = 0; i < response.children.length; i++) {
+            let child = false;
+            if (response.children[i].children.length != 0) { child = true; }
+            let name = response.children[i].name;
+            let id = response.children[i].id;
+            newou.push({ "name": name, "id": id, "child": child, "parent": parent });
+          }
+        }
+      });
+    setTimeout(() => {
+      if (this.checked == "true") {
+        this.deleteRows(rowElement);
+        rowElement.attributes[4].value = false;
+        this.padding -= 10;
+        rowElement.innerHTML = "<i class='fa fa-plus-square-o' aria-hidden='true'></i>";
+      }
+      else {
+        newou.sort(function (a, b) {
+          var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+          if (nameA > nameB) //sort string ascending
+            return -1
+          if (nameA < nameB)
+            return 1
+          return 0 //default return value (no sorting)
+        })
+        this.padding += 10;
+        this.printOuChild(newou, rowElement);
+        rowElement.attributes[4].value = true;
+        rowElement.innerHTML = "<i class='fa fa-minus-square-o' aria-hidden='true'></i>";
+      }
+    }, 1000);
+  }
 
-  isExpandable = (node: DynamicFlatNode) => { return node.expandable; };
 
-  hasChild = (_: number, _nodeData: DynamicFlatNode) => { return _nodeData.expandable; };
+  printTable(head) {
+    for (let i = 0; i < head.length; i++) {
+      if (head[i].child) var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+      else var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+      $('#outable > tbody').append(row);
+      this.hashmapForClasses[head[i].id] = false;
+      this.hashmapForOuSelect[head[i].id] = false;
+    }
+    this.mapClasses();
+  }
+  padding: any = 0;
+  printOuChild(head, rowElement) {
+    for (let i = 0; i < head.length; i++) {
+      if (head[i].child) var row = '<tr id="' + head[i].id + i + '"  class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+      else var row = '<tr id="' + head[i].id + i + '" class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+      var index = rowElement.parentElement.rowIndex;
+      $('#outable > tbody > tr').eq(index).after(row);
+      this.hashmapForClasses[head[i].id] = false;
+      this.hashmapForOuSelect[head[i].id] = false;
+    }
+    this.mapClasses();
+  }
+
+  deleteRows(row) {
+    var classname = row.parentElement.children[1].id;
+    var allrows = document.getElementsByClassName(classname);
+    for (var t = allrows.length - 1; t >= 0; t--) {
+      allrows[t].remove();
+    }
+    // $("#outable tr:gt(" + rowIndex + "):lt(" + (num) + ")").remove();
+  }
+}
+
+export interface typearr {
+  id: string,
+  style: typearr2,
+}
+export interface typearr2 {
+  color: string
 }
