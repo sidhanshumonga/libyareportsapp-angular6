@@ -27,13 +27,16 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*!******************************!*\
   !*** ./src/app/CONSTANTS.ts ***!
   \******************************/
-/*! exports provided: BASE_URL, DATASETS_API, months, quarters, sixmonths, years, periods, DATASET_ID_EWARN_REPORT, DATASETS_ID_PHC, DATASETS_ID_HOSPITAL, DATASETS_ID_MEDICALCENTER */
+/*! exports provided: BASE_URL, DATASETS_API, USER_ORGUNIT, OU_CHILDREN_BASE, OU_CHILDREN_FILTER, months, quarters, sixmonths, years, periods, DATASET_ID_EWARN_REPORT, DATASETS_ID_PHC, DATASETS_ID_HOSPITAL, DATASETS_ID_MEDICALCENTER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BASE_URL", function() { return BASE_URL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATASETS_API", function() { return DATASETS_API; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "USER_ORGUNIT", function() { return USER_ORGUNIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OU_CHILDREN_BASE", function() { return OU_CHILDREN_BASE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OU_CHILDREN_FILTER", function() { return OU_CHILDREN_FILTER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "months", function() { return months; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quarters", function() { return quarters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sixmonths", function() { return sixmonths; });
@@ -45,6 +48,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATASETS_ID_MEDICALCENTER", function() { return DATASETS_ID_MEDICALCENTER; });
 var BASE_URL = "../../";
 var DATASETS_API = "dataSets.json?fields=name,id,attributeValues[value,attribute[id,name]]&paging=none";
+var USER_ORGUNIT = "me.json?fields=organisationUnits[children,id,name]";
+var OU_CHILDREN_BASE = "organisationUnits/";
+var OU_CHILDREN_FILTER = ".json?fields=id,children[id,name,children],ancestors[id,name]";
 var months = [
     { name: "January", value: "01" },
     { name: "February", value: "02" },
@@ -81,7 +87,7 @@ var periods = [
     "Six-monthly",
     "Yearly"
 ];
-var DATASET_ID_EWARN_REPORT = { id: "h1Q03rJqNQr", name: "EWARN Reporting Dataset" };
+var DATASET_ID_EWARN_REPORT = [{ id: "h1Q03rJqNQr", name: "EWARN Reporting Dataset" }];
 //phc datasets uid
 var DATASETS_ID_PHC = [
     { id: 'sl7pTQ0lY4K', name: "Population Data Set" },
@@ -158,10 +164,19 @@ var httpOptions = {
 var AjaxserviceService = /** @class */ (function () {
     function AjaxserviceService(http) {
         this.http = http;
+        //urls required
         this.dataseturl = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["DATASETS_API"];
+        this.userorguniturl = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["USER_ORGUNIT"];
     }
+    //funtions required
     AjaxserviceService.prototype.getDatasets = function () {
         return this.http.get(this.dataseturl);
+    };
+    AjaxserviceService.prototype.getUserOu = function () {
+        return this.http.get(this.userorguniturl);
+    };
+    AjaxserviceService.prototype.getChildOu = function (child) {
+        return this.http.get(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["OU_CHILDREN_BASE"] + child + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["OU_CHILDREN_FILTER"]);
     };
     AjaxserviceService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -183,7 +198,7 @@ var AjaxserviceService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\nmat-card-title {\n  font-size:40px !important;\n  text-align:center !important;\n}\n.custom-cards{\n  display: inline-block;\n  position: relative;\n  background-color: lightblue;\n  margin-left: 10px;\n}\nmat-card{\n  background-color: #E8EAF6;\n}\nmat-card#header{\n  background-color: #9FA8DA;\n  text-align: center;\n  margin:0;\n}\n.three-cards{\n  float:left !important;\n  height:100%;\n  margin:1%;\n  margin-top:5% !important;\n}\n.div2-three-cards{\n  margin-bottom:1%;\n}\nbody{\n  background-color: #E8EAF6 !important;\n}"
+module.exports = "body{\n  background-color: #E8EAF6 !important;\n}"
 
 /***/ }),
 
@@ -194,7 +209,7 @@ module.exports = "\nmat-card-title {\n  font-size:40px !important;\n  text-align
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card style=\"min-height:1200px !important\">\n\n    <mat-card-title>Libya Reports</mat-card-title>\n    <mat-card-content>\n        <div class=\"three-cards\" style=\"width:22%;height:100%;\">\n\n            <app-orgunitlibrary></app-orgunitlibrary>\n\n        </div>\n        <div class=\"three-cards\" style=\"width:50%;\">\n\n            <div class=\"div2-three-cards\">\n                <app-headerselections></app-headerselections>\n            </div>\n            <div class=\"div2-three-cards\">\n                <app-datasetstabs></app-datasetstabs>\n            </div>\n            <div class=\"div2-three-cards\">\n                <app-tablecard></app-tablecard>\n            </div>\n\n        </div>\n        <div class=\"three-cards\" style=\"width:22%;\">\n\n            <app-rightbarselections></app-rightbarselections>\n\n        </div>\n    </mat-card-content>\n</mat-card>"
+module.exports = "<app-loader id=\"loader\"></app-loader>\n\n<div class=\"row no-gutters flex-xl-nowrap clearfix\" style=\"min-height:100vh;display: none;\" id=\"mainPage\">\n    <div class=\"col-12 col-md-3 col-xl-2 bd-sidebar\">\n        <app-orgunitlibrary></app-orgunitlibrary>\n    </div>\n    <!-- <mat-divider [vertical]=\"true\"></mat-divider> -->\n    <div class=\"col-lg-8 col-12 col-md-9 col-xl-8 py-md-1 pl-md-3\">\n        <div class=\"row\">\n            <div class=\"col\">\n                <app-headerselections></app-headerselections>\n            </div>\n        </div>\n        <mat-divider></mat-divider>\n        <div class=\"row\">\n            <div class=\"col\">\n                <app-rightbarselections></app-rightbarselections>\n            </div>\n        </div><br><br>\n        <div class=\"row\">\n            <div class=\"col\">\n                <app-tablecard></app-tablecard>\n            </div>\n        </div>\n    </div>\n    <!-- <mat-divider [vertical]=\"true\"></mat-divider> -->\n    <div class=\"d-none d-xl-block col-xl-2 bd-toc\">\n        <app-datasetstabs></app-datasetstabs>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -209,6 +224,8 @@ module.exports = "<mat-card style=\"min-height:1200px !important\">\n\n    <mat-
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -216,9 +233,16 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
+
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
     }
+    AppComponent.prototype.ngOnInit = function () {
+        setTimeout(function () {
+            jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").fadeOut(500);
+            jquery__WEBPACK_IMPORTED_MODULE_1__("#mainPage").fadeIn(800);
+        }, 3000);
+    };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-component',
@@ -258,12 +282,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rightbarselections_rightbarselections_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./rightbarselections/rightbarselections.component */ "./src/app/rightbarselections/rightbarselections.component.ts");
 /* harmony import */ var _orgunitlibrary_orgunitlibrary_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./orgunitlibrary/orgunitlibrary.component */ "./src/app/orgunitlibrary/orgunitlibrary.component.ts");
 /* harmony import */ var _tablecard_tablecard_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./tablecard/tablecard.component */ "./src/app/tablecard/tablecard.component.ts");
+/* harmony import */ var _loader_loader_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./loader/loader.component */ "./src/app/loader/loader.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -345,8 +371,8 @@ var AppModule = /** @class */ (function () {
             entryComponents: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]],
             declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _datasetstabs_datasetstabs_component__WEBPACK_IMPORTED_MODULE_9__["DatasetstabsComponent"],
                 _headerselections_headerselections_component__WEBPACK_IMPORTED_MODULE_10__["HeaderselectionsComponent"], _rightbarselections_rightbarselections_component__WEBPACK_IMPORTED_MODULE_11__["RightbarselectionsComponent"],
-                _orgunitlibrary_orgunitlibrary_component__WEBPACK_IMPORTED_MODULE_12__["OrgunitlibraryComponent"], _tablecard_tablecard_component__WEBPACK_IMPORTED_MODULE_13__["TablecardComponent"]],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]],
+                _orgunitlibrary_orgunitlibrary_component__WEBPACK_IMPORTED_MODULE_12__["OrgunitlibraryComponent"], _tablecard_tablecard_component__WEBPACK_IMPORTED_MODULE_13__["TablecardComponent"], _loader_loader_component__WEBPACK_IMPORTED_MODULE_14__["LoaderComponent"]],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _loader_loader_component__WEBPACK_IMPORTED_MODULE_14__["LoaderComponent"]],
             providers: [
                 {
                     provide: _angular_material__WEBPACK_IMPORTED_MODULE_4__["MAT_CHIPS_DEFAULT_OPTIONS"],
@@ -371,7 +397,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "mat-card#datasetschips{\n    background-color: #9FA8DA;\n    text-align: center;\n  }"
+module.exports = ".row{\n    text-align: center;\n    height: 100%;\n    padding:30px 10px 10px 20px;\n    border-left:1px solid lightgray;\n  }"
 
 /***/ }),
 
@@ -382,7 +408,7 @@ module.exports = "mat-card#datasetschips{\n    background-color: #9FA8DA;\n    t
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"datasetschips\" style=\"width:initial;height:100%;\">\n  <mat-card-subtitle>Selected Datasets</mat-card-subtitle>\n  <mat-card-content>\n  <mat-chip-list #chipList>\n    <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" [value]=\"data.id\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n      (removed)=\"remove(data)\">\n      {{data.name}}\n      <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n    </mat-chip>\n  </mat-chip-list>\n</mat-card-content>\n</mat-card>"
+module.exports = "<div class=\"row no-gutters\">\n  <div class=\"col\">\n      <mat-chip-list #chipList>\n          <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" [value]=\"data.id\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n            (removed)=\"remove(data)\">\n            {{data.name}}\n            <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n          </mat-chip>\n        </mat-chip-list>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -419,6 +445,14 @@ var DatasetstabsComponent = /** @class */ (function () {
         this.addOnBlur = true;
         this.datasetsm = [];
         this.chipsService.chipServiceMethod.subscribe(function (chipss) {
+            chipss.sort(function (a, b) {
+                var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+                if (nameA < nameB)
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
             if (chipss)
                 _this.datasetsm = chipss.map(function (x) { return x; });
         });
@@ -452,7 +486,7 @@ var DatasetstabsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "mat-card#headselections{\n    background-color: #9FA8DA;\n    text-align: center;\n  }\n  .head-div{\n    display: inline-block !important;\n    width:32%;\n  }\n"
+module.exports = ".row{\n  padding: 10px 10px 10px 100px;\n}"
 
 /***/ }),
 
@@ -463,7 +497,7 @@ module.exports = "mat-card#headselections{\n    background-color: #9FA8DA;\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"headselections\" style=\"width:initial\">\n  <mat-card-content>\n    <div class=\"head-div\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods()\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"head-div\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" (click)=\"clearChips(checked)\" [disabled]=\"reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"head-div\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\" [disabled]=\"dataset.value!=reportName\" [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.name }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </mat-card-content>\n</mat-card>"
+module.exports = "<div class=\"row no-gutters\">\n    <div class=\"col\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods()\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"col align-self-center\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" (click)=\"clearChips(checked)\" [disabled]=\"!reportName || reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"col\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\" [disabled]=\"dataset.value!=reportName\" [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.name }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </div>"
 
 /***/ }),
 
@@ -561,7 +595,7 @@ var HeaderselectionsComponent = /** @class */ (function () {
         this.getDatasets();
     };
     HeaderselectionsComponent.prototype.clearChips = function (val) {
-        if (!val)
+        if (!val && this.reportName != "Ewarn Report")
             this.chipsService.callMethodToChangeChips([]);
         else {
             if (this.reportName == "Ewarn Report")
@@ -589,6 +623,69 @@ var HeaderselectionsComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/loader/loader.component.css":
+/*!*********************************************!*\
+  !*** ./src/app/loader/loader.component.css ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\nbody {\n    background-color: #22475E;\n    overflow:hidden;\n  }\n  div {\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    background-color: #ccc;\n    top: 45%;\n    border-radius: 50%;\n  }\n  div:nth-child(1) {\n    background-color: #9FA8DA;\n    -webkit-animation: move 2s infinite cubic-bezier(.2,.64,.81,.23);\n            animation: move 2s infinite cubic-bezier(.2,.64,.81,.23);\n  }\n  div:nth-child(2) {\n    background-color: #FF9D84;\n    -webkit-animation: move 2s 150ms infinite cubic-bezier(.2,.64,.81,.23);\n            animation: move 2s 150ms infinite cubic-bezier(.2,.64,.81,.23);\n  }\n  div:nth-child(3) {\n    background-color: #F0E797;\n    -webkit-animation: move 2s 300ms infinite cubic-bezier(.2,.64,.81,.23);\n            animation: move 2s 300ms infinite cubic-bezier(.2,.64,.81,.23);\n  }\n  div:nth-child(4) {\n    background-color: #75B08A;\n    -webkit-animation: move 2s 450ms infinite cubic-bezier(.2,.64,.81,.23);\n            animation: move 2s 450ms infinite cubic-bezier(.2,.64,.81,.23);\n  }\n  @-webkit-keyframes move {\n    0% {left: 0%;}\n    100% {left:100%;}\n  }\n  @keyframes move {\n    0% {left: 0%;}\n    100% {left:100%;}\n  }"
+
+/***/ }),
+
+/***/ "./src/app/loader/loader.component.html":
+/*!**********************************************!*\
+  !*** ./src/app/loader/loader.component.html ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div></div>\n<div></div>\n<div></div>\n<div></div>"
+
+/***/ }),
+
+/***/ "./src/app/loader/loader.component.ts":
+/*!********************************************!*\
+  !*** ./src/app/loader/loader.component.ts ***!
+  \********************************************/
+/*! exports provided: LoaderComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoaderComponent", function() { return LoaderComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var LoaderComponent = /** @class */ (function () {
+    function LoaderComponent() {
+    }
+    LoaderComponent.prototype.ngOnInit = function () {
+    };
+    LoaderComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-loader',
+            template: __webpack_require__(/*! ./loader.component.html */ "./src/app/loader/loader.component.html"),
+            styles: [__webpack_require__(/*! ./loader.component.css */ "./src/app/loader/loader.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], LoaderComponent);
+    return LoaderComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/orgunitlibrary/orgunitlibrary.component.css":
 /*!*************************************************************!*\
   !*** ./src/app/orgunitlibrary/orgunitlibrary.component.css ***!
@@ -596,7 +693,7 @@ var HeaderselectionsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".example-tree-progress-bar {\n    margin-left: 30px;\n  }\n  mat-tree-node,  mat-tree{\n      background: transparent\n  }\n  mat-tree-node{\n      vertical-align: text-top;\n  }\n  mat-card#outree{\n    background-color: #9FA8DA;\n  }"
+module.exports = ".row{\n    padding:30px 10px 10px 20px;\n}\n#outable thead {\n    \tdisplay:block;\n    }\n#outable tbody{\n      display:block;\n      min-height:92%;\n      overflow-y:auto;\n      overflow-x:hidden;\n    }\n.ouselect, .ouid{\n    cursor:pointer !important;\n }\n#outree{\n    border-right:1px solid lightgray;\n    height: 100%;\n}\n"
 
 /***/ }),
 
@@ -607,7 +704,7 @@ module.exports = ".example-tree-progress-bar {\n    margin-left: 30px;\n  }\n  m
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"outree\">\n    <mat-card-subtitle>Select Organisation unit</mat-card-subtitle>\n    <mat-card-content>\n<mat-tree [dataSource]=\"dataSource\" [treeControl]=\"treeControl\">\n    <mat-tree-node *matTreeNodeDef=\"let node\" matTreeNodePadding>\n      <button mat-icon-button disabled></button>\n      {{node.item}}\n    </mat-tree-node>\n    <mat-tree-node *matTreeNodeDef=\"let node; when: hasChild\" matTreeNodePadding>\n      <button mat-icon-button\n              [attr.aria-label]=\"'toggle ' + node.filename\" matTreeNodeToggle>\n        <mat-icon class=\"mat-icon-rtl-mirror\">\n          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}\n        </mat-icon>\n      </button>\n      {{node.item}}\n      <mat-progress-bar *ngIf=\"node.isLoading\"\n                        mode=\"indeterminate\"\n                        class=\"example-tree-progress-bar\"></mat-progress-bar>\n    </mat-tree-node>\n  </mat-tree>\n</mat-card-content>\n</mat-card>"
+module.exports = "<div class=\"row\" id=\"outree\">\n  <div class=\"col\">\n      <table id=\"outable\">\n          <tbody>\n    \n          </tbody>\n        </table>\n  </div>\n</div>\n  "
 
 /***/ }),
 
@@ -615,19 +712,17 @@ module.exports = "<mat-card id=\"outree\">\n    <mat-card-subtitle>Select Organi
 /*!************************************************************!*\
   !*** ./src/app/orgunitlibrary/orgunitlibrary.component.ts ***!
   \************************************************************/
-/*! exports provided: DynamicFlatNode, DynamicDatabase, DynamicDataSource, OrgunitlibraryComponent */
+/*! exports provided: OrgunitlibraryComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DynamicFlatNode", function() { return DynamicFlatNode; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DynamicDatabase", function() { return DynamicDatabase; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DynamicDataSource", function() { return DynamicDataSource; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrgunitlibraryComponent", function() { return OrgunitlibraryComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_cdk_tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/tree */ "./node_modules/@angular/cdk/esm5/tree.es5.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/ajaxservice.service */ "./src/app/ajaxservice.service.ts");
+/* harmony import */ var src_app_utilityservice_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/utilityservice.service */ "./src/app/utilityservice.service.ts");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -641,141 +736,164 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-/** Flat node with expandable and level information */
-var DynamicFlatNode = /** @class */ (function () {
-    function DynamicFlatNode(item, level, expandable, isLoading) {
-        if (level === void 0) { level = 1; }
-        if (expandable === void 0) { expandable = false; }
-        if (isLoading === void 0) { isLoading = false; }
-        this.item = item;
-        this.level = level;
-        this.expandable = expandable;
-        this.isLoading = isLoading;
+var OrgunitlibraryComponent = /** @class */ (function () {
+    // row:string;
+    function OrgunitlibraryComponent(orgunitService, onclicks, util) {
+        this.orgunitService = orgunitService;
+        this.onclicks = onclicks;
+        this.util = util;
+        this.displayedColumns = ['id', 'name'];
+        this.ouHeaders = [];
+        this.previousSelection = { id: "unknown", style: { color: "black" } };
+        this.hashmapForClasses = [];
+        this.hashmapForOuSelect = [];
+        this.padding = 0;
     }
-    return DynamicFlatNode;
-}());
-
-/**
- * Database for dynamic data. When expanding a node in the tree, the data source will need to fetch
- * the descendants data from the database.
- */
-var DynamicDatabase = /** @class */ (function () {
-    function DynamicDatabase() {
-        this.dataMap = new Map([
-            ['Fruits', ['Apple', 'Orange', 'Banana']],
-            ['Vegetables', ['Tomato', 'Potato', 'Onion']],
-            ['Apple', ['Fuji', 'Macintosh']],
-            ['Onion', ['Yellow', 'White', 'Purple']]
-        ]);
-        this.rootLevelNodes = ['Fruits', 'Vegetables'];
-    }
-    /** Initial data from database */
-    DynamicDatabase.prototype.initialData = function () {
-        return this.rootLevelNodes.map(function (name) { return new DynamicFlatNode(name, 0, true); });
+    OrgunitlibraryComponent.prototype.ngOnInit = function () {
+        this.setOu();
     };
-    DynamicDatabase.prototype.getChildren = function (node) {
-        return this.dataMap.get(node);
+    OrgunitlibraryComponent.prototype.mapClasses = function () {
+        //for expanding tree - class mapping
+        var classes = this.onclicks.nativeElement.querySelectorAll('.ouid');
+        for (var j = 0; j < classes.length; j++) {
+            if (this.hashmapForClasses[classes[j].attributes[2].value]) { }
+            else {
+                classes[j].addEventListener('click', this.setChildOu.bind(this));
+                this.hashmapForClasses[classes[j].attributes[2].value] = true;
+            }
+        }
+        //for selected ou id
+        var classesou = this.onclicks.nativeElement.querySelectorAll('.ouselect');
+        for (var j = 0; j < classesou.length; j++) {
+            if (this.hashmapForOuSelect[classesou[j].attributes[1].value]) { }
+            else {
+                classesou[j].addEventListener('click', this.ouselect.bind(this));
+                this.hashmapForOuSelect[classesou[j].attributes[1].value] = true;
+            }
+        }
     };
-    DynamicDatabase.prototype.isExpandable = function (node) {
-        return this.dataMap.has(node);
+    ;
+    OrgunitlibraryComponent.prototype.ouselect = function (element) {
+        var rowid = element.currentTarget.parentElement;
+        element.currentTarget.style.color = "#3f51b5";
+        this.selectedOrgUnit = rowid.attributes[0].value;
+        if (this.previousSelection.id != element.currentTarget.id) {
+            this.previousSelection.style.color = "black";
+        }
+        this.previousSelection = element.currentTarget;
     };
-    return DynamicDatabase;
-}());
-
-/**
- * File database, it can build a tree structured Json object from string.
- * Each node in Json object represents a file or a directory. For a file, it has filename and type.
- * For a directory, it has filename and children (a list of files or directories).
- * The input will be a json object string, and the output is a list of `FileNode` with nested
- * structure.
- */
-var DynamicDataSource = /** @class */ (function () {
-    function DynamicDataSource(treeControl, database) {
-        this.treeControl = treeControl;
-        this.database = database;
-        this.dataChange = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"]([]);
-    }
-    Object.defineProperty(DynamicDataSource.prototype, "data", {
-        get: function () { return this.dataChange.value; },
-        set: function (value) {
-            this.treeControl.dataNodes = value;
-            this.dataChange.next(value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    DynamicDataSource.prototype.connect = function (collectionViewer) {
+    OrgunitlibraryComponent.prototype.setOu = function () {
         var _this = this;
-        this.treeControl.expansionModel.onChange.subscribe(function (change) {
-            if (change.added ||
-                change.removed) {
-                _this.handleTreeControl(change);
+        this.orgunitService.getUserOu()
+            .subscribe(function (response) {
+            for (var i = 0; i < response.organisationUnits.length; i++) {
+                var child = false;
+                if (response.organisationUnits[i].children.length != 0) {
+                    child = true;
+                }
+                var name_1 = response.organisationUnits[i].name;
+                var id = response.organisationUnits[i].id;
+                _this.ouHeaders.push({ "name": name_1, "id": id, "child": child });
             }
         });
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["merge"])(collectionViewer.viewChange, this.dataChange).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function () { return _this.data; }));
-    };
-    /** Handle expand/collapse behaviors */
-    DynamicDataSource.prototype.handleTreeControl = function (change) {
-        var _this = this;
-        if (change.added) {
-            change.added.forEach(function (node) { return _this.toggleNode(node, true); });
-        }
-        if (change.removed) {
-            change.removed.reverse().forEach(function (node) { return _this.toggleNode(node, false); });
-        }
-    };
-    /**
-     * Toggle the node, remove from display list
-     */
-    DynamicDataSource.prototype.toggleNode = function (node, expand) {
-        var _this = this;
-        var children = this.database.getChildren(node.item);
-        var index = this.data.indexOf(node);
-        if (!children || index < 0) {
-            return;
-        }
-        node.isLoading = true;
         setTimeout(function () {
-            if (expand) {
-                var nodes = children.map(function (name) {
-                    return new DynamicFlatNode(name, node.level + 1, _this.database.isExpandable(name));
-                });
-                (_a = _this.data).splice.apply(_a, [index + 1, 0].concat(nodes));
-            }
-            else {
-                _this.data.splice(index + 1, children.length);
-            }
-            // notify the change
-            _this.dataChange.next(_this.data);
-            node.isLoading = false;
-            var _a;
+            _this.printTable(_this.ouHeaders);
         }, 1000);
     };
-    DynamicDataSource = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_cdk_tree__WEBPACK_IMPORTED_MODULE_1__["FlatTreeControl"],
-            DynamicDatabase])
-    ], DynamicDataSource);
-    return DynamicDataSource;
-}());
-
-var OrgunitlibraryComponent = /** @class */ (function () {
-    function OrgunitlibraryComponent(database) {
-        this.getLevel = function (node) { return node.level; };
-        this.isExpandable = function (node) { return node.expandable; };
-        this.hasChild = function (_, _nodeData) { return _nodeData.expandable; };
-        this.treeControl = new _angular_cdk_tree__WEBPACK_IMPORTED_MODULE_1__["FlatTreeControl"](this.getLevel, this.isExpandable);
-        this.dataSource = new DynamicDataSource(this.treeControl, database);
-        this.dataSource.data = database.initialData();
-    }
+    OrgunitlibraryComponent.prototype.setChildOu = function (row) {
+        var _this = this;
+        if (row.currentTarget.parentElement.rowIndex == 0)
+            this.padding = 10;
+        var ou = row.currentTarget.attributes[2].value;
+        var child = row.currentTarget.attributes[3].value;
+        this.checked = row.currentTarget.attributes[4].value;
+        var rowElement = row.currentTarget;
+        var numOfRowToDelete = 0;
+        var newou = [];
+        this.orgunitService.getChildOu(ou)
+            .subscribe(function (response) {
+            if (_this.checked == "true") {
+                numOfRowToDelete = response.children.length;
+            }
+            else {
+                var parent = response.id;
+                for (var j = 0; j < response.ancestors.length; j++) {
+                    parent = parent + " " + response.ancestors[j].id;
+                }
+                for (var i = 0; i < response.children.length; i++) {
+                    var child_1 = false;
+                    if (response.children[i].children.length != 0) {
+                        child_1 = true;
+                    }
+                    var name_2 = response.children[i].name;
+                    var id = response.children[i].id;
+                    newou.push({ "name": name_2, "id": id, "child": child_1, "parent": parent });
+                }
+            }
+        });
+        setTimeout(function () {
+            if (_this.checked == "true") {
+                _this.deleteRows(rowElement);
+                rowElement.attributes[4].value = false;
+                _this.padding -= 10;
+                rowElement.innerHTML = "<i class='fa fa-plus-square-o' aria-hidden='true'></i>";
+            }
+            else {
+                newou.sort(function (a, b) {
+                    var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+                    if (nameA > nameB)
+                        return -1;
+                    if (nameA < nameB)
+                        return 1;
+                    return 0; //default return value (no sorting)
+                });
+                _this.padding += 10;
+                _this.printOuChild(newou, rowElement);
+                rowElement.attributes[4].value = true;
+                rowElement.innerHTML = "<i class='fa fa-minus-square-o' aria-hidden='true'></i>";
+            }
+        }, 1000);
+    };
+    OrgunitlibraryComponent.prototype.printTable = function (head) {
+        for (var i = 0; i < head.length; i++) {
+            if (head[i].child)
+                var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+            else
+                var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+            jquery__WEBPACK_IMPORTED_MODULE_3__('#outable > tbody').append(row);
+            this.hashmapForClasses[head[i].id] = false;
+            this.hashmapForOuSelect[head[i].id] = false;
+        }
+        this.mapClasses();
+    };
+    OrgunitlibraryComponent.prototype.printOuChild = function (head, rowElement) {
+        for (var i = 0; i < head.length; i++) {
+            if (head[i].child)
+                var row = '<tr id="' + head[i].id + i + '"  class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+            else
+                var row = '<tr id="' + head[i].id + i + '" class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+            var index = rowElement.parentElement.rowIndex;
+            jquery__WEBPACK_IMPORTED_MODULE_3__('#outable > tbody > tr').eq(index).after(row);
+            this.hashmapForClasses[head[i].id] = false;
+            this.hashmapForOuSelect[head[i].id] = false;
+        }
+        this.mapClasses();
+    };
+    OrgunitlibraryComponent.prototype.deleteRows = function (row) {
+        var classname = row.parentElement.children[1].id;
+        var allrows = document.getElementsByClassName(classname);
+        for (var t = allrows.length - 1; t >= 0; t--) {
+            allrows[t].remove();
+        }
+        // $("#outable tr:gt(" + rowIndex + "):lt(" + (num) + ")").remove();
+    };
     OrgunitlibraryComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-orgunitlibrary',
             template: __webpack_require__(/*! ./orgunitlibrary.component.html */ "./src/app/orgunitlibrary/orgunitlibrary.component.html"),
             styles: [__webpack_require__(/*! ./orgunitlibrary.component.css */ "./src/app/orgunitlibrary/orgunitlibrary.component.css")],
-            providers: [DynamicDatabase]
         }),
-        __metadata("design:paramtypes", [DynamicDatabase])
+        __metadata("design:paramtypes", [src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_1__["AjaxserviceService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], src_app_utilityservice_service__WEBPACK_IMPORTED_MODULE_2__["UtilityserviceService"]])
     ], OrgunitlibraryComponent);
     return OrgunitlibraryComponent;
 }());
@@ -791,7 +909,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "mat-card#rightselections{\n    background-color: #9FA8DA;\n    text-align: center;\n  }"
+module.exports = ".row{\n  padding: 10px 10px 10px 100px;\n}\nbutton{\n  margin-left:35%;\n}\n"
 
 /***/ }),
 
@@ -802,7 +920,7 @@ module.exports = "mat-card#rightselections{\n    background-color: #9FA8DA;\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card id=\"rightselections\">\n  <mat-card-subtitle>Period Selections</mat-card-subtitle>\n  <mat-card-content>\n    <mat-grid-list cols=\"1\" rowHeight=\"60px\">\n\n      <!-- selection dropdown for reports -->\n      <mat-grid-tile colspan=\"1\" rowspan=\"1\">\n        <mat-form-field>\n          <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\">\n           <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">   <!--[disabled]=\"period=='Weekly'\" -->\n              {{ period }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n\n      <mat-grid-tile colspan=\"1\" rowspan=\"1\">\n        <mat-form-field>\n          <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\">\n            <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(selectedPeriodType)\">\n              {{ year }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n      <mat-grid-tile>\n        <!-- selection dropdown for datasets -->\n        <mat-form-field>\n          <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\" [(ngModel)]=\"optionvalue\">\n            <mat-option *ngFor=\"let option of options\" [value]=\"option.value\">\n              {{ option.name }}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </mat-grid-tile>\n      <mat-grid-tile>\n        <button mat-raised-button color=\"primary\" (click)=\"generateReport(selectedPeriodType,selectedYearModel,optionvalue)\">Generate Report</button>\n      </mat-grid-tile>\n    </mat-grid-list>\n  </mat-card-content>\n</mat-card>"
+module.exports = "<!-- selection dropdown for reports -->\n<div class=\"row\">\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\">\n        <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">\n          <!--[disabled]=\"period=='Weekly'\" -->\n          {{ period }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\">\n        <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(selectedPeriodType)\">\n          {{ year }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <!-- selection dropdown for datasets -->\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\" [(ngModel)]=\"optionvalue\">\n        <mat-option *ngFor=\"let option of options\" [value]=\"option.value\">\n          {{ option.name }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n</div>\n<!-- <mat-divider></mat-divider><br> -->\n<div class=\"row\">\n  <div class=\"col\">\n    <button mat-raised-button color=\"primary\" (click)=\"generateReport(selectedPeriodType,selectedYearModel,optionvalue)\">Generate Report</button>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -850,7 +968,7 @@ var RightbarselectionsComponent = /** @class */ (function () {
             if (value == "Six-monthly")
                 this.options = this.sixmonths.map(function (x) { return x; });
             if (value == "Weekly")
-                this.getWeeks();
+                this.getWeeks(value);
         };
         this.getWeeks = function (type) {
             if (type == "Weekly") {
@@ -956,7 +1074,7 @@ var SharedService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "mat-card#tablecard{\n    /* background-color: #9FA8DA; */\n    text-align: center;\n  }\n  table {\n    width: 100%;\n  }"
+module.exports = ".row{\n  width:100%;\n  padding:10px;\n}\ntable{\n  width:100%;\n  height: 100%;\n}"
 
 /***/ }),
 
@@ -967,7 +1085,7 @@ module.exports = "mat-card#tablecard{\n    /* background-color: #9FA8DA; */\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <mat-card id=\"tablecard\"> -->\n        <table mat-table [dataSource]=\"dataSource\" class=\"mat-elevation-z8\">\n\n                <!--- Note that these columns can be defined in any order.\n                      The actual rendered columns are set as a property on the row definition\" -->\n              \n                <!-- Position Column -->\n                <ng-container matColumnDef=\"position\">\n                  <th mat-header-cell *matHeaderCellDef> No. </th>\n                  <td mat-cell *matCellDef=\"let element\"> {{element.position}} </td>\n                </ng-container>\n              \n                <!-- Name Column -->\n                <ng-container matColumnDef=\"name\">\n                  <th mat-header-cell *matHeaderCellDef> Name </th>\n                  <td mat-cell *matCellDef=\"let element\"> {{element.name}} </td>\n                </ng-container>\n              \n                <!-- Weight Column -->\n                <ng-container matColumnDef=\"weight\">\n                  <th mat-header-cell *matHeaderCellDef> Weight </th>\n                  <td mat-cell *matCellDef=\"let element\"> {{element.weight}} </td>\n                </ng-container>\n              \n                <!-- Symbol Column -->\n                <ng-container matColumnDef=\"symbol\">\n                  <th mat-header-cell *matHeaderCellDef> Symbol </th>\n                  <td mat-cell *matCellDef=\"let element\"> {{element.symbol}} </td>\n                </ng-container>\n              \n                <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n                <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n              </table>\n              \n              \n<!-- </mat-card> -->"
+module.exports = "<!-- <mat-card id=\"tablecard\"> -->\n  <div class=\"row no-gutters\">\n    <div class=\"col\">\n        <table class=\"table table-bordered table-striped table-responsive\">\n\n          </table>\n    </div>\n  </div>\n        \n    "
 
 /***/ }),
 
@@ -1058,7 +1176,9 @@ var UtilityserviceService = /** @class */ (function () {
             else {
                 j = i;
             }
-            arrayw.push(new Date(wsd).getFullYear() + "W" + j + " - " + this.getProperDate(wsd) + " - " + this.getProperDate((wed)));
+            var date = new Date(wsd).getFullYear() + "W" + j + " - " + this.getProperDate(wsd) + " - " + this.getProperDate((wed));
+            var val = new Date(wsd).getFullYear() + "W" + j;
+            arrayw.push({ "name": date, "value": val });
             i++;
             sd = new Date(sd).setDate(new Date(sd).getDate() + 7);
         }
