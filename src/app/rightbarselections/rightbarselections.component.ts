@@ -31,7 +31,7 @@ export class RightbarselectionsComponent {
     if (value == "Monthly") this.options = this.months.map(x => x);
     if (value == "Quarterly") this.options = this.quarters.map(x => x);
     if (value == "Six-monthly") this.options = this.sixmonths.map(x => x);
-    if (value == "Weekly") this.getWeeks();
+    if (value == "Weekly") this.getWeeks(value);
   };
 
   getWeeks = function (type) {
