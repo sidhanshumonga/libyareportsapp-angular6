@@ -14,9 +14,24 @@ const httpOptions = {
 })
 
 export class AjaxserviceService {
+
+  //urls required
   private dataseturl = x.BASE_URL + x.DATASETS_API;
+  private userorguniturl = x.BASE_URL + x.USER_ORGUNIT;
+
   constructor(private http: HttpClient) { }
+
+  //funtions required
   getDatasets(): Observable<any> {
     return this.http.get<any>(this.dataseturl);
   }
+
+  getUserOu():Observable<any>{
+     return this.http.get<any>(this.userorguniturl);
+  }
+
+  getChildOu(child:string): Observable<any>{
+    return this.http.get<any>(x.BASE_URL+x.OU_CHILDREN_BASE+child+x.OU_CHILDREN_FILTER);
+  }
+
 }
