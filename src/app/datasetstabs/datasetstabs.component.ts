@@ -18,13 +18,21 @@ export class DatasetstabsComponent {
 
 
   datasetsm = [];
-  constructor( private chipsService: SharedService  ) {
-    
+  constructor(private chipsService: SharedService) {
+
     this.chipsService.chipServiceMethod.subscribe(
-        (chipss) => {
-          if(chipss)this.datasetsm = chipss.map(x => x);
-        }
-      );
+      (chipss) => {
+        chipss.sort(function (a, b) {
+          var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+          if (nameA < nameB) //sort string ascending
+            return -1
+          if (nameA > nameB)
+            return 1
+          return 0 //default return value (no sorting)
+        })
+        if (chipss) this.datasetsm = chipss.map(x => x);
+      }
+    );
   }
 
   remove(data: any): void {
@@ -34,6 +42,6 @@ export class DatasetstabsComponent {
       this.datasetsm.splice(index, 1);
       this.chipsService.callMethodToUnselect(this.datasetsm);
     }
-  }  
+  }
 
 }
