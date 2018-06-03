@@ -81,11 +81,10 @@ export class HeaderselectionsComponent {
       if (this.reportName == "Medical Center" && !this.checked)this.chipsService.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
     }
     this.getDatasets();
-
   }
 
   clearChips(val){
-    if(!val)this.chipsService.callMethodToChangeChips([]);
+    if(!val && this.reportName != "Ewarn Report")this.chipsService.callMethodToChangeChips([]);
     else{
       if (this.reportName == "Ewarn Report")this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
       if (this.reportName == "PHC Report")this.chipsService.callMethodToChangeChips(x.DATASETS_ID_PHC);
