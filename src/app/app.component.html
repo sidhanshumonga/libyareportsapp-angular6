@@ -1,29 +1,30 @@
-<mat-card style="min-height:1200px !important">
+<app-loader id="loader"></app-loader>
 
-    <mat-card-title>Libya Reports</mat-card-title>
-    <mat-card-content>
-        <div class="three-cards" style="width:22%;height:100%;">
-
-            <app-orgunitlibrary></app-orgunitlibrary>
-
-        </div>
-        <div class="three-cards" style="width:50%;">
-
-            <div class="div2-three-cards">
+<div class="row no-gutters flex-xl-nowrap clearfix" style="min-height:100vh;display: none;" id="mainPage">
+    <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+        <app-orgunitlibrary></app-orgunitlibrary>
+    </div>
+    <!-- <mat-divider [vertical]="true"></mat-divider> -->
+    <div class="col-lg-8 col-12 col-md-9 col-xl-8 py-md-1 pl-md-3">
+        <div class="row">
+            <div class="col">
                 <app-headerselections></app-headerselections>
             </div>
-            <div class="div2-three-cards">
-                <app-datasetstabs></app-datasetstabs>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="row">
+            <div class="col">
+                <app-rightbarselections></app-rightbarselections>
             </div>
-            <div class="div2-three-cards">
+        </div><br><br>
+        <div class="row">
+            <div class="col">
                 <app-tablecard></app-tablecard>
             </div>
-
         </div>
-        <div class="three-cards" style="width:22%;">
-
-            <app-rightbarselections></app-rightbarselections>
-
-        </div>
-    </mat-card-content>
-</mat-card>
+    </div>
+    <!-- <mat-divider [vertical]="true"></mat-divider> -->
+    <div class="d-none d-xl-block col-xl-2 bd-toc">
+        <app-datasetstabs></app-datasetstabs>
+    </div>
+</div>

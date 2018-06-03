@@ -1,41 +1,38 @@
-<mat-card id="rightselections">
-  <mat-card-subtitle>Period Selections</mat-card-subtitle>
-  <mat-card-content>
-    <mat-grid-list cols="1" rowHeight="60px">
-
-      <!-- selection dropdown for reports -->
-      <mat-grid-tile colspan="1" rowspan="1">
-        <mat-form-field>
-          <mat-select placeholder="Select Period" [(ngModel)]="selectedPeriodType">
-           <mat-option *ngFor="let period of periods" [value]="period" (click)="gotPeriodValue(period)">   <!--[disabled]="period=='Weekly'" -->
-              {{ period }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <mat-grid-tile colspan="1" rowspan="1">
-        <mat-form-field>
-          <mat-select placeholder="Select Year" [(ngModel)]="selectedYearModel">
-            <mat-option *ngFor="let year of years" [value]="year" (click)="getWeeks(selectedPeriodType)">
-              {{ year }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <!-- selection dropdown for datasets -->
-        <mat-form-field>
-          <mat-select placeholder="Select an option" [disabled]="selectedPeriodType=='Yearly'" [(ngModel)]="optionvalue">
-            <mat-option *ngFor="let option of options" [value]="option.value">
-              {{ option.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <button mat-raised-button color="primary" (click)="generateReport(selectedPeriodType,selectedYearModel,optionvalue)">Generate Report</button>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-card-content>
-</mat-card>
+<!-- selection dropdown for reports -->
+<div class="row">
+  <div class="col">
+    <mat-form-field>
+      <mat-select placeholder="Select Period" [(ngModel)]="selectedPeriodType">
+        <mat-option *ngFor="let period of periods" [value]="period" (click)="gotPeriodValue(period)">
+          <!--[disabled]="period=='Weekly'" -->
+          {{ period }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col">
+    <mat-form-field>
+      <mat-select placeholder="Select Year" [(ngModel)]="selectedYearModel">
+        <mat-option *ngFor="let year of years" [value]="year" (click)="getWeeks(selectedPeriodType)">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!-- selection dropdown for datasets -->
+  <div class="col">
+    <mat-form-field>
+      <mat-select placeholder="Select an option" [disabled]="selectedPeriodType=='Yearly'" [(ngModel)]="optionvalue">
+        <mat-option *ngFor="let option of options" [value]="option.value">
+          {{ option.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<!-- <mat-divider></mat-divider><br> -->
+<div class="row">
+  <div class="col">
+    <button mat-raised-button color="primary" (click)="generateReport(selectedPeriodType,selectedYearModel,optionvalue)">Generate Report</button>
+  </div>
+</div>

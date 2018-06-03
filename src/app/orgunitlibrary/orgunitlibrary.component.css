@@ -1,12 +1,19 @@
-.example-tree-progress-bar {
-    margin-left: 30px;
-  }
-  mat-tree-node,  mat-tree{
-      background: transparent
-  }
-  mat-tree-node{
-      vertical-align: text-top;
-  }
-  mat-card#outree{
-    background-color: #9FA8DA;
-  }
+.row{
+    padding:30px 10px 10px 20px;
+}
+#outable thead {
+    	display:block;
+    }
+  #outable tbody{
+      display:block;
+      min-height:92%;
+      overflow-y:auto;
+      overflow-x:hidden;
+    }
+.ouselect, .ouid{
+    cursor:pointer !important;
+ }
+#outree{
+    border-right:1px solid lightgray;
+    height: 100%;
+}

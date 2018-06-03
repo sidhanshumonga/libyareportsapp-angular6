@@ -1,4 +1,6 @@
-mat-card#datasetschips{
-    background-color: #9FA8DA;
+.row{
     text-align: center;
+    height: 100%;
+    padding:30px 10px 10px 20px;
+    border-left:1px solid lightgray;
   }

@@ -51,6 +51,7 @@ import { HeaderselectionsComponent } from './headerselections/headerselections.c
 import { RightbarselectionsComponent } from './rightbarselections/rightbarselections.component';
 import { OrgunitlibraryComponent } from './orgunitlibrary/orgunitlibrary.component';
 import { TablecardComponent } from './tablecard/tablecard.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   exports: [
@@ -108,8 +109,8 @@ export class DemoMaterialModule {}
   entryComponents: [AppComponent],
   declarations: [AppComponent,DatasetstabsComponent,
     HeaderselectionsComponent,RightbarselectionsComponent,
-    OrgunitlibraryComponent,TablecardComponent],
-  bootstrap: [AppComponent],
+    OrgunitlibraryComponent,TablecardComponent,LoaderComponent],
+  bootstrap: [AppComponent,LoaderComponent],
   providers: [
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
