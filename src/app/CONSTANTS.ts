@@ -1,6 +1,9 @@
 
 export const BASE_URL = "../../";
 export const DATASETS_API = "dataSets.json?fields=name,id,attributeValues[value,attribute[id,name]]&paging=none";
+export const USER_ORGUNIT = "me.json?fields=organisationUnits[children,id,name]";
+export const OU_CHILDREN_BASE = "organisationUnits/";
+export const OU_CHILDREN_FILTER = ".json?fields=id,children[id,name,children],ancestors[id,name]"
 
 export const months = [
     { name: "January", value: "01" },
@@ -41,7 +44,7 @@ export const periods = [
     "Yearly"
 ];
 
-export const DATASET_ID_EWARN_REPORT = { id: "h1Q03rJqNQr", name: "EWARN Reporting Dataset" };
+export const DATASET_ID_EWARN_REPORT = [{ id: "h1Q03rJqNQr", name: "EWARN Reporting Dataset" }];
 
 //phc datasets uid
 export const DATASETS_ID_PHC = [
