@@ -2,7 +2,7 @@
     <div class="col">
       <!-- selection dropdown for reports -->
       <mat-form-field>
-        <mat-select placeholder="Select report" [(ngModel)]="reportName">
+        <mat-select placeholder="Select report" [(ngModel)]="reportName" required>
           <mat-option *ngFor="let report of reports" [value]="report.value" (click)="validatePeriods()">
             {{ report.viewValue }}
           </mat-option>
