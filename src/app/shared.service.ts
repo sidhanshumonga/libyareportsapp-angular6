@@ -15,7 +15,7 @@ export class SharedService {
   chips: string[];
 
   //code to call function from header to datasettabs
-  private methodToChangeChips = new Subject<any>();
+  public methodToChangeChips = new Subject<any>();
   chipServiceMethod = this.methodToChangeChips.asObservable();
   callMethodToChangeChips(chipss) {
     this.methodToChangeChips.next(chipss);
@@ -23,18 +23,38 @@ export class SharedService {
 
 
   //code to call function from datasettabs to header
-  private methodToUnselect = new Subject<any>();
+  public methodToUnselect = new Subject<any>();
   unselectServiceMethod = this.methodToUnselect.asObservable();
   callMethodToUnselect(chipss) {
     this.methodToUnselect.next(chipss);
   }
 
   //code to call function from header to datasettabs
-  private methodTovalidatePeriods = new Subject<any>();
+  public methodTovalidatePeriods = new Subject<any>();
   periodValidateServiceMedthod = this.methodTovalidatePeriods.asObservable();
   callMethodToValidatePeriods(value){
     this.methodTovalidatePeriods.next(value);
   }
 
+  //code to call function from orgunit to mainselections
+  public methodToSendOrgUnit = new Subject<any>();
+  orgUnitServiceMethod = this.methodToSendOrgUnit.asObservable();
+  callMethodToSendOrgUnit(ou){
+    this.methodToSendOrgUnit.next(ou);
+  }
+
+  //code to call function from datastetstabs to mainselections 
+  public methodToSendDataSet = new Subject<any>();
+  dataSetServiceMethod = this.methodToSendDataSet.asObservable();
+  callMethodToSendDataSet(ds){
+    this.methodToSendDataSet.next(ds);
+  }
+
+  //code to call function from mainselections to tablecard
+  public methodToSendParams = new Subject<any>();
+  paramsServiceMethod = this.methodToSendParams.asObservable();
+  callMethodToSendParams(array){
+    this.methodToSendParams.next(array);
+  }
 
 }
