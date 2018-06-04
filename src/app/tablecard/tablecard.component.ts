@@ -39,6 +39,7 @@ export class TablecardComponent {
     this.ajax.getDatasetHTML(this.ou, this.pe, this.ds).subscribe(res => {
       setTimeout(() => {
         $("#loader-table").fadeOut(500);
+        $(".ex-element").show();
         $("#custom-table").fadeIn(1000);
         this.modifyReport(res);
       }, 4500);
