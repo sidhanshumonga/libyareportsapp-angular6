@@ -2,7 +2,7 @@
   <div class="col">
       <mat-chip-list #chipList>
           <mat-chip *ngFor="let data of datasetsm" [selectable]="selectable" [value]="data.id" (update)="selectionChange($event)" [removable]="removable"
-            (removed)="remove(data)">
+            (removed)="remove(data)" (click)="selectChip(data.id)">
             {{data.name}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
