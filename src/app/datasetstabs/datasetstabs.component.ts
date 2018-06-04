@@ -30,7 +30,7 @@ export class DatasetstabsComponent {
           return 0 //default return value (no sorting)
         })
         if (chipss) this.datasetsm = chipss.map(x => x);
-        this.callingBridge.callMethodToSendDataSet(this.datasetsm);
+        if(chipss.length!=0)this.callingBridge.callMethodToSendDataSet(this.datasetsm);
 
       }
     );
