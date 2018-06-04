@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { AjaxserviceService } from 'src/app/ajaxservice.service';
-import { UtilityserviceService } from 'src/app/utilityservice.service';
+import { SharedService } from 'src/app/shared.service'
 import * as $ from 'jquery';
 
 @Component({
@@ -14,7 +14,9 @@ export class OrgunitlibraryComponent implements OnInit {
   displayedColumns = ['id', 'name'];
   ouHeaders = [];
   // row:string;
-  constructor(private orgunitService: AjaxserviceService, private onclicks: ElementRef, private util: UtilityserviceService) { }
+  constructor(private orgunitService: AjaxserviceService, private onclicks: ElementRef, private callingBridge: SharedService) {
+
+  }
 
   ngOnInit() {
     this.setOu();
@@ -49,8 +51,14 @@ export class OrgunitlibraryComponent implements OnInit {
 
   ouselect(element) {
     var rowid = element.currentTarget.parentElement;
+    //code to change color of selected ou
     element.currentTarget.style.color = "#3f51b5";
     this.selectedOrgUnit = rowid.attributes[0].value;
+
+    //function to send selectedOrgunit to generate function
+    this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit.substring(0,this.selectedOrgUnit.length-1));
+    
+    //code to change color back to normal on unselect
     if (this.previousSelection.id != element.currentTarget.id) {
       this.previousSelection.style.color = "black";
     }
@@ -74,7 +82,7 @@ export class OrgunitlibraryComponent implements OnInit {
   }
 
   setChildOu(row) {
-    if(row.currentTarget.parentElement.rowIndex==0)this.padding=10;
+    if (row.currentTarget.parentElement.rowIndex == 0) this.padding = 10;
     var ou = row.currentTarget.attributes[2].value;
     var child = row.currentTarget.attributes[3].value;
     this.checked = row.currentTarget.attributes[4].value;
@@ -155,6 +163,10 @@ export class OrgunitlibraryComponent implements OnInit {
     }
     // $("#outable tr:gt(" + rowIndex + "):lt(" + (num) + ")").remove();
   }
+
+
+
+
 }
 
 export interface typearr {
