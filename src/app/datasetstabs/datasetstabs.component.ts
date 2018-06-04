@@ -10,17 +10,16 @@ import { HeaderselectionsComponent } from 'src/app/headerselections/headerselect
   styleUrls: ['./datasetstabs.component.css']
 })
 export class DatasetstabsComponent {
-
   visible: boolean = true;
   selectable: boolean = true;
   removable: boolean = true;
   addOnBlur: boolean = true;
-
+  selectedDataset:string;
 
   datasetsm = [];
-  constructor(private chipsService: SharedService) {
+  constructor(private callingBridge: SharedService) {
 
-    this.chipsService.chipServiceMethod.subscribe(
+    this.callingBridge.chipServiceMethod.subscribe(
       (chipss) => {
         chipss.sort(function (a, b) {
           var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
@@ -31,8 +30,15 @@ export class DatasetstabsComponent {
           return 0 //default return value (no sorting)
         })
         if (chipss) this.datasetsm = chipss.map(x => x);
+        this.callingBridge.callMethodToSendDataSet(this.datasetsm);
+
       }
     );
+  }
+
+  selectChip(chipid: any): void{
+    this.selectedDataset = chipid;
+    this.callingBridge.callMethodToSendDataSet(this.selectedDataset);
   }
 
   remove(data: any): void {
@@ -40,7 +46,8 @@ export class DatasetstabsComponent {
 
     if (index >= 0) {
       this.datasetsm.splice(index, 1);
-      this.chipsService.callMethodToUnselect(this.datasetsm);
+      this.callingBridge.callMethodToUnselect(this.datasetsm);
+      if(index==0)this.callingBridge.callMethodToSendDataSet(this.datasetsm[0].id);
     }
   }
 
