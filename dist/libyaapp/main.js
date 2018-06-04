@@ -168,6 +168,11 @@ var AjaxserviceService = /** @class */ (function () {
         this.dataseturl = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["DATASETS_API"];
         this.userorguniturl = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["USER_ORGUNIT"];
     }
+    //setting manual headers
+    AjaxserviceService.prototype.createAuthorizationHeader = function (headers) {
+        headers.append('Authorization', 'Basic ' +
+            btoa('username:password'));
+    };
     //funtions required
     AjaxserviceService.prototype.getDatasets = function () {
         return this.http.get(this.dataseturl);
@@ -177,6 +182,11 @@ var AjaxserviceService = /** @class */ (function () {
     };
     AjaxserviceService.prototype.getChildOu = function (child) {
         return this.http.get(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["OU_CHILDREN_BASE"] + child + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["OU_CHILDREN_FILTER"]);
+    };
+    AjaxserviceService.prototype.getDatasetHTML = function (ou, pe, ds) {
+        // let headers = new Headers();
+        // this.createAuthorizationHeader(headers);
+        return this.http.get(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + 'dataSetReport.json?ds=' + ds + '&pe=' + pe + '&ou=' + ou, { responseType: 'text' });
     };
     AjaxserviceService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -408,7 +418,7 @@ module.exports = ".row{\n    text-align: center;\n    height: 100%;\n    padding
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row no-gutters\">\n  <div class=\"col\">\n      <mat-chip-list #chipList>\n          <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" [value]=\"data.id\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n            (removed)=\"remove(data)\">\n            {{data.name}}\n            <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n          </mat-chip>\n        </mat-chip-list>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row no-gutters\">\n  <div class=\"col\">\n      <mat-chip-list #chipList>\n          <mat-chip *ngFor=\"let data of datasetsm\" [selectable]=\"selectable\" [value]=\"data.id\" (update)=\"selectionChange($event)\" [removable]=\"removable\"\n            (removed)=\"remove(data)\" (click)=\"selectChip(data.id)\">\n            {{data.name}}\n            <mat-icon matChipRemove *ngIf=\"removable\">cancel</mat-icon>\n          </mat-chip>\n        </mat-chip-list>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -436,15 +446,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var DatasetstabsComponent = /** @class */ (function () {
-    function DatasetstabsComponent(chipsService) {
+    function DatasetstabsComponent(callingBridge) {
         var _this = this;
-        this.chipsService = chipsService;
+        this.callingBridge = callingBridge;
         this.visible = true;
         this.selectable = true;
         this.removable = true;
         this.addOnBlur = true;
         this.datasetsm = [];
-        this.chipsService.chipServiceMethod.subscribe(function (chipss) {
+        this.callingBridge.chipServiceMethod.subscribe(function (chipss) {
             chipss.sort(function (a, b) {
                 var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
                 if (nameA < nameB)
@@ -455,13 +465,20 @@ var DatasetstabsComponent = /** @class */ (function () {
             });
             if (chipss)
                 _this.datasetsm = chipss.map(function (x) { return x; });
+            _this.callingBridge.callMethodToSendDataSet(_this.datasetsm);
         });
     }
+    DatasetstabsComponent.prototype.selectChip = function (chipid) {
+        this.selectedDataset = chipid;
+        this.callingBridge.callMethodToSendDataSet(this.selectedDataset);
+    };
     DatasetstabsComponent.prototype.remove = function (data) {
         var index = this.datasetsm.indexOf(data);
         if (index >= 0) {
             this.datasetsm.splice(index, 1);
-            this.chipsService.callMethodToUnselect(this.datasetsm);
+            this.callingBridge.callMethodToUnselect(this.datasetsm);
+            if (index == 0)
+                this.callingBridge.callMethodToSendDataSet(this.datasetsm[0].id);
         }
     };
     DatasetstabsComponent = __decorate([
@@ -486,7 +503,7 @@ var DatasetstabsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".row{\n  padding: 10px 10px 10px 100px;\n}"
+module.exports = ".row{\n  padding: 10px 6px 10px 100px;\n}"
 
 /***/ }),
 
@@ -497,7 +514,7 @@ module.exports = ".row{\n  padding: 10px 10px 10px 100px;\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row no-gutters\">\n    <div class=\"col\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods()\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"col align-self-center\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" (click)=\"clearChips(checked)\" [disabled]=\"!reportName || reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"col\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\" [disabled]=\"dataset.value!=reportName\" [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.name }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </div>"
+module.exports = "<div class=\"row\">\n    <div class=\"col\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods()\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"col align-self-center\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" (click)=\"clearChips(checked)\" [disabled]=\"!reportName || reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"col\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\"  [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.name }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </div>"
 
 /***/ }),
 
@@ -557,6 +574,7 @@ var HeaderselectionsComponent = /** @class */ (function () {
     ;
     HeaderselectionsComponent.prototype.getDatasets = function () {
         var _this = this;
+        this.datasetsArray = [];
         this.ajaxService.getDatasets()
             .subscribe(function (datas) {
             var datasets = datas.dataSets;
@@ -566,11 +584,13 @@ var HeaderselectionsComponent = /** @class */ (function () {
                     for (var j = 0; j < attr.length; j++) {
                         if (attr[j].attribute.name == 'Report app' && attr[j].value == 'true') {
                             for (var k = 0; k < attr.length; k++) {
-                                if (attr[k].attribute.name != 'Report app' && attr[k].value == 'true') {
+                                // if (attr[k].attribute.name != 'Report app' && attr[k].value == 'true') {
+                                if (attr[k].attribute.name == _this.reportName) {
                                     var obj = { 'name': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
                                     _this.datasetsArray.push(obj);
                                 }
                             }
+                            // }
                         }
                     }
                 }
@@ -720,7 +740,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrgunitlibraryComponent", function() { return OrgunitlibraryComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/ajaxservice.service */ "./src/app/ajaxservice.service.ts");
-/* harmony import */ var src_app_utilityservice_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/utilityservice.service */ "./src/app/utilityservice.service.ts");
+/* harmony import */ var src_app_shared_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared.service */ "./src/app/shared.service.ts");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -738,10 +758,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var OrgunitlibraryComponent = /** @class */ (function () {
     // row:string;
-    function OrgunitlibraryComponent(orgunitService, onclicks, util) {
+    function OrgunitlibraryComponent(orgunitService, onclicks, callingBridge) {
         this.orgunitService = orgunitService;
         this.onclicks = onclicks;
-        this.util = util;
+        this.callingBridge = callingBridge;
         this.displayedColumns = ['id', 'name'];
         this.ouHeaders = [];
         this.previousSelection = { id: "unknown", style: { color: "black" } };
@@ -775,8 +795,12 @@ var OrgunitlibraryComponent = /** @class */ (function () {
     ;
     OrgunitlibraryComponent.prototype.ouselect = function (element) {
         var rowid = element.currentTarget.parentElement;
+        //code to change color of selected ou
         element.currentTarget.style.color = "#3f51b5";
         this.selectedOrgUnit = rowid.attributes[0].value;
+        //function to send selectedOrgunit to generate function
+        this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit.substring(0, this.selectedOrgUnit.length - 1));
+        //code to change color back to normal on unselect
         if (this.previousSelection.id != element.currentTarget.id) {
             this.previousSelection.style.color = "black";
         }
@@ -893,7 +917,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./orgunitlibrary.component.html */ "./src/app/orgunitlibrary/orgunitlibrary.component.html"),
             styles: [__webpack_require__(/*! ./orgunitlibrary.component.css */ "./src/app/orgunitlibrary/orgunitlibrary.component.css")],
         }),
-        __metadata("design:paramtypes", [src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_1__["AjaxserviceService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], src_app_utilityservice_service__WEBPACK_IMPORTED_MODULE_2__["UtilityserviceService"]])
+        __metadata("design:paramtypes", [src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_1__["AjaxserviceService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], src_app_shared_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"]])
     ], OrgunitlibraryComponent);
     return OrgunitlibraryComponent;
 }());
@@ -920,7 +944,7 @@ module.exports = ".row{\n  padding: 10px 10px 10px 100px;\n}\nbutton{\n  margin-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- selection dropdown for reports -->\n<div class=\"row\">\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\">\n        <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">\n          <!--[disabled]=\"period=='Weekly'\" -->\n          {{ period }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\">\n        <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(selectedPeriodType)\">\n          {{ year }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <!-- selection dropdown for datasets -->\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\" [(ngModel)]=\"optionvalue\">\n        <mat-option *ngFor=\"let option of options\" [value]=\"option.value\">\n          {{ option.name }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n</div>\n<!-- <mat-divider></mat-divider><br> -->\n<div class=\"row\">\n  <div class=\"col\">\n    <button mat-raised-button color=\"primary\" (click)=\"generateReport(selectedPeriodType,selectedYearModel,optionvalue)\">Generate Report</button>\n  </div>\n</div>"
+module.exports = "<!-- selection dropdown for reports -->\n<div class=\"row\">\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\">\n        <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">\n          <!--[disabled]=\"period=='Weekly'\" -->\n          {{ period }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\">\n        <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(selectedPeriodType)\">\n          {{ year }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <!-- selection dropdown for datasets -->\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\" [(ngModel)]=\"optionvalue\">\n        <mat-option *ngFor=\"let option of options\" [value]=\"option.value\">\n          {{ option.name }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n</div>\n<!-- <mat-divider></mat-divider><br> -->\n<div class=\"row\">\n  <div class=\"col\">\n    <button mat-raised-button color=\"primary\" (click)=\"generateReport()\">Generate Report</button>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -952,9 +976,9 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var RightbarselectionsComponent = /** @class */ (function () {
-    function RightbarselectionsComponent(chipsService) {
+    function RightbarselectionsComponent(callingBridge) {
         var _this = this;
-        this.chipsService = chipsService;
+        this.callingBridge = callingBridge;
         this.years = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["years"];
         this.months = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["months"];
         this.sixmonths = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["sixmonths"];
@@ -979,19 +1003,33 @@ var RightbarselectionsComponent = /** @class */ (function () {
             }
         };
         //function to get reports on table
-        this.generateReport = function (period, year, option) {
-            if (period == "Yearly")
-                var reportPeriod = year;
+        this.generateReport = function () {
+            if (this.selectedPeriodType == "Yearly")
+                this.reportingPeriod = this.selectedYearModel;
             else
-                var reportPeriod = year + option;
-            console.log(reportPeriod);
+                this.reportingPeriod = this.optionvalue;
+            console.log("Reporting Period: " + this.reportingPeriod + " Selected Orgunit: " + this.selectedOrgUnit + " Selected Dataset: " + this.selectedDataSet);
+            this.callingBridge.callMethodToSendParams([this.selectedOrgUnit, this.reportingPeriod, this.selectedDataSet]);
         };
         //method service which gets value from headerseletions
-        this.chipsService.periodValidateServiceMedthod.subscribe(function (value) {
+        this.callingBridge.periodValidateServiceMedthod.subscribe(function (value) {
             if (value)
                 _this.periods = ["Weekly"];
             else {
                 _this.periods = ["Monthly", "Quarterly", "Six-monthly", "Yearly"];
+            }
+        });
+        //method service which gets selectedOrgUnit from orgunitlibrary
+        this.callingBridge.orgUnitServiceMethod.subscribe(function (ou) {
+            _this.selectedOrgUnit = ou;
+        });
+        // method service which gets selectedDataset from datasetstab
+        this.callingBridge.dataSetServiceMethod.subscribe(function (ds) {
+            if (typeof ds == "object")
+                _this.selectedDataSet = ds[0].id;
+            if (typeof ds == "string") {
+                _this.selectedDataSet = ds;
+                _this.generateReport();
             }
         });
     }
@@ -1044,6 +1082,15 @@ var SharedService = /** @class */ (function () {
         //code to call function from header to datasettabs
         this.methodTovalidatePeriods = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.periodValidateServiceMedthod = this.methodTovalidatePeriods.asObservable();
+        //code to call function from orgunit to mainselections
+        this.methodToSendOrgUnit = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        this.orgUnitServiceMethod = this.methodToSendOrgUnit.asObservable();
+        //code to call function from datastetstabs to mainselections 
+        this.methodToSendDataSet = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        this.dataSetServiceMethod = this.methodToSendDataSet.asObservable();
+        //code to call function from mainselections to tablecard
+        this.methodToSendParams = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        this.paramsServiceMethod = this.methodToSendParams.asObservable();
     }
     SharedService.prototype.callMethodToChangeChips = function (chipss) {
         this.methodToChangeChips.next(chipss);
@@ -1053,6 +1100,15 @@ var SharedService = /** @class */ (function () {
     };
     SharedService.prototype.callMethodToValidatePeriods = function (value) {
         this.methodTovalidatePeriods.next(value);
+    };
+    SharedService.prototype.callMethodToSendOrgUnit = function (ou) {
+        this.methodToSendOrgUnit.next(ou);
+    };
+    SharedService.prototype.callMethodToSendDataSet = function (ds) {
+        this.methodToSendDataSet.next(ds);
+    };
+    SharedService.prototype.callMethodToSendParams = function (array) {
+        this.methodToSendParams.next(array);
     };
     SharedService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -1100,40 +1156,55 @@ module.exports = "<!-- <mat-card id=\"tablecard\"> -->\n  <div class=\"row no-gu
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TablecardComponent", function() { return TablecardComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared.service */ "./src/app/shared.service.ts");
+/* harmony import */ var src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/ajaxservice.service */ "./src/app/ajaxservice.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
 
 var TablecardComponent = /** @class */ (function () {
-    function TablecardComponent() {
-        this.displayedColumns = ['position', 'name', 'weight', 'symbol'];
-        this.dataSource = ELEMENT_DATA;
+    function TablecardComponent(callingBridge, ajax) {
+        var _this = this;
+        this.callingBridge = callingBridge;
+        this.ajax = ajax;
+        //method service which gets selectedOrgUnit from orgunitlibrary
+        this.callingBridge.paramsServiceMethod.subscribe(function (params) {
+            _this.ou = params[0];
+            _this.pe = params[1];
+            _this.ds = params[2];
+            _this.displayReport();
+        });
     }
+    TablecardComponent.prototype.displayReport = function () {
+        var _this = this;
+        this.ajax.getDatasetHTML(this.ou, this.pe, this.ds).subscribe(function (res) {
+            console.log(res);
+            setTimeout(function () {
+                _this.modifyReport(res);
+            }, 1000);
+        });
+    };
+    TablecardComponent.prototype.modifyReport = function (response) {
+    };
     TablecardComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-tablecard',
             template: __webpack_require__(/*! ./tablecard.component.html */ "./src/app/tablecard/tablecard.component.html"),
             styles: [__webpack_require__(/*! ./tablecard.component.css */ "./src/app/tablecard/tablecard.component.css")]
-        })
+        }),
+        __metadata("design:paramtypes", [src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__["SharedService"], src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__["AjaxserviceService"]])
     ], TablecardComponent);
     return TablecardComponent;
 }());
 
-var ELEMENT_DATA = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-    { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-    { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-    { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-    { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-    { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-    { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-    { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-    { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-    { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
 
 
 /***/ }),
