@@ -84,7 +84,8 @@ export class RightbarselectionsComponent {
 
   generateReport = function () {
     if (this.selectedPeriodType == "Yearly") this.reportingPeriod = this.selectedYearModel;
-    else this.reportingPeriod = this.optionvalue;
+    if (this.selectedPeriodType == "Weekly") this.reportingPeriod = this.optionvalue;
+    else this.reportingPeriod = this.selectedYearModel + this.optionvalue;
     console.log("Reporting Period: "+this.reportingPeriod+" Selected Orgunit: "+ this.selectedOrgUnit+" Selected Dataset: "+ this.selectedDataSet);
 
     this.callingBridge.callMethodToSendParams([this.selectedOrgUnit,this.reportingPeriod,this.selectedDataSet]);
