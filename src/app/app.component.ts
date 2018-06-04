@@ -15,8 +15,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       $("#loader").fadeOut(500);
-      $("#mainPage").fadeIn(800);
-    }, 3000);
+      $("#mainPage").fadeIn(1200);
+    }, 5000);
   }
 
 }
