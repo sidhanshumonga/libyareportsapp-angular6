@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AppModule } from 'src/app/app.module';
 import { FormControl } from '@angular/forms';
-import { MatSelectModule, MatSelectChange } from '@angular/material';
+import { MatSelectModule, MatSelectChange, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
 import { DatasetstabsComponent } from 'src/app/datasetstabs/datasetstabs.component';
 import { SharedService } from 'src/app/shared.service';
 import { AjaxserviceService } from 'src/app/ajaxservice.service';
@@ -30,9 +30,9 @@ export class HeaderselectionsComponent {
   };
   reportName: string;
   datasetsArray = [];
-  checked:boolean;
+  checked: boolean;
 
-  
+
   constructor(private chipsService: SharedService, private ajaxService: AjaxserviceService) {
     //method which gets values from datasettabs!
     this.chipsService.unselectServiceMethod.subscribe(
@@ -48,6 +48,7 @@ export class HeaderselectionsComponent {
   };
 
   getDatasets() {
+    this.datasetsArray = [];
     this.ajaxService.getDatasets()
       .subscribe(datas => {
         var datasets = datas.dataSets;
@@ -57,11 +58,13 @@ export class HeaderselectionsComponent {
             for (var j = 0; j < attr.length; j++) {
               if (attr[j].attribute.name == 'Report app' && attr[j].value == 'true') {
                 for (var k = 0; k < attr.length; k++) {
-                  if (attr[k].attribute.name != 'Report app' && attr[k].value == 'true') {
-                    var obj = { 'name': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
-                    this.datasetsArray.push(obj);
+                  // if (attr[k].attribute.name != 'Report app' && attr[k].value == 'true') {
+                    if (attr[k].attribute.name == this.reportName) {
+                      var obj = { 'name': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
+                      this.datasetsArray.push(obj);
+                    }
                   }
-                }
+                // }
               }
             }
           }
@@ -72,24 +75,24 @@ export class HeaderselectionsComponent {
   validatePeriods() {
     if (this.reportName == "Ewarn Report") {
       this.chipsService.callMethodToValidatePeriods(true);
-      if(!this.checked)this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
+      if (!this.checked) this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
     }
     else {
       this.chipsService.callMethodToValidatePeriods(false);
-      if (this.reportName == "PHC Report" && !this.checked)this.chipsService.callMethodToChangeChips(x.DATASETS_ID_PHC);
-      if (this.reportName == "Hospital Report" && !this.checked)this.chipsService.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
-      if (this.reportName == "Medical Center" && !this.checked)this.chipsService.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
+      if (this.reportName == "PHC Report" && !this.checked) this.chipsService.callMethodToChangeChips(x.DATASETS_ID_PHC);
+      if (this.reportName == "Hospital Report" && !this.checked) this.chipsService.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
+      if (this.reportName == "Medical Center" && !this.checked) this.chipsService.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
     }
     this.getDatasets();
   }
 
-  clearChips(val){
-    if(!val && this.reportName != "Ewarn Report")this.chipsService.callMethodToChangeChips([]);
-    else{
-      if (this.reportName == "Ewarn Report")this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
-      if (this.reportName == "PHC Report")this.chipsService.callMethodToChangeChips(x.DATASETS_ID_PHC);
-      if (this.reportName == "Hospital Report")this.chipsService.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
-      if (this.reportName == "Medical Center")this.chipsService.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
+  clearChips(val) {
+    if (!val && this.reportName != "Ewarn Report") this.chipsService.callMethodToChangeChips([]);
+    else {
+      if (this.reportName == "Ewarn Report") this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
+      if (this.reportName == "PHC Report") this.chipsService.callMethodToChangeChips(x.DATASETS_ID_PHC);
+      if (this.reportName == "Hospital Report") this.chipsService.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
+      if (this.reportName == "Medical Center") this.chipsService.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
     }
   }
 
