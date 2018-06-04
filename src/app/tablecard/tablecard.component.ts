@@ -1,8 +1,9 @@
-import { Component, OnInit,ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 import { AjaxserviceService } from 'src/app/ajaxservice.service';
 import * as $ from 'jquery';
 import { LoaderComponent } from 'src/app/loader/loader.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-tablecard',
@@ -17,22 +18,37 @@ export class TablecardComponent {
   pe: any;
   ds: string;
 
-  constructor(private callingBridge: SharedService, private ajax: AjaxserviceService,private ONCLICK: ElementRef) {
+  constructor(private callingBridge: SharedService, private ajax: AjaxserviceService, public snackBar: MatSnackBar) {
     //method service which gets selectedOrgUnit from orgunitlibrary
     this.callingBridge.paramsServiceMethod.subscribe(
       (params) => {
         this.ou = params[0];
         this.pe = params[1];
         this.ds = params[2];
-        if (this.ou === undefined) { alert("Please select organisation unit"); return; }
-        if (this.pe === undefined) { alert("Please select period"); return; }
-        if (this.ds === undefined) { alert("Please select at least one dataset"); return; }
+        if (this.ou === undefined) {
+          this.openSnackBar("Please select organisation unit", "Error");
+          return;
+        }
+        if (this.pe === undefined) {
+          this.openSnackBar("Please select period","Error");
+          return;
+        }
+        if (this.ds === undefined) {
+          this.openSnackBar("Please select at least one dataset","Error");
+          return;
+        }
         $("#custom-table table").remove();
         $("#custom-table p").remove();
         $("#loader-table").fadeIn(100);
         this.displayReport();
       }
     );
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   displayReport() {
@@ -70,19 +86,21 @@ export class TablecardComponent {
     }
     // var newRow = '<p style="cursor:pointer;float:right" id="expanded" onClick="expandTable();">click</p>';
     // $('#custom-table').prepend(newRow);
-   
+
   }
 
-  expandTable(){
+  expandTable() {
     // $('#custom-table').toggleClass('expand-table');
     var html = $("#custom-table").html();
     $("#append").empty();
     $("#append").html(html);
     $(".modal").fadeIn(800);
   }
-  close(){
+  close() {
     $(".modal").fadeOut(800);
   }
+
+
 
 }
 

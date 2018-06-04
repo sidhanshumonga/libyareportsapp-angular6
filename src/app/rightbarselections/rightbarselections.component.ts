@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/shared.service';
 import * as arrays from 'src/app/CONSTANTS';
 import { UtilityserviceService } from 'src/app/utilityservice.service';
 import { LoaderComponent } from 'src/app/loader/loader.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-rightbarselections',
@@ -50,7 +51,7 @@ export class RightbarselectionsComponent {
 
 
 
-  constructor(private callingBridge: SharedService) {
+  constructor(private callingBridge: SharedService, public snackBar: MatSnackBar) {
 
     //method service which gets value from headerseletions
     this.callingBridge.periodValidateServiceMedthod.subscribe(
@@ -81,14 +82,21 @@ export class RightbarselectionsComponent {
     );
   }
 
+  //function for snackbar on error
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
   //function to get reports on table
 
   generateReport = function () {
     if (this.selectedPeriodType == "Yearly") this.reportingPeriod = this.selectedYearModel;
     else if (this.selectedPeriodType == "Weekly") this.reportingPeriod = this.optionvalue;
     else this.reportingPeriod = this.selectedYearModel + this.optionvalue;
-    console.log("Reporting Period: "+this.reportingPeriod+" Selected Orgunit: "+ this.selectedOrgUnit+" Selected Dataset: "+ this.selectedDataSet);
-    if(this.selectedYearModel===undefined || (this.optionvalue===undefined && this.selectedPeriodType != "Yearly")){alert("please select period");return;}
+   // console.log("Reporting Period: "+this.reportingPeriod+" Selected Orgunit: "+ this.selectedOrgUnit+" Selected Dataset: "+ this.selectedDataSet);
+    if(this.selectedYearModel===undefined || (this.optionvalue===undefined && this.selectedPeriodType != "Yearly")){this.openSnackBar("Please select period","Error");return;}
     this.callingBridge.callMethodToSendParams([this.selectedOrgUnit,this.reportingPeriod,this.selectedDataSet]);
   };
 }
