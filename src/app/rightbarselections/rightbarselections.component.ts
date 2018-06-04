@@ -14,7 +14,10 @@ import { UtilityserviceService } from 'src/app/utilityservice.service'
 export class RightbarselectionsComponent {
 
   selectedYearModel: string;
-
+  selectedOrgUnit: string;
+  reportingPeriod: string;
+  selectedDataSet: string;
+  selectedPeriodType: string;
 
   years = arrays.years;
   months = arrays.months;
@@ -22,7 +25,7 @@ export class RightbarselectionsComponent {
   quarters = arrays.quarters;
   periods = arrays.periods;
 
-  optionValue: string;
+  optionvalue: string;
   disable: boolean;
 
 
@@ -44,19 +47,12 @@ export class RightbarselectionsComponent {
     }
   };
 
-  //function to get reports on table
-
-  generateReport = function (period, year, option) {
-    if (period == "Yearly") var reportPeriod = year;
-    else var reportPeriod = year + option;
-    console.log(reportPeriod);
-  };
 
 
-  constructor(private chipsService: SharedService) {
+  constructor(private callingBridge: SharedService) {
 
     //method service which gets value from headerseletions
-    this.chipsService.periodValidateServiceMedthod.subscribe(
+    this.callingBridge.periodValidateServiceMedthod.subscribe(
       (value) => {
         if (value) this.periods = ["Weekly"];
         else {
@@ -64,5 +60,33 @@ export class RightbarselectionsComponent {
         }
       }
     );
+
+    //method service which gets selectedOrgUnit from orgunitlibrary
+    this.callingBridge.orgUnitServiceMethod.subscribe(
+      (ou) => {
+        this.selectedOrgUnit = ou;
+      }
+    );
+
+    // method service which gets selectedDataset from datasetstab
+    this.callingBridge.dataSetServiceMethod.subscribe(
+      (ds) => {
+        if(typeof ds == "object")this.selectedDataSet = ds[0].id;
+        if(typeof ds == "string"){
+          this.selectedDataSet = ds;
+          this.generateReport();
+        }
+      }
+    );
   }
+
+  //function to get reports on table
+
+  generateReport = function () {
+    if (this.selectedPeriodType == "Yearly") this.reportingPeriod = this.selectedYearModel;
+    else this.reportingPeriod = this.optionvalue;
+    console.log("Reporting Period: "+this.reportingPeriod+" Selected Orgunit: "+ this.selectedOrgUnit+" Selected Dataset: "+ this.selectedDataSet);
+
+    this.callingBridge.callMethodToSendParams([this.selectedOrgUnit,this.reportingPeriod,this.selectedDataSet]);
+  };
 }
