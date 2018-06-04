@@ -957,6 +957,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared.service */ "./src/app/shared.service.ts");
 /* harmony import */ var src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/CONSTANTS */ "./src/app/CONSTANTS.ts");
 /* harmony import */ var src_app_utilityservice_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/utilityservice.service */ "./src/app/utilityservice.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -970,10 +971,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var RightbarselectionsComponent = /** @class */ (function () {
-    function RightbarselectionsComponent(callingBridge) {
+    function RightbarselectionsComponent(callingBridge, snackBar) {
         var _this = this;
         this.callingBridge = callingBridge;
+        this.snackBar = snackBar;
         this.years = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["years"];
         this.months = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["months"];
         this.sixmonths = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["sixmonths"];
@@ -1005,9 +1008,9 @@ var RightbarselectionsComponent = /** @class */ (function () {
                 this.reportingPeriod = this.optionvalue;
             else
                 this.reportingPeriod = this.selectedYearModel + this.optionvalue;
-            console.log("Reporting Period: " + this.reportingPeriod + " Selected Orgunit: " + this.selectedOrgUnit + " Selected Dataset: " + this.selectedDataSet);
+            // console.log("Reporting Period: "+this.reportingPeriod+" Selected Orgunit: "+ this.selectedOrgUnit+" Selected Dataset: "+ this.selectedDataSet);
             if (this.selectedYearModel === undefined || (this.optionvalue === undefined && this.selectedPeriodType != "Yearly")) {
-                alert("please select period");
+                this.openSnackBar("Please select period", "Error");
                 return;
             }
             this.callingBridge.callMethodToSendParams([this.selectedOrgUnit, this.reportingPeriod, this.selectedDataSet]);
@@ -1034,13 +1037,19 @@ var RightbarselectionsComponent = /** @class */ (function () {
             }
         });
     }
+    //function for snackbar on error
+    RightbarselectionsComponent.prototype.openSnackBar = function (message, action) {
+        this.snackBar.open(message, action, {
+            duration: 2000,
+        });
+    };
     RightbarselectionsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-rightbarselections',
             template: __webpack_require__(/*! ./rightbarselections.component.html */ "./src/app/rightbarselections/rightbarselections.component.html"),
             styles: [__webpack_require__(/*! ./rightbarselections.component.css */ "./src/app/rightbarselections/rightbarselections.component.css")]
         }),
-        __metadata("design:paramtypes", [src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__["SharedService"]])
+        __metadata("design:paramtypes", [src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__["SharedService"], _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSnackBar"]])
     ], RightbarselectionsComponent);
     return RightbarselectionsComponent;
 }());
@@ -1161,6 +1170,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/ajaxservice.service */ "./src/app/ajaxservice.service.ts");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1174,27 +1184,28 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var TablecardComponent = /** @class */ (function () {
-    function TablecardComponent(callingBridge, ajax, ONCLICK) {
+    function TablecardComponent(callingBridge, ajax, snackBar) {
         var _this = this;
         this.callingBridge = callingBridge;
         this.ajax = ajax;
-        this.ONCLICK = ONCLICK;
+        this.snackBar = snackBar;
         //method service which gets selectedOrgUnit from orgunitlibrary
         this.callingBridge.paramsServiceMethod.subscribe(function (params) {
             _this.ou = params[0];
             _this.pe = params[1];
             _this.ds = params[2];
             if (_this.ou === undefined) {
-                alert("Please select organisation unit");
+                _this.openSnackBar("Please select organisation unit", "Error");
                 return;
             }
             if (_this.pe === undefined) {
-                alert("Please select period");
+                _this.openSnackBar("Please select period", "Error");
                 return;
             }
             if (_this.ds === undefined) {
-                alert("Please select at least one dataset");
+                _this.openSnackBar("Please select at least one dataset", "Error");
                 return;
             }
             jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").remove();
@@ -1203,6 +1214,11 @@ var TablecardComponent = /** @class */ (function () {
             _this.displayReport();
         });
     }
+    TablecardComponent.prototype.openSnackBar = function (message, action) {
+        this.snackBar.open(message, action, {
+            duration: 2000,
+        });
+    };
     TablecardComponent.prototype.displayReport = function () {
         var _this = this;
         this.ajax.getDatasetHTML(this.ou, this.pe, this.ds).subscribe(function (res) {
@@ -1255,7 +1271,7 @@ var TablecardComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./tablecard.component.html */ "./src/app/tablecard/tablecard.component.html"),
             styles: [__webpack_require__(/*! ./tablecard.component.css */ "./src/app/tablecard/tablecard.component.css")]
         }),
-        __metadata("design:paramtypes", [src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__["SharedService"], src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__["AjaxserviceService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]])
+        __metadata("design:paramtypes", [src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__["SharedService"], src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__["AjaxserviceService"], _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSnackBar"]])
     ], TablecardComponent);
     return TablecardComponent;
 }());
