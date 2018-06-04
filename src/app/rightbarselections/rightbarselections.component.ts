@@ -4,7 +4,8 @@ import { FormControl } from '@angular/forms';
 import { MatSelectModule, MatSelectChange } from '@angular/material';
 import { SharedService } from 'src/app/shared.service';
 import * as arrays from 'src/app/CONSTANTS';
-import { UtilityserviceService } from 'src/app/utilityservice.service'
+import { UtilityserviceService } from 'src/app/utilityservice.service';
+import { LoaderComponent } from 'src/app/loader/loader.component';
 
 @Component({
   selector: 'app-rightbarselections',
@@ -84,10 +85,10 @@ export class RightbarselectionsComponent {
 
   generateReport = function () {
     if (this.selectedPeriodType == "Yearly") this.reportingPeriod = this.selectedYearModel;
-    if (this.selectedPeriodType == "Weekly") this.reportingPeriod = this.optionvalue;
+    else if (this.selectedPeriodType == "Weekly") this.reportingPeriod = this.optionvalue;
     else this.reportingPeriod = this.selectedYearModel + this.optionvalue;
     console.log("Reporting Period: "+this.reportingPeriod+" Selected Orgunit: "+ this.selectedOrgUnit+" Selected Dataset: "+ this.selectedDataSet);
-
+    if(this.selectedYearModel===undefined || (this.optionvalue===undefined && this.selectedPeriodType != "Yearly")){alert("please select period");return;}
     this.callingBridge.callMethodToSendParams([this.selectedOrgUnit,this.reportingPeriod,this.selectedDataSet]);
   };
 }
