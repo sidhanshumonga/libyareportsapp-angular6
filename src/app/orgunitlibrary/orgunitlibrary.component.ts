@@ -27,7 +27,6 @@ export class OrgunitlibraryComponent implements OnInit {
   hashmapForClasses = [];
   hashmapForOuSelect = [];
   mapClasses() {
-
     //for expanding tree - class mapping
     var classes = this.onclicks.nativeElement.querySelectorAll('.ouid');
     for (var j = 0; j < classes.length; j++) {
@@ -53,6 +52,7 @@ export class OrgunitlibraryComponent implements OnInit {
     var rowid = element.currentTarget.parentElement;
     //code to change color of selected ou
     element.currentTarget.style.color = "#3f51b5";
+    element.currentTarget.className += " bold";
     this.selectedOrgUnit = rowid.attributes[0].value;
 
     //function to send selectedOrgunit to generate function
@@ -82,7 +82,7 @@ export class OrgunitlibraryComponent implements OnInit {
   }
 
   setChildOu(row) {
-    if (row.currentTarget.parentElement.rowIndex == 0) this.padding = 10;
+    if (row.currentTarget.parentElement.rowIndex == 0) this.padding = 5;
     var ou = row.currentTarget.attributes[2].value;
     var child = row.currentTarget.attributes[3].value;
     this.checked = row.currentTarget.attributes[4].value;
@@ -111,7 +111,7 @@ export class OrgunitlibraryComponent implements OnInit {
       if (this.checked == "true") {
         this.deleteRows(rowElement);
         rowElement.attributes[4].value = false;
-        this.padding -= 10;
+        this.padding -= 5;
         rowElement.innerHTML = "<i class='fa fa-plus-square-o' aria-hidden='true'></i>";
       }
       else {
@@ -123,7 +123,7 @@ export class OrgunitlibraryComponent implements OnInit {
             return 1
           return 0 //default return value (no sorting)
         })
-        this.padding += 10;
+        this.padding += 5;
         this.printOuChild(newou, rowElement);
         rowElement.attributes[4].value = true;
         rowElement.innerHTML = "<i class='fa fa-minus-square-o' aria-hidden='true'></i>";
