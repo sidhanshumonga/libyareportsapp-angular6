@@ -243,8 +243,8 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.ngOnInit = function () {
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").fadeOut(500);
-            jquery__WEBPACK_IMPORTED_MODULE_1__("#mainPage").fadeIn(800);
-        }, 3000);
+            jquery__WEBPACK_IMPORTED_MODULE_1__("#mainPage").fadeIn(1200);
+        }, 5000);
     };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -400,7 +400,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".row{\n    text-align: center;\n    height: 100%;\n    padding:30px 10px 10px 20px;\n    border-left:1px solid lightgray;\n  }\n  mat-chip{\n    background-color: #3f51b5 !important;\n    color:white !important;\n  }"
+module.exports = ".row{\n    height: 100%;\n    padding:30px 10px 10px 20px;\n    border-left:1px solid lightgray;\n  }\n  mat-chip{\n    background-color: #3f51b5 !important;\n    color:white !important;\n    cursor: pointer;\n  }"
 
 /***/ }),
 
@@ -508,7 +508,7 @@ module.exports = ".row{\n  padding: 10px 6px 10px 100px;\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\">\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods()\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"col align-self-center\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" (click)=\"clearChips(checked)\" [disabled]=\"!reportName || reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"col\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\"  [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.name }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </div>"
+module.exports = "<div class=\"row\">\n    <div class=\"col\">\n      <!-- selection dropdown for reports -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select report\" [(ngModel)]=\"reportName\" required>\n          <mat-option *ngFor=\"let report of reports\" [value]=\"report.value\" (click)=\"validatePeriods()\">\n            {{ report.viewValue }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n    <div class=\"col align-self-center\">\n      <!-- toggle for enabling dataset dropdown -->\n      <mat-slide-toggle class=\"mat-primary\" [(ngModel)]=\"checked\" (click)=\"clearChips(checked)\" [disabled]=\"!reportName || reportName=='Ewarn Report'\">Multiple datasets ?</mat-slide-toggle>\n    </div>\n    <div class=\"col\">\n      <!-- selection dropdown for datasets -->\n      <mat-form-field>\n        <mat-select placeholder=\"Select Dataset\" [disabled]=\"!checked || reportName=='Ewarn Report'\" [formControl]=\"multidatasets\"\n          [(ngModel)]=\"selectedvalues\" multiple>\n          <mat-option *ngFor=\"let dataset of datasetsArray\"  [value]=\"dataset\" (click)=\"chips($event, selectedvalues)\">\n            {{ dataset.name }}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n    </div>\n  </div>"
 
 /***/ }),
 
@@ -707,7 +707,7 @@ var LoaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".row{\n    padding:30px 10px 10px 20px;\n}\n#outable thead {\n    \tdisplay:block;\n    }\n#outable tbody{\n      display:block;\n      min-height:92%;\n      overflow-y:auto;\n      overflow-x:hidden;\n    }\n.ouselect, .ouid{\n    cursor:pointer !important;\n }\n.ouid{\n     color:#3f51b5 !important;\n }\n.ouselect:hover{\n     color:gray !important;\n }\n#outree{\n    border-right:1px solid lightgray;\n    height: 100%;\n}\n"
+module.exports = ".row{\n    padding:30px 10px 10px 20px;\n}\n#outable thead {\n    \tdisplay:block;\n    }\n#outable tbody{\n      display:block;\n      min-height:92%;\n      overflow-y:auto;\n      overflow-x:hidden;\n    }\n.ouselect, .ouid{\n    cursor:pointer !important;\n }\n#outree{\n    border-right:1px solid lightgray;\n    height: 100%;\n}\n"
 
 /***/ }),
 
@@ -791,6 +791,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
         var rowid = element.currentTarget.parentElement;
         //code to change color of selected ou
         element.currentTarget.style.color = "#3f51b5";
+        element.currentTarget.className += " bold";
         this.selectedOrgUnit = rowid.attributes[0].value;
         //function to send selectedOrgunit to generate function
         this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit.substring(0, this.selectedOrgUnit.length - 1));
@@ -821,7 +822,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
     OrgunitlibraryComponent.prototype.setChildOu = function (row) {
         var _this = this;
         if (row.currentTarget.parentElement.rowIndex == 0)
-            this.padding = 10;
+            this.padding = 5;
         var ou = row.currentTarget.attributes[2].value;
         var child = row.currentTarget.attributes[3].value;
         this.checked = row.currentTarget.attributes[4].value;
@@ -853,7 +854,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
             if (_this.checked == "true") {
                 _this.deleteRows(rowElement);
                 rowElement.attributes[4].value = false;
-                _this.padding -= 10;
+                _this.padding -= 5;
                 rowElement.innerHTML = "<i class='fa fa-plus-square-o' aria-hidden='true'></i>";
             }
             else {
@@ -865,7 +866,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
                         return 1;
                     return 0; //default return value (no sorting)
                 });
-                _this.padding += 10;
+                _this.padding += 5;
                 _this.printOuChild(newou, rowElement);
                 rowElement.attributes[4].value = true;
                 rowElement.innerHTML = "<i class='fa fa-minus-square-o' aria-hidden='true'></i>";
@@ -938,7 +939,7 @@ module.exports = ".row{\n  padding: 10px 10px 10px 100px;\n}\nbutton{\n  margin-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- selection dropdown for reports -->\n<div class=\"row\">\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\">\n        <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">\n          <!--[disabled]=\"period=='Weekly'\" -->\n          {{ period }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\">\n        <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(selectedPeriodType)\">\n          {{ year }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <!-- selection dropdown for datasets -->\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\" [(ngModel)]=\"optionvalue\">\n        <mat-option *ngFor=\"let option of options\" [value]=\"option.value\">\n          {{ option.name }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n</div>\n<!-- <mat-divider></mat-divider><br> -->\n<div class=\"row\">\n  <div class=\"col\">\n    <button mat-raised-button color=\"primary\" (click)=\"generateReport()\">Generate Report</button>\n  </div>\n</div>"
+module.exports = "<!-- selection dropdown for reports -->\n<div class=\"row\">\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Period\" [(ngModel)]=\"selectedPeriodType\" required>\n        <mat-option *ngFor=\"let period of periods\" [value]=\"period\" (click)=\"gotPeriodValue(period)\">\n          <!--[disabled]=\"period=='Weekly'\" -->\n          {{ period }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select Year\" [(ngModel)]=\"selectedYearModel\" required>\n        <mat-option *ngFor=\"let year of years\" [value]=\"year\" (click)=\"getWeeks(selectedPeriodType)\">\n          {{ year }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n  <!-- selection dropdown for datasets -->\n  <div class=\"col\">\n    <mat-form-field>\n      <mat-select placeholder=\"Select an option\" [disabled]=\"selectedPeriodType=='Yearly'\" [(ngModel)]=\"optionvalue\" required>\n        <mat-option *ngFor=\"let option of options\" [value]=\"option.value\">\n          {{ option.name }}\n        </mat-option>\n      </mat-select>\n    </mat-form-field>\n  </div>\n</div>\n<!-- <mat-divider></mat-divider><br> -->\n<div class=\"row\">\n  <div class=\"col\">\n    <button mat-raised-button color=\"primary\" (click)=\"generateReport()\">Generate Report</button>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1000,11 +1001,15 @@ var RightbarselectionsComponent = /** @class */ (function () {
         this.generateReport = function () {
             if (this.selectedPeriodType == "Yearly")
                 this.reportingPeriod = this.selectedYearModel;
-            if (this.selectedPeriodType == "Weekly")
+            else if (this.selectedPeriodType == "Weekly")
                 this.reportingPeriod = this.optionvalue;
             else
                 this.reportingPeriod = this.selectedYearModel + this.optionvalue;
             console.log("Reporting Period: " + this.reportingPeriod + " Selected Orgunit: " + this.selectedOrgUnit + " Selected Dataset: " + this.selectedDataSet);
+            if (this.selectedYearModel === undefined || (this.optionvalue === undefined && this.selectedPeriodType != "Yearly")) {
+                alert("please select period");
+                return;
+            }
             this.callingBridge.callMethodToSendParams([this.selectedOrgUnit, this.reportingPeriod, this.selectedDataSet]);
         };
         //method service which gets value from headerseletions
@@ -1126,7 +1131,7 @@ var SharedService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".row{\n  width:100%;\n  padding:10px;\n}\ntable{\n  width:100%;\n  height: 100%;\n}"
+module.exports = ".row{\n  width:100%;\n  padding:10px;\n}\ntable{\n  width:100%;\n  height: 100%;\n}\n.expand-table{\n  -webkit-transform: scale(1.3);\n          transform: scale(1.3);\n}\n/* loader css */\n.loader-table{\n  width:100%;\n  height:100% !important;\n}\n.dots {\n  width: 100%;\n  margin: 6% 0 0 14% !important;\n  height: 100%;\n  position: absolute;\n}\ni {\n  width: 10px;\n  height: 10px;\n  border-radius: 50%;\n  background: #000;\n  display: block;\n  position: absolute;\n  top: 100px;\n}\n.dot-1 {\n  background: #B6564D;\n  left: 250px;\n  -webkit-animation: anim-1 2s linear infinite;\n}\n.dot-2 {\n  background: #D8AE5C;\n  left: 200px;\n  -webkit-animation: anim-2 2s linear infinite;\n}\n.dot-3 {\n  background: #8ADEA3;\n  left: 350px;\n  -webkit-animation: anim-3 2s linear infinite;\n}\n.dot-4 {\n  background: #3f51b5;\n  left: 300px;\n  -webkit-animation: anim-4 2s linear infinite;\n}\n.dot-5 {\n  background: #D8AE5C;\n  left: 450px;\n  -webkit-animation: anim-5 2s linear infinite;\n}\n.dot-6 {\n  background: #3f51b5;\n  left: 400px;\n  -webkit-animation: anim-6 2s linear infinite;\n}\n@-webkit-keyframes anim-1 {\n  0% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  16% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  18% {\n    -webkit-transform: rotate(24deg) translate(50px);\n  }\n  20% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  33% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  66% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  83% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  100% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n}\n@-webkit-keyframes anim-2 {\n  0% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  16% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  33% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  66% {\n    -webkit-transform: rotate(360deg) translate(50px);\n  }\n  68% {\n    -webkit-transform: rotate(384deg) translate(50px);\n  }\n  70% {\n    -webkit-transform: rotate(360deg) translate(50px);\n  }\n  100% {\n    -webkit-transform: rotate(360deg) translate(50px);\n  }\n}\n@-webkit-keyframes anim-3 {\n  0% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  16% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  33% {\n    -webkit-transform: rotate(-360deg) translate(50px);\n  }\n  35% {\n    -webkit-transform: rotate(-384deg) translate(50px);\n  }\n  37% {\n    -webkit-transform: rotate(-360deg) translate(50px);\n  }\n  66% {\n    -webkit-transform: rotate(-360deg) translate(50px);\n  }\n  83% {\n    -webkit-transform: rotate(-540deg) translate(50px);\n  }\n  85% {\n    -webkit-transform: rotate(-564deg) translate(50px);\n  }\n  87% {\n    -webkit-transform: rotate(-540deg) translate(50px);\n  }\n  100% {\n    -webkit-transform: rotate(-540deg) translate(50px);\n  }\n}\n@-webkit-keyframes anim-4 {\n  0% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  16% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  33% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  35% {\n    -webkit-transform: rotate(-204deg) translate(50px);\n  }\n  37% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  66% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  83% {\n    -webkit-transform: rotate(-360deg) translate(50px);\n  }\n  85% {\n    -webkit-transform: rotate(-384deg) translate(50px);\n  }\n  87% {\n    -webkit-transform: rotate(-360deg) translate(50px);\n  }\n  100% {\n    -webkit-transform: rotate(-360deg) translate(50px);\n  }\n}\n@-webkit-keyframes anim-5 {\n  0% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  16% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  33% {\n    -webkit-transform: rotate(-180deg) translate(50px);\n  }\n  66% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n  68% {\n    -webkit-transform: rotate(204deg) translate(50px);\n  }\n  70% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n  100% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n}\n@-webkit-keyframes anim-6 {\n  0% {\n    -webkit-transform: rotate(0deg) translate(50px);\n  }\n  16% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n  18% {\n    -webkit-transform: rotate(204deg) translate(50px);\n  }\n  20% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n  33% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n  66% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n  83% {\n    -webkit-transform: rotate(180deg) translate(50px);\n  }\n  100% {\n    -webkit-transform: rotate(360deg) translate(50px);\n  }\n}\n.credits {\n  position: absolute;\n  left: 20px;\n  top: 20px;\n  padding: 20px;\n  width: 300px;\n  background: rgba(255, 255, 255, 0.1);\n}\n.credits h1 {\n  font-size: 22px;\n  margin: 0 0 15px;\n  color: #fff;\n}\n.credits p {\n  font-size: 14px;\n  color: #fff;\n  margin: 15px 0 0;\n}\n.credits a {\n  text-decoration: none;\n  color: #fff;\n  border-bottom: 1px solid #fff;\n}\n.credits a:hover {\n  border-bottom: none;\n}\n/* modal using */\n/* div popup style css*/\n/* The Modal (background) */\n.modal {\n  display: none; /* Hidden by default */\n  position: fixed; /* Stay in place */\n  z-index: 1; /* Sit on top */\n  padding-top: 100px; /* Location of the box */\n  left: 0;\n  top: 0;\n  width: 100%; /* Full width */\n  height: 100%; /* Full height */\n  overflow: auto; /* Enable scroll if needed */\n  background-color: rgb(0,0,0); /* Fallback color */\n  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\n/* Modal Content */\n.modal-content {\n  background-color: white;\n  margin: auto;\n  padding: 20px;\n  border: 1px solid #888;\n  width: 80%;\n}\n/* The Close Button */\n.close {\n  color: #aaaaaa;\n  margin:0 0 1% 97%;\n  font-size: 28px;\n  font-weight: bold;\n}\n.close:hover,\n.close:focus {\n  color: #000;\n  text-decoration: none;\n  cursor: pointer;\n}\ntable tr {\ncursor: pointer;\n}\n.popupTable{\ntext-align: center;\nwidth:80%;\nmargin:auto;\n}"
 
 /***/ }),
 
@@ -1137,7 +1142,7 @@ module.exports = ".row{\n  width:100%;\n  padding:10px;\n}\ntable{\n  width:100%
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <mat-card id=\"tablecard\"> -->\n  <div class=\"row no-gutters\">\n    <div class=\"col\" id=\"custom-table\">\n        <table class=\"table table-bordered table-hover\">\n\n          </table>\n    </div>\n  </div>\n        \n    "
+module.exports = "<!-- <mat-card id=\"tablecard\"> -->\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <mat-icon matSuffix style=\"cursor:pointer;float:right\" (click)=\"expandTable();\">zoom_out_map</mat-icon>\n      <p style=\"float:right;margin-right: 8px;margin-top:4px;\">Expand Table</p>\n      <!-- The Modal -->\n    <div id=\"myModal\" class=\"modal\">\n\n        <!-- Modal content -->\n        <div class=\"modal-content\">\n            <span class=\"close\" (click)=close();>&times;</span>\n            <div id=\"append\"></div>\n        </div>\n\n    </div>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col\">\n      <div id=\"loader-table\" style=\"display:none;\">\n        <div class=\"dots\">\n          <i class=\"dot-1\"></i>\n          <i class=\"dot-2\"></i>\n          <i class=\"dot-3\"></i>\n          <i class=\"dot-4\"></i>\n          <i class=\"dot-5\"></i>\n          <i class=\"dot-6\"></i>\n        </div>\n      </div>\n      <div class=\"col\" id=\"custom-table\" style=\"display:none;transition: transform .2s\">\n      </div>\n    </div>\n  </div>"
 
 /***/ }),
 
@@ -1170,26 +1175,45 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var TablecardComponent = /** @class */ (function () {
-    function TablecardComponent(callingBridge, ajax) {
+    function TablecardComponent(callingBridge, ajax, ONCLICK) {
         var _this = this;
         this.callingBridge = callingBridge;
         this.ajax = ajax;
+        this.ONCLICK = ONCLICK;
         //method service which gets selectedOrgUnit from orgunitlibrary
         this.callingBridge.paramsServiceMethod.subscribe(function (params) {
             _this.ou = params[0];
             _this.pe = params[1];
             _this.ds = params[2];
+            if (_this.ou === undefined) {
+                alert("Please select organisation unit");
+                return;
+            }
+            if (_this.pe === undefined) {
+                alert("Please select period");
+                return;
+            }
+            if (_this.ds === undefined) {
+                alert("Please select at least one dataset");
+                return;
+            }
+            jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").remove();
+            jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table p").remove();
+            jquery__WEBPACK_IMPORTED_MODULE_3__("#loader-table").fadeIn(100);
             _this.displayReport();
         });
     }
     TablecardComponent.prototype.displayReport = function () {
         var _this = this;
         this.ajax.getDatasetHTML(this.ou, this.pe, this.ds).subscribe(function (res) {
-            _this.modifyReport(res);
+            setTimeout(function () {
+                jquery__WEBPACK_IMPORTED_MODULE_3__("#loader-table").fadeOut(500);
+                jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table").fadeIn(1000);
+                _this.modifyReport(res);
+            }, 4500);
         });
     };
     TablecardComponent.prototype.modifyReport = function (response) {
-        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table").empty();
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table").append(response);
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").removeAttr("style");
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td span span").removeAttr("style");
@@ -1200,8 +1224,29 @@ var TablecardComponent = /** @class */ (function () {
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("bgcolor");
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("height");
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("width");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").attr("style", "word-wrap:break-word");
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").addClass("table table-bordered table-hover");
-        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").attr("width", "100%");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").attr("style", "max-wdth:100% !important;" +
+            "background-color:white !important;" +
+            "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;");
+        if (this.ds != "h1Q03rJqNQr") {
+            jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").attr("style", "max-wdth:100% !important;" +
+                "background-color:white !important;" +
+                "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;" +
+                "table-layout:fixed;");
+        }
+        // var newRow = '<p style="cursor:pointer;float:right" id="expanded" onClick="expandTable();">click</p>';
+        // $('#custom-table').prepend(newRow);
+    };
+    TablecardComponent.prototype.expandTable = function () {
+        // $('#custom-table').toggleClass('expand-table');
+        var html = jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table").html();
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#append").empty();
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#append").html(html);
+        jquery__WEBPACK_IMPORTED_MODULE_3__(".modal").fadeIn(800);
+    };
+    TablecardComponent.prototype.close = function () {
+        jquery__WEBPACK_IMPORTED_MODULE_3__(".modal").fadeOut(800);
     };
     TablecardComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1209,7 +1254,7 @@ var TablecardComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./tablecard.component.html */ "./src/app/tablecard/tablecard.component.html"),
             styles: [__webpack_require__(/*! ./tablecard.component.css */ "./src/app/tablecard/tablecard.component.css")]
         }),
-        __metadata("design:paramtypes", [src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__["SharedService"], src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__["AjaxserviceService"]])
+        __metadata("design:paramtypes", [src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__["SharedService"], src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__["AjaxserviceService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]])
     ], TablecardComponent);
     return TablecardComponent;
 }());
