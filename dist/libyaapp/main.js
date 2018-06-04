@@ -168,11 +168,6 @@ var AjaxserviceService = /** @class */ (function () {
         this.dataseturl = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["DATASETS_API"];
         this.userorguniturl = src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["USER_ORGUNIT"];
     }
-    //setting manual headers
-    AjaxserviceService.prototype.createAuthorizationHeader = function (headers) {
-        headers.append('Authorization', 'Basic ' +
-            btoa('username:password'));
-    };
     //funtions required
     AjaxserviceService.prototype.getDatasets = function () {
         return this.http.get(this.dataseturl);
@@ -184,8 +179,6 @@ var AjaxserviceService = /** @class */ (function () {
         return this.http.get(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["OU_CHILDREN_BASE"] + child + src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["OU_CHILDREN_FILTER"]);
     };
     AjaxserviceService.prototype.getDatasetHTML = function (ou, pe, ds) {
-        // let headers = new Headers();
-        // this.createAuthorizationHeader(headers);
         return this.http.get(src_app_CONSTANTS__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + 'dataSetReport.json?ds=' + ds + '&pe=' + pe + '&ou=' + ou, { responseType: 'text' });
     };
     AjaxserviceService = __decorate([
@@ -407,7 +400,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".row{\n    text-align: center;\n    height: 100%;\n    padding:30px 10px 10px 20px;\n    border-left:1px solid lightgray;\n  }"
+module.exports = ".row{\n    text-align: center;\n    height: 100%;\n    padding:30px 10px 10px 20px;\n    border-left:1px solid lightgray;\n  }\n  mat-chip{\n    background-color: #3f51b5 !important;\n    color:white !important;\n  }"
 
 /***/ }),
 
@@ -465,7 +458,8 @@ var DatasetstabsComponent = /** @class */ (function () {
             });
             if (chipss)
                 _this.datasetsm = chipss.map(function (x) { return x; });
-            _this.callingBridge.callMethodToSendDataSet(_this.datasetsm);
+            if (chipss.length != 0)
+                _this.callingBridge.callMethodToSendDataSet(_this.datasetsm);
         });
     }
     DatasetstabsComponent.prototype.selectChip = function (chipid) {
@@ -713,7 +707,7 @@ var LoaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".row{\n    padding:30px 10px 10px 20px;\n}\n#outable thead {\n    \tdisplay:block;\n    }\n#outable tbody{\n      display:block;\n      min-height:92%;\n      overflow-y:auto;\n      overflow-x:hidden;\n    }\n.ouselect, .ouid{\n    cursor:pointer !important;\n }\n#outree{\n    border-right:1px solid lightgray;\n    height: 100%;\n}\n"
+module.exports = ".row{\n    padding:30px 10px 10px 20px;\n}\n#outable thead {\n    \tdisplay:block;\n    }\n#outable tbody{\n      display:block;\n      min-height:92%;\n      overflow-y:auto;\n      overflow-x:hidden;\n    }\n.ouselect, .ouid{\n    cursor:pointer !important;\n }\n.ouid{\n     color:#3f51b5 !important;\n }\n.ouselect:hover{\n     color:gray !important;\n }\n#outree{\n    border-right:1px solid lightgray;\n    height: 100%;\n}\n"
 
 /***/ }),
 
@@ -881,7 +875,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
     OrgunitlibraryComponent.prototype.printTable = function (head) {
         for (var i = 0; i < head.length; i++) {
             if (head[i].child)
-                var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+                var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;color:#3f51b5" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
             else
                 var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
             jquery__WEBPACK_IMPORTED_MODULE_3__('#outable > tbody').append(row);
@@ -893,7 +887,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
     OrgunitlibraryComponent.prototype.printOuChild = function (head, rowElement) {
         for (var i = 0; i < head.length; i++) {
             if (head[i].child)
-                var row = '<tr id="' + head[i].id + i + '"  class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+                var row = '<tr id="' + head[i].id + i + '"  class="' + head[i].parent + '"><td style="cursor:pointer !important;color:#3f51b5;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
             else
                 var row = '<tr id="' + head[i].id + i + '" class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
             var index = rowElement.parentElement.rowIndex;
@@ -1006,8 +1000,10 @@ var RightbarselectionsComponent = /** @class */ (function () {
         this.generateReport = function () {
             if (this.selectedPeriodType == "Yearly")
                 this.reportingPeriod = this.selectedYearModel;
-            else
+            if (this.selectedPeriodType == "Weekly")
                 this.reportingPeriod = this.optionvalue;
+            else
+                this.reportingPeriod = this.selectedYearModel + this.optionvalue;
             console.log("Reporting Period: " + this.reportingPeriod + " Selected Orgunit: " + this.selectedOrgUnit + " Selected Dataset: " + this.selectedDataSet);
             this.callingBridge.callMethodToSendParams([this.selectedOrgUnit, this.reportingPeriod, this.selectedDataSet]);
         };
@@ -1141,7 +1137,7 @@ module.exports = ".row{\n  width:100%;\n  padding:10px;\n}\ntable{\n  width:100%
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <mat-card id=\"tablecard\"> -->\n  <div class=\"row no-gutters\">\n    <div class=\"col\">\n        <table class=\"table table-bordered table-striped table-responsive\">\n\n          </table>\n    </div>\n  </div>\n        \n    "
+module.exports = "<!-- <mat-card id=\"tablecard\"> -->\n  <div class=\"row no-gutters\">\n    <div class=\"col\" id=\"custom-table\">\n        <table class=\"table table-bordered table-hover\">\n\n          </table>\n    </div>\n  </div>\n        \n    "
 
 /***/ }),
 
@@ -1158,6 +1154,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_shared_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared.service */ "./src/app/shared.service.ts");
 /* harmony import */ var src_app_ajaxservice_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/ajaxservice.service */ "./src/app/ajaxservice.service.ts");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1167,6 +1165,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1186,13 +1185,23 @@ var TablecardComponent = /** @class */ (function () {
     TablecardComponent.prototype.displayReport = function () {
         var _this = this;
         this.ajax.getDatasetHTML(this.ou, this.pe, this.ds).subscribe(function (res) {
-            console.log(res);
-            setTimeout(function () {
-                _this.modifyReport(res);
-            }, 1000);
+            _this.modifyReport(res);
         });
     };
     TablecardComponent.prototype.modifyReport = function (response) {
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table").empty();
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table").append(response);
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").removeAttr("style");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td span span").removeAttr("style");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td span").removeAttr("style");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("style");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr").removeAttr("style");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr").removeAttr("height");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("bgcolor");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("height");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("width");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").addClass("table table-bordered table-hover");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").attr("width", "100%");
     };
     TablecardComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
