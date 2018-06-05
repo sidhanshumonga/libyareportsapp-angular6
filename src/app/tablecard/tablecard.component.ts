@@ -39,6 +39,7 @@ export class TablecardComponent {
         }
         $("#custom-table table").remove();
         $("#custom-table p").remove();
+        $("#custom-table style").remove();
         $("#loader-table").fadeIn(100);
         this.displayReport();
       }
@@ -65,6 +66,7 @@ export class TablecardComponent {
   modifyReport(response) {
     $("#custom-table").append(response);
     $("#custom-table table").removeAttr("style");
+    $("#custom-table style").remove();
     $("#custom-table table tr td span span").removeAttr("style");
     $("#custom-table table tr td span").removeAttr("style");
     $("#custom-table table tr td").removeAttr("style");

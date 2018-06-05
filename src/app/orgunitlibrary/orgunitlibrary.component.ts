@@ -23,7 +23,7 @@ export class OrgunitlibraryComponent implements OnInit {
   }
   selectedOrgUnit: string;
   checked: string;
-  previousSelection: typearr = { id: "unknown", style: { color: "black" } };
+  previousSelection: any = { id: "unknown",classList: {value:""}, style: { color: "black" } };
   hashmapForClasses = [];
   hashmapForOuSelect = [];
   mapClasses() {
@@ -52,7 +52,7 @@ export class OrgunitlibraryComponent implements OnInit {
     var rowid = element.currentTarget.parentElement;
     //code to change color of selected ou
     element.currentTarget.style.color = "#3f51b5";
-    element.currentTarget.className += " bold";
+    element.currentTarget.classList.add("bold");
     this.selectedOrgUnit = rowid.attributes[0].value;
 
     //function to send selectedOrgunit to generate function
@@ -60,6 +60,7 @@ export class OrgunitlibraryComponent implements OnInit {
     
     //code to change color back to normal on unselect
     if (this.previousSelection.id != element.currentTarget.id) {
+      this.previousSelection.classList.value =  this.previousSelection.classList.value.split(" ")[0];
       this.previousSelection.style.color = "black";
     }
     this.previousSelection = element.currentTarget;
@@ -169,10 +170,11 @@ export class OrgunitlibraryComponent implements OnInit {
 
 }
 
-export interface typearr {
-  id: string,
-  style: typearr2,
-}
-export interface typearr2 {
-  color: string
-}
+// export interface typearr {
+//   id: string,
+//   style: typearr2,
+//   classList:
+// }
+// export interface typearr2 {
+//   color: string
+// }
