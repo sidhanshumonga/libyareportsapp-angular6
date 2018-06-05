@@ -1,0 +1,7 @@
+/dist
+/tmp/out-tsc
+/node_modules
+
+/typings
+/e2e/*.js
+/e2e/*.map

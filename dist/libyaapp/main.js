@@ -758,7 +758,7 @@ var OrgunitlibraryComponent = /** @class */ (function () {
         this.callingBridge = callingBridge;
         this.displayedColumns = ['id', 'name'];
         this.ouHeaders = [];
-        this.previousSelection = { id: "unknown", style: { color: "black" } };
+        this.previousSelection = { id: "unknown", classList: { value: "" }, style: { color: "black" } };
         this.hashmapForClasses = [];
         this.hashmapForOuSelect = [];
         this.padding = 0;
@@ -791,12 +791,13 @@ var OrgunitlibraryComponent = /** @class */ (function () {
         var rowid = element.currentTarget.parentElement;
         //code to change color of selected ou
         element.currentTarget.style.color = "#3f51b5";
-        element.currentTarget.className += " bold";
+        element.currentTarget.classList.add("bold");
         this.selectedOrgUnit = rowid.attributes[0].value;
         //function to send selectedOrgunit to generate function
         this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit.substring(0, this.selectedOrgUnit.length - 1));
         //code to change color back to normal on unselect
         if (this.previousSelection.id != element.currentTarget.id) {
+            this.previousSelection.classList.value = this.previousSelection.classList.value.split(" ")[0];
             this.previousSelection.style.color = "black";
         }
         this.previousSelection = element.currentTarget;
@@ -917,6 +918,14 @@ var OrgunitlibraryComponent = /** @class */ (function () {
     return OrgunitlibraryComponent;
 }());
 
+// export interface typearr {
+//   id: string,
+//   style: typearr2,
+//   classList:
+// }
+// export interface typearr2 {
+//   color: string
+// }
 
 
 /***/ }),
@@ -1210,6 +1219,7 @@ var TablecardComponent = /** @class */ (function () {
             }
             jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").remove();
             jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table p").remove();
+            jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table style").remove();
             jquery__WEBPACK_IMPORTED_MODULE_3__("#loader-table").fadeIn(100);
             _this.displayReport();
         });
@@ -1233,6 +1243,7 @@ var TablecardComponent = /** @class */ (function () {
     TablecardComponent.prototype.modifyReport = function (response) {
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table").append(response);
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table").removeAttr("style");
+        jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table style").remove();
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td span span").removeAttr("style");
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td span").removeAttr("style");
         jquery__WEBPACK_IMPORTED_MODULE_3__("#custom-table table tr td").removeAttr("style");
