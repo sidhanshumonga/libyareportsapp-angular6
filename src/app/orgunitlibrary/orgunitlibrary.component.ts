@@ -14,9 +14,7 @@ import * as arrays from 'src/app/CONSTANTS';
 
 export class OrgunitlibraryComponent implements OnInit {
 
-  ougroups =  [
-    { value: 'Ewarn Report', viewValue: 'Ewarn Report' },
-  ];
+  ougroups =  [];
   displayedColumns = ['id', 'name'];
   ouHeaders = [];
   // row:string;
@@ -196,6 +194,8 @@ export class OrgunitlibraryComponent implements OnInit {
   callOuGroups(orgunit){
     this.orgunitService.getOuGroups(orgunit)
     .subscribe(res => {
+      this.ougroups = [];
+      this.ougroups.push({ value: 'Ewarn Report', viewValue: 'Ewarn Report' });
       for(var i=0;i<res.organisationUnitGroups.length;i++){
         if(res.organisationUnitGroups[i].id in arrays.OU_GROUPS_NAME){
           var values = arrays.OU_GROUPS_NAME[res.organisationUnitGroups[i].id];
