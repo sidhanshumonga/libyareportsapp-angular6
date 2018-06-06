@@ -57,4 +57,11 @@ export class SharedService {
     this.methodToSendParams.next(array);
   }
 
+  //code to call function from orglibrary to headers
+  public methodToSendOu = new Subject<any>();
+  ouServiceMethod = this.methodToSendOu.asObservable();
+  callMethodToSendOu(array){
+    this.methodToSendOu.next(array);
+  }
+
 }
