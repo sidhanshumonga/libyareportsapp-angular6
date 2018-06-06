@@ -1,11 +1,15 @@
-<div class="row no-gutters">
+<div class="row no-gutters" id='hide'>
+  <br>
+  <mat-icon (click)="showme();" style="padding:0;margin:30px 20px 0 0;color:white;cursor:pointer"> clear </mat-icon>
   <div class="col">
-      <mat-chip-list #chipList>
-          <mat-chip *ngFor="let data of datasetsm" [selectable]="selectable" [value]="data.id" (update)="selectionChange($event)" [removable]="removable"
-            (removed)="remove(data)" (click)="selectChip(data.id)">
-            {{data.name}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-        </mat-chip-list>
+    <br>
+    <br>
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let data of datasetsm" [selectable]="selectable" [value]="data.id" (update)="selectionChange($event)" [removable]="removable"
+        (removed)="remove(data)" (click)="selectChip(data.id)">
+        {{data.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
   </div>
 </div>
