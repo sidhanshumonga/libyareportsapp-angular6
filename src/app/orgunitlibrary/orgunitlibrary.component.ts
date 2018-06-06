@@ -3,6 +3,7 @@ import { AjaxserviceService } from 'src/app/ajaxservice.service';
 import { SharedService } from 'src/app/shared.service'
 import * as $ from 'jquery';
 import { UtilityserviceService } from 'src/app/utilityservice.service';
+import * as arrays from 'src/app/CONSTANTS';
 
 @Component({
   selector: 'app-orgunitlibrary',
@@ -12,6 +13,10 @@ import { UtilityserviceService } from 'src/app/utilityservice.service';
 
 
 export class OrgunitlibraryComponent implements OnInit {
+
+  ougroups =  [
+    { value: 'Ewarn Report', viewValue: 'Ewarn Report' },
+  ];
   displayedColumns = ['id', 'name'];
   ouHeaders = [];
   // row:string;
@@ -24,7 +29,7 @@ export class OrgunitlibraryComponent implements OnInit {
   }
   selectedOrgUnit: string;
   checked: string;
-  previousSelection: any = { id: "unknown",classList: {value:""}, style: { color: "black" } };
+  previousSelection: any = { id: "unknown", classList: { value: "" }, style: { color: "black" } };
   hashmapForClasses = [];
   hashmapForOuSelect = [];
   mapClasses() {
@@ -51,10 +56,16 @@ export class OrgunitlibraryComponent implements OnInit {
 
   ouselect(element) {
     var rowid = element.currentTarget.parentElement;
+
+
     //code to change color of selected ou
     element.currentTarget.style.color = "#3f51b5";
     element.currentTarget.classList.add("bold");
-    this.selectedOrgUnit = rowid.attributes[0].value.substring(0,11);
+    this.selectedOrgUnit = rowid.attributes[0].value.substring(0, 11);
+
+    //calling function to check ou level and validating further filter for datasets
+    this.checkOulevel(this.selectedOrgUnit);
+
     let utility = new UtilityserviceService();
     //setting ou name in header
     this.orgunitService.getOuName(this.selectedOrgUnit)
@@ -64,10 +75,10 @@ export class OrgunitlibraryComponent implements OnInit {
       });
     //function to send selectedOrgunit to generate function
     this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit);
-    
+
     //code to change color back to normal on unselect
     if (this.previousSelection.id != element.currentTarget.id) {
-      this.previousSelection.classList.value =  this.previousSelection.classList.value.split(" ")[0];
+      this.previousSelection.classList.value = this.previousSelection.classList.value.split(" ")[0];
       this.previousSelection.style.color = "black";
     }
     this.previousSelection = element.currentTarget;
@@ -170,6 +181,29 @@ export class OrgunitlibraryComponent implements OnInit {
       allrows[t].remove();
     }
     // $("#outable tr:gt(" + rowIndex + "):lt(" + (num) + ")").remove();
+  }
+
+  checkOulevel(orgunit) {
+    this.orgunitService.getOuLevel(orgunit)
+    .subscribe(response => {
+      if(response.level == "1" || response.level == "2"){}
+      else{
+        this.callOuGroups(orgunit);
+      }
+    });
+  }
+
+  callOuGroups(orgunit){
+    this.orgunitService.getOuGroups(orgunit)
+    .subscribe(res => {
+      for(var i=0;i<res.organisationUnitGroups.length;i++){
+        if(res.organisationUnitGroups[i].id in arrays.OU_GROUPS_NAME){
+          var values = arrays.OU_GROUPS_NAME[res.organisationUnitGroups[i].id];
+          this.ougroups.push({ value: values, viewValue: values });
+        }
+      }
+     this.callingBridge.callMethodToSendOu(this.ougroups);
+    });
   }
 
 
