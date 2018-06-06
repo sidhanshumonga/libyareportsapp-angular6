@@ -26,16 +26,20 @@ export class AjaxserviceService {
     return this.http.get<any>(this.dataseturl);
   }
 
-  getUserOu():Observable<any>{
-     return this.http.get<any>(this.userorguniturl);
+  getUserOu(): Observable<any> {
+    return this.http.get<any>(this.userorguniturl);
   }
 
-  getChildOu(child:string): Observable<any>{
-    return this.http.get<any>(x.BASE_URL+x.OU_CHILDREN_BASE+child+x.OU_CHILDREN_FILTER);
+  getChildOu(child: string): Observable<any> {
+    return this.http.get<any>(x.BASE_URL + x.OU_CHILDREN_BASE + child + x.OU_CHILDREN_FILTER);
   }
 
-  getDatasetHTML(ou:string, pe:string, ds:string):Observable<any>{
-    return this.http.get(x.BASE_URL+'dataSetReport.json?ds=' + ds + '&pe=' + pe + '&ou=' + ou, {responseType:'text'});
+  getDatasetHTML(ou: string, pe: string, ds: string): Observable<any> {
+    return this.http.get(x.BASE_URL + 'dataSetReport.json?ds=' + ds + '&pe=' + pe + '&ou=' + ou, { responseType: 'text' });
+  }
+
+  getOuName(ou: string): Observable<any> {
+    return this.http.get(x.BASE_URL + "organisationUnits/" + ou + ".json?fields=displayName");
   }
 
 }
