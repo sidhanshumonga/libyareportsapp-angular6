@@ -2,7 +2,7 @@ body{
   background-color: #E8EAF6 !important;
 }
 .custom-header-fixed{
-  padding:15px 0 0 180px;
+  padding:15px 0 0 150px;
   color:white;
   z-index:99999 !important;
 }
