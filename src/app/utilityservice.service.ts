@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as arrays from 'src/app/CONSTANTS'
+import { IfStmt } from '@angular/compiler';
 // import { AjaxserviceService } from 'src/app/ajaxservice.service';
 
 @Injectable({
@@ -43,10 +44,11 @@ export class UtilityserviceService {
       $("#selected-dataset-name").text(dsname);
     }
     else if (type == "pe") {
+      if(value.length>6)var name = this.periodName(value.substring(4, 7));
+      else  var name = this.periodName(value.substring(4, 6));
       var year = value.substring(0, 4);
-      var name = this.periodName(value.substring(4, 6));
       if(name === undefined)name = "";
-      $("#selected-period-name").text(name + " " + year);
+      $("#selected-period-name").text(name + ", " + year);
     }
     else if (type == "ou") {
       $("#selected-ou-name").text(value);
