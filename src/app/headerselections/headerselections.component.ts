@@ -36,6 +36,7 @@ export class HeaderselectionsComponent {
 
 
   constructor(private callingBridge: SharedService, private ajaxService: AjaxserviceService) {
+    
     //method which gets values from datasettabs!
     this.callingBridge.unselectServiceMethod.subscribe(
       (chipss) => {

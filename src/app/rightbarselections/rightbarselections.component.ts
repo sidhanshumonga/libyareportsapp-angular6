@@ -76,10 +76,6 @@ export class RightbarselectionsComponent {
     this.callingBridge.dataSetServiceMethod.subscribe(
       (ds) => {
         if(typeof ds == "object")this.selectedDataSet = ds[0].id;
-        if(typeof ds == "string"){
-          this.selectedDataSet = ds;
-          this.generateReport();
-        }
       }
     );
   }
