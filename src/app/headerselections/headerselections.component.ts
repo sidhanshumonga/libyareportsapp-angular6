@@ -48,6 +48,12 @@ export class HeaderselectionsComponent {
         if(ou!==undefined) this.ouisthere=true;
       }
     );
+
+    this.callingBridge.ouServiceMethod.subscribe(
+      (array) => {
+         this.reports = array.map(x => x);
+      }
+    );
   }
 
 
