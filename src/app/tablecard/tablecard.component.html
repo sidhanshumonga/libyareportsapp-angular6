@@ -2,6 +2,7 @@
 
   <div class="row">
     <div class="col">
+      <button class="btn btn-default" (click)="exportToExcel()" >Export to excel</button>
       <mat-icon class="ex-element" matSuffix style="cursor:pointer;float:right" (click)="expandTable();">zoom_out_map</mat-icon>
       <p class="ex-element" style="float:right;margin-right: 8px;margin-top:4px;">Expand Table</p>
       <!-- The Modal -->
@@ -28,7 +29,13 @@
           <i class="dot-6"></i>
         </div>
       </div>
-      <div class="col" id="custom-table" style="display:none;transition: transform .2s">
+      <div class="col" id="custom-table-div" style="display:none;transition: transform .2s">
+        <table class="custom-table">
+
+        </table>
+        <table class="custom-print-table" style="display:none">
+
+        </table>
       </div>
     </div>
   </div>

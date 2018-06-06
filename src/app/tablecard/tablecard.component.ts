@@ -4,6 +4,8 @@ import { AjaxserviceService } from 'src/app/ajaxservice.service';
 import * as $ from 'jquery';
 import { LoaderComponent } from 'src/app/loader/loader.component';
 import { MatSnackBar } from '@angular/material';
+import { UtilityserviceService } from '../utilityservice.service';
+import * as arrays from 'src/app/CONSTANTS';
 
 @Component({
   selector: 'app-tablecard',
@@ -17,8 +19,25 @@ export class TablecardComponent {
   ou: string;
   pe: any;
   ds: string;
+  selectedDatasets: any;
+
+  dsNames = [];
+  dsIds = [];
 
   constructor(private callingBridge: SharedService, private ajax: AjaxserviceService, public snackBar: MatSnackBar) {
+    // method service which gets selectedDataset from datasetstab
+    this.callingBridge.dataSetServiceMethod.subscribe(
+      (ds) => {
+        if (typeof ds == "object") {
+          this.selectedDatasets = ds;
+          for (let k in this.selectedDatasets) {
+            this.dsNames.push(this.selectedDatasets[k].name);
+          }
+        }
+      }
+    );
+
+
     //method service which gets selectedOrgUnit from orgunitlibrary
     this.callingBridge.paramsServiceMethod.subscribe(
       (params) => {
@@ -30,18 +49,18 @@ export class TablecardComponent {
           return;
         }
         if (this.pe === undefined) {
-          this.openSnackBar("Please select period","Error");
+          this.openSnackBar("Please select period", "Error");
           return;
         }
         if (this.ds === undefined) {
-          this.openSnackBar("Please select at least one dataset","Error");
+          this.openSnackBar("Please select at least one dataset", "Error");
           return;
         }
-        $("#custom-table table").remove();
-        $("#custom-table p").remove();
-        $("#custom-table style").remove();
+        $(".custom-table").empty();
+        $(".custom-table p").remove();
+        $(".custom-table style").remove();
         $("#loader-table").fadeIn(100);
-        this.displayReport();
+        this.displayReport(this.ou, this.pe, this.ds);
       }
     );
   }
@@ -52,48 +71,59 @@ export class TablecardComponent {
     });
   }
 
-  displayReport() {
-    this.ajax.getDatasetHTML(this.ou, this.pe, this.ds).subscribe(res => {
+  displayReport(ou, pe, ds) {
+    this.ajax.getDatasetHTML(ou, pe, ds).subscribe(res => {
       setTimeout(() => {
         $("#loader-table").fadeOut(500);
         $(".ex-element").show();
-        $("#custom-table").fadeIn(1000);
+        $("#custom-table-div").fadeIn(1000);
         this.modifyReport(res);
       }, 3500);
     });
   }
 
   modifyReport(response) {
-    $("#custom-table").append(response);
-    $("#custom-table table").removeAttr("style");
-    $("#custom-table style").remove();
-    $("#custom-table table tr td span span").removeAttr("style");
-    $("#custom-table table tr td span").removeAttr("style");
-    $("#custom-table table tr td").removeAttr("style");
-    $("#custom-table table tr").removeAttr("style");
-    $("#custom-table table tr").removeAttr("height");
-    $("#custom-table table tr td").removeAttr("bgcolor");
-    $("#custom-table table tr td").removeAttr("height");
-    $("#custom-table table tr td").removeAttr("width");
-    $("#custom-table table tr td").attr("style", "word-wrap:break-word");
-    $("#custom-table table").addClass("table table-bordered");
-    $("#custom-table table").attr("style", "max-wdth:100% !important;" +
-      "background-color:white !important;" +
-      "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;");
+    $(".custom-print-table").attr("id", "table1");
+    $(".custom-table").append(response);
+    $(".custom-table table").removeAttr("style");
+    $(".custom-table style").remove();
+    $(".custom-table table tr td span span").removeAttr("style");
+    $(".custom-table table tr td span").removeAttr("style");
+    $(".custom-table table tr td").removeAttr("style");
+    $(".custom-table table tr").removeAttr("style");
+    $(".custom-table table tr").removeAttr("height");
+    $(".custom-table table tr td").removeAttr("bgcolor");
+    $(".custom-table table tr td").removeAttr("height");
+    $(".custom-table table tr td").removeAttr("width");
+    $(".custom-table tr td").attr("style", "word-wrap:break-word;;border:1px solid black");
+    // $(".custom-table table").attr("id", "table1");
+    $(".custom-table").addClass("table table-bordered table2excel");
     if (this.ds != "h1Q03rJqNQr") {
-      $("#custom-table table").attr("style", "max-width:100% !important;" +
+      $(".custom-table").attr("style", "max-width:100% !important;" +
         "background-color:white !important;" +
         "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;" +
         "table-layout:fixed;");
     }
-    // var newRow = '<p style="cursor:pointer;float:right" id="expanded" onClick="expandTable();">click</p>';
-    // $('#custom-table').prepend(newRow);
+    else {
+      $(".custom-table").attr("style", "max-wdth:100% !important" +
+        "background-color:white !important;" +
+        "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;");
+    }
 
+    $('table td:has(span)').text(function () {
+      return $(this).text()
+    })
+
+    $('.custom-print-table').html($('#custom-table-div table').html());
+
+    $('.custom-print-table table:has(table)').html(function () {
+      return $(this).html()
+    });
   }
 
   expandTable() {
-    // $('#custom-table').toggleClass('expand-table');
-    var html = $("#custom-table").html();
+    // $('.custom-table').toggleClass('expand-table');
+    var html = $(".custom-table").html();
     $("#append").empty();
     $("#append").html(html);
     $(".modal").fadeIn(800);
@@ -102,6 +132,16 @@ export class TablecardComponent {
     $(".modal").fadeOut(800);
   }
 
+  exportToExcel() {
+    let util = new UtilityserviceService();
+    util.tablesToExcel(['table1'], ['Dataset'], 'Datasets-Report.xls', 'Excel');
+  }
+
+
+  exportAllToExcel() {
+    let util = new UtilityserviceService();
+    // util.tablesToExcel(, ['Dataset'], 'Datasets-Report.xls', 'Excel');
+  }
 
 
 }
