@@ -142,3 +142,9 @@ export const DATASETS_ID_MEDICALCENTER = [
     { id: 'NVirEUvg4lE', name: "Hospital/Medical Centre Infectious Disease and Deaths Dataset" },
     { id: 'fyIza2Ggy2G', name: "Hospital/Medical Centre Infectious Disease Dataset (Age group)" },
     { id: 'n71AgyCV7gp', name: "Physiotherapy Services Dataset" }];
+
+export const OU_GROUPS_NAME = {
+    "TPE768p23aH" : "Hospital Report",
+    "pZCH1H9sAO6" : "PHC Report",
+    "uvtFGpk1C86" : "Medical Center"
+}
