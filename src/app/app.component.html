@@ -1,30 +1,58 @@
 <app-loader id="loader"></app-loader>
+<div class="row flex-xl-nowrap" style="min-width:101%;min-height:50px;background-color: #3f51b5;position: fixed;z-index:9999">
 
-<div class="row no-gutters flex-xl-nowrap clearfix" style="min-height:100vh;display: none;" id="mainPage">
-    <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+    <div class="col custom-header-fixed" id="selected-ou-name">
+        
+    </div>
+    <div class="col custom-header-fixed" id="selected-report-name">
+        
+    </div>
+    <div class="col custom-header-fixed" id="selected-period-name">
+        
+    </div>
+    <div class="col custom-header-fixed" id="selected-dataset-name">
+        
+    </div>
+
+</div>
+<div class="row no-gutters flex-xl-nowrap clearfix" style="min-height:100vh;display: none;padding-top:50px;z-index: 1;" id="mainPage">
+    <div class="col" style="padding:30px 0 0 20px;min-width:250px">
         <app-orgunitlibrary></app-orgunitlibrary>
     </div>
-    <!-- <mat-divider [vertical]="true"></mat-divider> -->
-    <div class="col-lg-8 col-12 col-md-9 col-xl-8 py-md-1 pl-md-3">
+    <!-- <div class="row " > -->
+
+    <mat-divider [vertical]="true"></mat-divider>
+    <div class="col wrapper col-lg-10">
         <div class="row">
-            <div class="col">
+            <div class="col col-lg-10">
                 <app-headerselections></app-headerselections>
             </div>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="row">
             <div class="col">
+                <button type="button" id="sidebarCollapse" class="btn btn-info primary" style="margin:20px 10px 0 0;cursor:pointer">
+                        <span id="dataset-count" class="badge badge-light">0</span>
+                    Selected Datasets
+                </button>
+            </div>
+        </div>
+        <mat-divider class="col-lg-10"></mat-divider>
+        <div class="row">
+            <div class="col col-lg-10">
                 <app-rightbarselections></app-rightbarselections>
             </div>
-        </div><br><br>
+        </div>
+        <br>
         <div class="row">
-            <div class="col">
+            <div class="col col-lg-12">
                 <app-tablecard></app-tablecard>
             </div>
         </div>
     </div>
-    <!-- <mat-divider [vertical]="true"></mat-divider> -->
-    <div class="d-none d-xl-block col-xl-2 bd-toc">
-        <app-datasetstabs></app-datasetstabs>
+    <div class="col">
+        <nav id="sidebar" style="display: none">
+            <app-datasetstabs></app-datasetstabs>
+        </nav>
+
     </div>
-</div>
+    <div class="overlay">
+        <div>
+        </div>
