@@ -29,6 +29,7 @@ export class RightbarselectionsComponent {
 
   optionvalue: string;
   disable: boolean;
+  isthereou:boolean = false;
 
 
 
@@ -67,6 +68,7 @@ export class RightbarselectionsComponent {
     this.callingBridge.orgUnitServiceMethod.subscribe(
       (ou) => {
         this.selectedOrgUnit = ou;
+        if(ou !== undefined)this.isthereou = true;
       }
     );
 
