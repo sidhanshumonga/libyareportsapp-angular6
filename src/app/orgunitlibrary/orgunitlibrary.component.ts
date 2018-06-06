@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { AjaxserviceService } from 'src/app/ajaxservice.service';
 import { SharedService } from 'src/app/shared.service'
 import * as $ from 'jquery';
+import { UtilityserviceService } from 'src/app/utilityservice.service';
 
 @Component({
   selector: 'app-orgunitlibrary',
@@ -53,10 +54,16 @@ export class OrgunitlibraryComponent implements OnInit {
     //code to change color of selected ou
     element.currentTarget.style.color = "#3f51b5";
     element.currentTarget.classList.add("bold");
-    this.selectedOrgUnit = rowid.attributes[0].value;
-
+    this.selectedOrgUnit = rowid.attributes[0].value.substring(0,11);
+    let utility = new UtilityserviceService();
+    //setting ou name in header
+    this.orgunitService.getOuName(this.selectedOrgUnit)
+      .subscribe(response => {
+        var name = response.displayName;
+        utility.setHeaders("ou", name);
+      });
     //function to send selectedOrgunit to generate function
-    this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit.substring(0,this.selectedOrgUnit.length-1));
+    this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit);
     
     //code to change color back to normal on unselect
     if (this.previousSelection.id != element.currentTarget.id) {

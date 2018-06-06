@@ -98,5 +98,8 @@ export class RightbarselectionsComponent {
    // console.log("Reporting Period: "+this.reportingPeriod+" Selected Orgunit: "+ this.selectedOrgUnit+" Selected Dataset: "+ this.selectedDataSet);
     if(this.selectedYearModel===undefined || (this.optionvalue===undefined && this.selectedPeriodType != "Yearly")){this.openSnackBar("Please select period","Error");return;}
     this.callingBridge.callMethodToSendParams([this.selectedOrgUnit,this.reportingPeriod,this.selectedDataSet]);
+
+    let utility = new UtilityserviceService();
+    utility.setHeaders("pe", this.reportingPeriod);
   };
 }

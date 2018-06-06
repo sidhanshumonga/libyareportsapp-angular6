@@ -3,6 +3,8 @@ import { AppModule } from 'src/app/app.module';
 import { MatSelectModule } from '@angular/material';
 import { SharedService } from 'src/app/shared.service';
 import { HeaderselectionsComponent } from 'src/app/headerselections/headerselections.component';
+import * as $ from 'jquery';
+import { UtilityserviceService } from '../utilityservice.service';
 
 @Component({
   selector: 'app-datasetstabs',
@@ -14,7 +16,8 @@ export class DatasetstabsComponent {
   selectable: boolean = true;
   removable: boolean = true;
   addOnBlur: boolean = true;
-  selectedDataset:string;
+  selectedDataset: string;
+  disable: boolean = false;
 
   datasetsm = [];
   constructor(private callingBridge: SharedService) {
@@ -30,14 +33,22 @@ export class DatasetstabsComponent {
           return 0 //default return value (no sorting)
         })
         if (chipss) this.datasetsm = chipss.map(x => x);
-        if(chipss.length!=0)this.callingBridge.callMethodToSendDataSet(this.datasetsm);
-
+        if (chipss.length != 0) {
+          this.callingBridge.callMethodToSendDataSet(this.datasetsm);
+          let utility = new UtilityserviceService();
+          utility.setHeaders("ds", this.datasetsm[0].id);
+        }
+        $("#dataset-count").text(this.datasetsm.length);
       }
     );
   }
 
-  selectChip(chipid: any): void{
+  selectChip(chipid: any): void {
+    $('#sidebar').removeClass('active');
+    $('.overlay').fadeOut();
     this.selectedDataset = chipid;
+    let utility = new UtilityserviceService();
+    utility.setHeaders("ds", this.selectedDataset);
     this.callingBridge.callMethodToSendDataSet(this.selectedDataset);
   }
 
@@ -47,8 +58,18 @@ export class DatasetstabsComponent {
     if (index >= 0) {
       this.datasetsm.splice(index, 1);
       this.callingBridge.callMethodToUnselect(this.datasetsm);
-      if(index==0)this.callingBridge.callMethodToSendDataSet(this.datasetsm[0].id);
+      $("#dataset-count").text(this.datasetsm.length);
+      if (index == 0) {
+        this.callingBridge.callMethodToSendDataSet(this.datasetsm[0].id);
+        let utility = new UtilityserviceService();
+        utility.setHeaders("ds", this.datasetsm[0].id);
+      }
     }
+  }
+
+  showme() {
+    $('#sidebar').removeClass('active');
+    $('.overlay').fadeOut();
   }
 
 }

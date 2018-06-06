@@ -6,6 +6,7 @@ import { DatasetstabsComponent } from 'src/app/datasetstabs/datasetstabs.compone
 import { SharedService } from 'src/app/shared.service';
 import { AjaxserviceService } from 'src/app/ajaxservice.service';
 import * as x from 'src/app/CONSTANTS';
+import { UtilityserviceService } from 'src/app/utilityservice.service';
 
 @Component({
   selector: 'app-headerselections',
@@ -59,11 +60,11 @@ export class HeaderselectionsComponent {
               if (attr[j].attribute.name == 'Report app' && attr[j].value == 'true') {
                 for (var k = 0; k < attr.length; k++) {
                   // if (attr[k].attribute.name != 'Report app' && attr[k].value == 'true') {
-                    if (attr[k].attribute.name == this.reportName) {
-                      var obj = { 'name': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
-                      this.datasetsArray.push(obj);
-                    }
+                  if (attr[k].attribute.name == this.reportName) {
+                    var obj = { 'name': datasets[i].name, 'value': attr[k].attribute.name, 'id': datasets[i].id }; // attr[k].attribute.name};
+                    this.datasetsArray.push(obj);
                   }
+                }
                 // }
               }
             }
@@ -73,6 +74,8 @@ export class HeaderselectionsComponent {
   }
 
   validatePeriods() {
+    let utility = new UtilityserviceService();
+    utility.setHeaders("rn", this.reportName);
     if (this.reportName == "Ewarn Report") {
       this.chipsService.callMethodToValidatePeriods(true);
       if (!this.checked) this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
