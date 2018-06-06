@@ -33,13 +33,17 @@ export class DatasetstabsComponent {
           return 0 //default return value (no sorting)
         })
         if (chipss) this.datasetsm = chipss.map(x => x);
+        
         if (chipss.length != 0) {
           this.callingBridge.callMethodToSendDataSet(this.datasetsm);
           let utility = new UtilityserviceService();
           utility.setHeaders("ds", this.datasetsm[0].id);
         }
+        
         $("#dataset-count").text(this.datasetsm.length);
+        
         $("#dataset-count").toggleClass("animated bounce");
+        
         //shake effect
         setTimeout(function () {
           $("#dataset-count").toggleClass("animated bounce");
@@ -72,7 +76,7 @@ export class DatasetstabsComponent {
         }, 1500);
 
       if (index == 0) {
-        this.callingBridge.callMethodToSendDataSet(this.datasetsm[0].id);
+        this.callingBridge.callMethodToSendDataSet(this.datasetsm);
         let utility = new UtilityserviceService();
         utility.setHeaders("ds", this.datasetsm[0].id);
       }
