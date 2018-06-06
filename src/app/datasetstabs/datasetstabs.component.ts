@@ -39,6 +39,12 @@ export class DatasetstabsComponent {
           utility.setHeaders("ds", this.datasetsm[0].id);
         }
         $("#dataset-count").text(this.datasetsm.length);
+        $("#dataset-count").toggleClass("animated bounce");
+        //shake effect
+        setTimeout(function () {
+          $("#dataset-count").toggleClass("animated bounce");
+        }, 1500);
+
       }
     );
   }
@@ -59,6 +65,12 @@ export class DatasetstabsComponent {
       this.datasetsm.splice(index, 1);
       this.callingBridge.callMethodToUnselect(this.datasetsm);
       $("#dataset-count").text(this.datasetsm.length);
+      $("#dataset-count").toggleClass("animated bounce");
+        //shake effect
+        setTimeout(function () {
+          $("#dataset-count").toggleClass("animated bounce");
+        }, 1500);
+
       if (index == 0) {
         this.callingBridge.callMethodToSendDataSet(this.datasetsm[0].id);
         let utility = new UtilityserviceService();
