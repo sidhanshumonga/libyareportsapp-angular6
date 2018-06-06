@@ -42,4 +42,12 @@ export class AjaxserviceService {
     return this.http.get(x.BASE_URL + "organisationUnits/" + ou + ".json?fields=displayName");
   }
 
+  getOuLevel(ou:string): Observable<any>{
+    return this.http.get(x.BASE_URL + "organisationUnits/" + ou + ".json?fields=level");
+  }
+
+  getOuGroups(ou:string): Observable<any>{
+    return this.http.get(x.BASE_URL + "organisationUnits/" + ou + ".json?fields=organisationUnitGroups[id,name]");
+  }
+
 }
