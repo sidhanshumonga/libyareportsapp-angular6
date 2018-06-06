@@ -6,7 +6,7 @@
     }
   #outable tbody{
       display:block;
-      min-height:92%;
+      max-height:85vh;
       overflow-y:auto;
       overflow-x:hidden;
     }
