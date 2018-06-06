@@ -45,6 +45,7 @@ export class UtilityserviceService {
     else if (type == "pe") {
       var year = value.substring(0, 4);
       var name = this.periodName(value.substring(4, 6));
+      if(name === undefined)name = "";
       $("#selected-period-name").text(name + " " + year);
     }
     else if (type == "ou") {
