@@ -32,20 +32,29 @@ export class HeaderselectionsComponent {
   reportName: string;
   datasetsArray = [];
   checked: boolean;
+  ouisthere:boolean = false;
 
 
-  constructor(private chipsService: SharedService, private ajaxService: AjaxserviceService) {
+  constructor(private callingBridge: SharedService, private ajaxService: AjaxserviceService) {
     //method which gets values from datasettabs!
-    this.chipsService.unselectServiceMethod.subscribe(
+    this.callingBridge.unselectServiceMethod.subscribe(
       (chipss) => {
         if (chipss) this.selectedvalues = chipss.map(x => x);
       }
     );
+
+    this.callingBridge.orgUnitServiceMethod.subscribe(
+      (ou) => {
+        if(ou!==undefined) this.ouisthere=true;
+      }
+    );
   }
+
+
 
   chips(event, value) {
     //service to send values in datasettabs!
-    this.chipsService.callMethodToChangeChips(value);
+    this.callingBridge.callMethodToChangeChips(value);
   };
 
   getDatasets() {
@@ -77,25 +86,25 @@ export class HeaderselectionsComponent {
     let utility = new UtilityserviceService();
     utility.setHeaders("rn", this.reportName);
     if (this.reportName == "Ewarn Report") {
-      this.chipsService.callMethodToValidatePeriods(true);
-      if (!this.checked) this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
+      this.callingBridge.callMethodToValidatePeriods(true);
+      if (!this.checked) this.callingBridge.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
     }
     else {
-      this.chipsService.callMethodToValidatePeriods(false);
-      if (this.reportName == "PHC Report" && !this.checked) this.chipsService.callMethodToChangeChips(x.DATASETS_ID_PHC);
-      if (this.reportName == "Hospital Report" && !this.checked) this.chipsService.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
-      if (this.reportName == "Medical Center" && !this.checked) this.chipsService.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
+      this.callingBridge.callMethodToValidatePeriods(false);
+      if (this.reportName == "PHC Report" && !this.checked) this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_PHC);
+      if (this.reportName == "Hospital Report" && !this.checked) this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
+      if (this.reportName == "Medical Center" && !this.checked) this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
     }
     this.getDatasets();
   }
 
   clearChips(val) {
-    if (!val && this.reportName != "Ewarn Report") this.chipsService.callMethodToChangeChips([]);
+    if (!val && this.reportName != "Ewarn Report") this.callingBridge.callMethodToChangeChips([]);
     else {
-      if (this.reportName == "Ewarn Report") this.chipsService.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
-      if (this.reportName == "PHC Report") this.chipsService.callMethodToChangeChips(x.DATASETS_ID_PHC);
-      if (this.reportName == "Hospital Report") this.chipsService.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
-      if (this.reportName == "Medical Center") this.chipsService.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
+      if (this.reportName == "Ewarn Report") this.callingBridge.callMethodToChangeChips(x.DATASET_ID_EWARN_REPORT);
+      if (this.reportName == "PHC Report") this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_PHC);
+      if (this.reportName == "Hospital Report") this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
+      if (this.reportName == "Medical Center") this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
     }
   }
 
