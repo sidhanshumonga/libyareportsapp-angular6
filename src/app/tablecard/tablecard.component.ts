@@ -95,17 +95,19 @@ export class TablecardComponent {
     $(".custom-table table tr td").removeAttr("bgcolor");
     $(".custom-table table tr td").removeAttr("height");
     $(".custom-table table tr td").removeAttr("width");
-    $(".custom-table tr td").attr("style", "word-wrap:break-word;;border:1px solid black");
+    $(".custom-table table").removeAttr("height");
+    $(".custom-table table").removeAttr("width");
+    $(".custom-table tr td").attr("style", "word-wrap:break-word;");
     // $(".custom-table table").attr("id", "table1");
-    $(".custom-table").addClass("table table-bordered table2excel");
+    $(".custom-table table").addClass("table table-bordered table2excel");
     if (this.ds != "h1Q03rJqNQr") {
-      $(".custom-table").attr("style", "max-width:100% !important;" +
+      $(".custom-table table").attr("style", "max-width:100% !important;" +
         "background-color:white !important;" +
         "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;" +
         "table-layout:fixed;");
     }
     else {
-      $(".custom-table").attr("style", "max-wdth:100% !important" +
+      $(".custom-table table").attr("style", "max-width:100% !important;" +
         "background-color:white !important;" +
         "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;");
     }
