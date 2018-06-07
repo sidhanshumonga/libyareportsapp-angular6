@@ -1,7 +1,7 @@
-<div class="row">
+<div class="row no-gutters">
     <div class="col">
       <!-- selection dropdown for reports -->
-      <mat-form-field matTooltip="Select Organisation Unit first" matTooltipPosition="left">
+      <mat-form-field>
         <mat-select placeholder="Select report" [(ngModel)]="reportName"  required [disabled]="!ouisthere">
           <mat-option *ngFor="let report of reports" [value]="report.value" (click)="validatePeriods()">
             {{ report.viewValue }}
