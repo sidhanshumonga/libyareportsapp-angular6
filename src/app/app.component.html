@@ -16,32 +16,32 @@
 
 </div>
 <div class="row no-gutters flex-xl-nowrap clearfix" style="min-height:100vh;display: none;padding-top:70px;z-index: 1;" id="mainPage">
-    <div class="col" style="padding:30px 0 0 20px;min-width:250px">
+    <div class="col" style="padding:30px 0 0 20px;min-width:220px">
         <app-orgunitlibrary></app-orgunitlibrary>
     </div>
     <!-- <div class="row " > -->
 
     <mat-divider [vertical]="true"></mat-divider>
     <div class="col wrapper col-lg-10">
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col col-lg-10">
                 <app-headerselections></app-headerselections>
             </div>
-            <div class="col">
-                <button type="button" id="sidebarCollapse" class="btn btn-info primary" style="margin:20px 10px 0 0;cursor:pointer">
-                        <span id="dataset-count" class="badge badge-light">0</span>
+            <div class="col col-xs-2">
+                <button type="button" id="sidebarCollapse" class="btn btn-info primary" style="margin:20px 0 0 0;cursor:pointer">
+                        <span id="dataset-count" class="badge badge-light" style="left:-7px">0</span>
                     Selected Datasets
                 </button>
             </div>
         </div>
         <mat-divider class="col-lg-10"></mat-divider>
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col col-lg-10">
                 <app-rightbarselections></app-rightbarselections>
             </div>
         </div>
         <br>
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col col-lg-12">
                 <app-tablecard></app-tablecard>
             </div>
