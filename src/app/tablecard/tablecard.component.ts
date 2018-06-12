@@ -25,6 +25,7 @@ export class TablecardComponent {
   dsIds = [];
 
   constructor(private callingBridge: SharedService, private ajax: AjaxserviceService, public snackBar: MatSnackBar) {
+   
     // method service which gets selectedDataset from datasetstab
     this.callingBridge.dataSetServiceMethod.subscribe(
       (ds) => {
@@ -34,6 +35,7 @@ export class TablecardComponent {
             this.dsNames.push(this.selectedDatasets[k].name);
           }
         }
+        
       }
     );
 
@@ -56,13 +58,14 @@ export class TablecardComponent {
           this.openSnackBar("Please select at least one dataset", "Error");
           return;
         }
-        $(".custom-table").empty();
-        $(".custom-table p").remove();
-        $(".custom-table style").remove();
+        $(".custom-table-div").empty();
+        $(".custom-table-div p").remove();
+        $(".custom-table-div style").remove();
         $("#loader-table").fadeIn(100);
         this.displayReport(this.ou, this.pe, this.ds);
       }
     );
+
   }
 
   openSnackBar(message: string, action: string) {
@@ -76,38 +79,39 @@ export class TablecardComponent {
       setTimeout(() => {
         $("#loader-table").fadeOut(500);
         $(".ex-element").show();
-        $("#custom-table-div").fadeIn(1000);
+        $(".custom-table-div").fadeIn(1000);
         this.modifyReport(res);
       }, 3500);
     });
   }
 
   modifyReport(response) {
-    $(".custom-print-table").attr("id", "table1");
-    $(".custom-table").append(response);
-    $(".custom-table table").removeAttr("style");
-    $(".custom-table style").remove();
-    $(".custom-table table tr td span span").removeAttr("style");
-    $(".custom-table table tr td span").removeAttr("style");
-    $(".custom-table table tr td").removeAttr("style");
-    $(".custom-table table tr").removeAttr("style");
-    $(".custom-table table tr").removeAttr("height");
-    $(".custom-table table tr td").removeAttr("bgcolor");
-    $(".custom-table table tr td").removeAttr("height");
-    $(".custom-table table tr td").removeAttr("width");
-    $(".custom-table table").removeAttr("height");
-    $(".custom-table table").removeAttr("width");
-    $(".custom-table tr td").attr("style", "word-wrap:break-word;");
+   
+    $(".custom-table-div").append(response);
+    $(".custom-table-div table").attr("id", "table1");
+    $(".custom-table-div table").removeAttr("style");
+    $(".custom-table-div style").remove();
+    $(".custom-table-div table tr td span span").removeAttr("style");
+    $(".custom-table-div table tr td span").removeAttr("style");
+    $(".custom-table-div table tr td").removeAttr("style");
+    $(".custom-table-div table tr").removeAttr("style");
+    $(".custom-table-div table tr").removeAttr("height");
+    $(".custom-table-div table tr td").removeAttr("bgcolor");
+    $(".custom-table-div table tr td").removeAttr("height");
+    $(".custom-table-div table tr td").removeAttr("width");
+    $(".custom-table-div table").removeAttr("height");
+    $(".custom-table-div table").removeAttr("width");
+    $(".custom-table-div tr td").attr("style", "word-wrap:break-word;");
     // $(".custom-table table").attr("id", "table1");
-    $(".custom-table table").addClass("table table-bordered table2excel");
+    $(".custom-table-div table").addClass("table table-bordered table2excel");
     if (this.ds != "h1Q03rJqNQr") {
-      $(".custom-table table").attr("style", "max-width:100% !important;" +
+      $(".custom-table-div table").attr("style", "max-width:100% !important;" +
         "background-color:white !important;" +
         "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;" +
         "table-layout:fixed;");
     }
     else {
-      $(".custom-table table").attr("style", "max-width:100% !important;" +
+      $(".custom-table-div table").attr("style", "max-width:100% !important;" +
         "background-color:white !important;" +
         "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;");
     }
@@ -116,11 +120,11 @@ export class TablecardComponent {
       return $(this).text()
     })
 
-    $('.custom-print-table').html($('#custom-table-div table').html());
+    // $('.custom-print-table').html($('#custom-table-div table').html());
 
-    $('.custom-print-table table:has(table)').html(function () {
-      return $(this).html()
-    });
+    // $('.custom-print-table table:has(table)').html(function () {
+    //   return $(this).html()
+    // });
   }
 
   expandTable() {
