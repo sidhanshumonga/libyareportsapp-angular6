@@ -82,9 +82,7 @@ export class OrgunitlibraryComponent implements OnInit {
 
     //code to change color back to normal on unselect
     if (this.previousSelection.id != element.currentTarget.id) {
-      this.previousSelection.classList.remove("mainfont");
-      this.previousSelection.classList.remove("bold");
-      // this.previousSelection.style.color = "black";
+      this.previousSelection.classList.value = this.previousSelection.classList.value.split(" ")[0]; 
     }
     this.previousSelection = element.currentTarget;
   }
