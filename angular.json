@@ -28,7 +28,8 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/custom-themes.scss"
+              "src/custom-themes.scss",
+              "src/theme.scss"
             ],
             "scripts": [
             ]
