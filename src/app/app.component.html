@@ -1,44 +1,54 @@
 <app-loader id="loader"></app-loader>
-<div class="row flex-xl-nowrap main" style="min-width:101%;min-height:50px;position: fixed;z-index:9999">
-    <div class="col-xs-2 custom-header-fixed" id="back-button">
+
+<div class="row" style="position:fixed;min-width:101%;min-height:90px;z-index:9999">
+    <!-- first header -->
+    <div class="row flex-xl-nowrap main" style="min-width:101.5%;min-height:50px;max-height:50px;z-index:9999">
+        <div class="col-xs-2 custom-header-fixed" id="back-button">
             <mat-icon (click)="goToHome();" style="margin-top:-7px;color:white;cursor:pointer;font-size:30px"> home </mat-icon>
-    </div>
-    <div class="col custom-header-fixed" id="selected-ou-name">
-        
-    </div>
-    <div class="col custom-header-fixed" id="selected-report-name">
-        
-    </div>
-    <div class="col custom-header-fixed" id="selected-period-name">
-        
-    </div>
-    <div class="col custom-header-fixed" id="selected-dataset-name">
-        
-    </div>
-    <div class="col-xs-2 custom-header-fixed mat-raised-primary" id="selected-theme">
+        </div>
+        <div class="col" id="app-header">
+            Libya Datasets Reports
+        </div>
+        <div class="col-xs-2 custom-header-fixed mat-raised-primary" id="selected-theme">
             <mat-icon class="sp" (click)="toggle();" style="margin-top:-5px;margin-right:25px;color:white;cursor:pointer"> format_color_fill </mat-icon>
-        <div id="changecolor" class="sp flex toggleTheme">
+            <div id="changecolor" class="sp flex toggleTheme">
                 <mat-grid-list cols="2" rowHeight="1:1">
-                        <mat-grid-tile>
-                                <button class="colorchips" mat-fab style="background-color: #303f9f" (click)="updateTheme('default-theme')"></button>
-                        </mat-grid-tile>
-                        <mat-grid-tile>
-                                <button class="colorchips" mat-fab style="background-color: #c2185b" color="accent" (click)="updateTheme('pink-theme')"></button>
-                        </mat-grid-tile>
-                        <mat-grid-tile>
-                                <button class="colorchips" mat-fab style="background-color: #17a2b8" color="warn" (click)="updateTheme('cyan-theme')"></button>
-                        </mat-grid-tile>
-                        <mat-grid-tile>
-                                <button class="colorchips" mat-fab style="background-color: #00796b" color="primary" (click)="updateTheme('teal-theme')"></button>
-                        </mat-grid-tile>
+                    <mat-grid-tile>
+                        <button class="colorchips" mat-fab style="background-color: #303f9f" (click)="updateTheme('default-theme')"></button>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <button class="colorchips" mat-fab style="background-color: #c2185b" color="accent" (click)="updateTheme('pink-theme')"></button>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <button class="colorchips" mat-fab style="background-color: #17a2b8" color="warn" (click)="updateTheme('cyan-theme')"></button>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <button class="colorchips" mat-fab style="background-color: #00796b" color="primary" (click)="updateTheme('teal-theme')"></button>
+                    </mat-grid-tile>
                 </mat-grid-list>
+
+            </div>
+        </div>
+    </div>
+    <!-- Second header -->
+    <div class="row flex-xl-nowrap sub" style="min-width:101.5%;margin:auto;min-height:40px;z-index:999;display: none" id="sub-header">
+        <div class="col custom-header-fixed2" id="selected-ou-name">
+
+        </div>
+        <div class="col custom-header-fixed2" id="selected-report-name">
+
+        </div>
+        <div class="col custom-header-fixed2" id="selected-period-name">
+
+        </div>
+        <div class="col custom-header-fixed2" id="selected-dataset-name">
 
         </div>
     </div>
 
 </div>
-<div class="row no-gutters flex-xl-nowrap clearfix" style="min-height:100vh;display: none;padding-top:70px;z-index: 1;" id="mainPage">
-    <div class="col" style="padding:30px 0 0 20px;min-width:220px">
+<div class="row no-gutters flex-xl-nowrap clearfix" style="min-height:100vh;display: none;padding-top:110px;z-index: 1;" id="mainPage">
+    <div class="col" style="padding:20px 0 0 20px;min-width:220px">
         <app-orgunitlibrary></app-orgunitlibrary>
     </div>
     <!-- <div class="row " > -->
@@ -51,7 +61,7 @@
             </div>
             <div class="col col-xs-2">
                 <button mat-raised-button color="primary" id="sidebarCollapse" style="margin:20px 0 0 0;cursor:pointer">
-                        <span id="dataset-count" class="badge badge-light" style="left:-7px">0</span>
+                    <span id="dataset-count" class="badge badge-light" style="left:-7px">0</span>
                     Selected Datasets
                 </button>
             </div>
