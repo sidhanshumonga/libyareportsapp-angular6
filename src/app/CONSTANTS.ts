@@ -4,6 +4,7 @@ export const DATASETS_API = "dataSets.json?fields=name,id,attributeValues[value,
 export const USER_ORGUNIT = "me.json?fields=organisationUnits[children,id,name]";
 export const OU_CHILDREN_BASE = "organisationUnits/";
 export const OU_CHILDREN_FILTER = ".json?fields=id,children[id,name,children],ancestors[id,name]"
+export const DHIS_DASHBOARD = "../dhis-web-dashboard/index.html";
 
 export const months = [
     { name: "January", value: "01" },

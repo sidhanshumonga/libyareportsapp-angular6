@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation, OnInit, ElementRef, AfterViewInit,HostBinding  } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ElementRef, AfterViewInit,HostBinding,Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { DatasetstabsComponent } from 'src/app/datasetstabs/datasetstabs.component';
 import { HeaderselectionsComponent } from 'src/app/headerselections/headerselections.component';
 import { RightbarselectionsComponent } from 'src/app/rightbarselections/rightbarselections.component';
@@ -6,6 +7,7 @@ import { OrgunitlibraryComponent } from 'src/app/orgunitlibrary/orgunitlibrary.c
 import { LoaderComponent } from 'src/app/loader/loader.component';
 import { OverlayContainer} from '@angular/cdk/overlay';
 import * as $ from 'jquery';
+import * as values from "src/app/CONSTANTS";
 
 @Component({
   selector: 'app-component',
@@ -13,7 +15,7 @@ import * as $ from 'jquery';
   templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
- constructor(private onclicks: ElementRef,public overlayContainer: OverlayContainer){
+ constructor(private onclicks: ElementRef,public overlayContainer: OverlayContainer,@Inject(DOCUMENT) private document: any){
 
  }
  
@@ -52,8 +54,12 @@ hideme(){
   updateTheme(theme) {
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.componentCssClass = theme;
+  }
 
-    // $(".cyan").removeClass("teal cyan pink default").addClass(theme);
+  goToHome(){
+    let base = values.BASE_URL;
+    let dashboard = values.DHIS_DASHBOARD;
+    this.document.location.assign(base+dashboard);    
   }
 
 }

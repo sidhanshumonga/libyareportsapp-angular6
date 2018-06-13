@@ -43,7 +43,7 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, DOCUMENT} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
