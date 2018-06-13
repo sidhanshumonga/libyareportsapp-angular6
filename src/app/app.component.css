@@ -6,6 +6,16 @@ body{
   color:white;
   z-index:99999 !important;
 }
+#app-header{
+  color: white;
+  text-align: center;
+  font-size: 26px;
+}
+.custom-header-fixed2{
+  padding:15px 0 0 140px;
+  color:white;
+  z-index:99999 !important;
+}
 .toggleTheme{
   display:none;
 }
@@ -63,6 +73,7 @@ body{
 #changecolor{
   background-color: white;
   position: absolute;
+  z-index:9999;
   width: 90px;
   height: 90px;
   top: 30px;
