@@ -2,6 +2,8 @@
 body {
     background-color: #22475E;
     overflow:hidden;
+    margin:0;
+    padding:0;
   }
   div {
     width: 30px;
@@ -13,24 +15,24 @@ body {
   }
   
   div:nth-child(1) {
-    background-color: #3f51b5;
+    background-color: #303f9f;
     animation: move 2s infinite cubic-bezier(.2,.64,.81,.23);
   }
   div:nth-child(2) {
-    background-color: #FF9D84;
+    background-color: #c2185b;
     animation: move 2s 150ms infinite cubic-bezier(.2,.64,.81,.23);
   }
   div:nth-child(3) {
-    background-color: #F0E797;
+    background-color: #17a2b8;
     animation: move 2s 300ms infinite cubic-bezier(.2,.64,.81,.23);
   }
   div:nth-child(4) {
-    background-color: #75B08A;
+    background-color: #00796b;
     animation: move 2s 450ms infinite cubic-bezier(.2,.64,.81,.23);
   }
   
   
   @keyframes move {
-    0% {left: 0%;}
-    100% {left:100%;}
+    0% {left: 2%;}
+    100% {left:95%;}
   }

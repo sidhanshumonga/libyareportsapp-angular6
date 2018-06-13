@@ -2,8 +2,8 @@
 <div class="row no-gutters">
   <div class="col">
     <mat-form-field>
-      <mat-select placeholder="Select Period" [(ngModel)]="selectedPeriodType" [disabled]="!isthereou" required>
-        <mat-option *ngFor="let period of periods" [value]="period" (click)="gotPeriodValue(period)">
+      <mat-select color="primary" placeholder="Select Period" [(ngModel)]="selectedPeriodType" [disabled]="!isthereou" required>
+        <mat-option color="primary" *ngFor="let period of periods" [value]="period" (click)="gotPeriodValue(period)">
           <!--[disabled]="period=='Weekly'" -->
           {{ period }}
         </mat-option>
@@ -12,8 +12,8 @@
   </div>
   <div class="col">
     <mat-form-field>
-      <mat-select placeholder="Select Year" [(ngModel)]="selectedYearModel" [disabled]="!isthereou" required>
-        <mat-option *ngFor="let year of years" [value]="year" (click)="getWeeks(selectedPeriodType)">
+      <mat-select color="primary" placeholder="Select Year" [(ngModel)]="selectedYearModel" [disabled]="!isthereou" required>
+        <mat-option color="primary" *ngFor="let year of years" [value]="year" (click)="getWeeks(selectedPeriodType)">
           {{ year }}
         </mat-option>
       </mat-select>
@@ -22,8 +22,8 @@
   <!-- selection dropdown for datasets -->
   <div class="col">
     <mat-form-field>
-      <mat-select placeholder="Select an option" [disabled]="selectedPeriodType=='Yearly' || !isthereou" [(ngModel)]="optionvalue" required>
-        <mat-option *ngFor="let option of options" [value]="option.value">
+      <mat-select color="primary" placeholder="Select an option" [disabled]="selectedPeriodType=='Yearly' || !isthereou" [(ngModel)]="optionvalue" required>
+        <mat-option color="primary" *ngFor="let option of options" [value]="option.value">
           {{ option.name }}
         </mat-option>
       </mat-select>

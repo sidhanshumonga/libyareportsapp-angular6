@@ -1,0 +1,100 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+
+// Default theme
+$default-main: mat-palette($mat-indigo, 700, 100, 800);
+$default-sub:  mat-palette($mat-indigo, 400, 100, 800);
+
+$default-theme: mat-light-theme($default-main, $default-sub);
+
+.default-theme{
+  @include angular-material-theme($default-theme);
+}
+
+.main {
+  background-color: mat-color($default-main) !important;
+}
+.mainfont{
+  color:mat-color($default-main) !important;
+}
+.sub {
+  background-color: mat-color($default-sub) !important;
+}
+.sub-font{
+  color:mat-color($default-sub) !important;
+}
+
+
+
+// teal theme
+$teal-main: mat-palette($mat-teal, 700, 300, 800);
+$teal-sub:  mat-palette($mat-teal, 400, 300, 800);
+
+$teal-theme:   mat-light-theme($teal-main, $teal-sub);
+
+.teal-theme{
+  @include angular-material-theme($teal-theme);
+  .main {
+    background-color: mat-color($teal-main) !important;
+  }
+  .sub {
+    background-color: mat-color($teal-sub) !important;
+  }
+  .mainfont{
+    color:mat-color($teal-main) !important;
+  }
+  .sub-font{
+    color:mat-color($teal-main) !important;
+  }
+}
+
+
+
+
+// Pink theme
+$pink-main: mat-palette($mat-pink, 700, 300, 800);
+$pink-sub:  mat-palette($mat-pink, 400, 300, 800);
+
+$pink-theme:   mat-light-theme($pink-main, $pink-sub);
+
+.pink-theme{
+  @include angular-material-theme($pink-theme);
+  .main {
+    background-color: mat-color($pink-main) !important;
+  }
+  .sub {
+    background-color: mat-color($pink-sub) !important;
+  }
+  .mainfont{
+    color:mat-color($pink-main) !important;
+  }
+  .sub-font{
+    color:mat-color($pink-main) !important;
+  }
+}
+
+
+
+// cyan theme
+$cyan-main: mat-palette($mat-cyan, 700, 300, 800);
+$cyan-sub:  mat-palette($mat-cyan, 400, 300, 800);
+
+$cyan-theme:   mat-light-theme($cyan-main, $cyan-sub);
+
+.cyan-theme{
+  @include angular-material-theme($cyan-theme);
+  .main {
+    background-color: mat-color($cyan-main) !important;
+  }
+  .sub {
+    background-color: mat-color($cyan-sub) !important;
+  }
+  .mainfont{
+    color:mat-color($cyan-main) !important;
+  }
+  .subfont{
+    color:mat-color($cyan-main) !important;
+  }
+}
+

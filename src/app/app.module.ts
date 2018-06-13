@@ -2,6 +2,7 @@
 import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule } from '@angular/common/http';
 import {NgModule} from '@angular/core';
+import {OverlayContainer, OverlayModule} from '@angular/cdk/overlay';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MAT_CHIPS_DEFAULT_OPTIONS} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
@@ -105,6 +106,7 @@ export class DemoMaterialModule {}
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    OverlayModule
   ],
   entryComponents: [AppComponent],
   declarations: [AppComponent,DatasetstabsComponent,

@@ -3,7 +3,6 @@
     padding:30px 10px 10px 20px;
   }
   mat-chip{
-    background-color: #3f51b5 !important;
     color:white !important;
     cursor: pointer;
     border-radius:5px !important;

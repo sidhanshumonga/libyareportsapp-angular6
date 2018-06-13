@@ -1,5 +1,5 @@
 <app-loader id="loader"></app-loader>
-<div class="row flex-xl-nowrap" style="min-width:101%;min-height:50px;background-color: #3f51b5;position: fixed;z-index:9999">
+<div class="row flex-xl-nowrap main" style="min-width:101%;min-height:50px;position: fixed;z-index:9999">
 
     <div class="col custom-header-fixed" id="selected-ou-name">
         
@@ -12,6 +12,26 @@
     </div>
     <div class="col custom-header-fixed" id="selected-dataset-name">
         
+    </div>
+    <div class="col-xs-2 custom-header-fixed mat-raised-primary" id="selected-theme">
+            <mat-icon class="sp" (click)="toggle();" style="margin-top:-5px;margin-right:25px;color:white;cursor:pointer"> format_color_fill </mat-icon>
+        <div id="changecolor" class="sp flex toggleTheme">
+                <mat-grid-list cols="2" rowHeight="1:1">
+                        <mat-grid-tile>
+                                <button class="colorchips" mat-fab style="background-color: #303f9f" (click)="updateTheme('default-theme')"></button>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                                <button class="colorchips" mat-fab style="background-color: #c2185b" color="accent" (click)="updateTheme('pink-theme')"></button>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                                <button class="colorchips" mat-fab style="background-color: #17a2b8" color="warn" (click)="updateTheme('cyan-theme')"></button>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                                <button class="colorchips" mat-fab style="background-color: #00796b" color="primary" (click)="updateTheme('teal-theme')"></button>
+                        </mat-grid-tile>
+                </mat-grid-list>
+
+        </div>
     </div>
 
 </div>
@@ -28,7 +48,7 @@
                 <app-headerselections></app-headerselections>
             </div>
             <div class="col col-xs-2">
-                <button type="button" id="sidebarCollapse" class="btn btn-info primary" style="margin:20px 0 0 0;cursor:pointer">
+                <button type="button" id="sidebarCollapse" class="btn btn-info cyan sub" style="margin:20px 0 0 0;cursor:pointer">
                         <span id="dataset-count" class="badge badge-light" style="left:-7px">0</span>
                     Selected Datasets
                 </button>

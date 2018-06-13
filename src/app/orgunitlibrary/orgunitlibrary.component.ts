@@ -15,6 +15,12 @@ import * as arrays from 'src/app/CONSTANTS';
 export class OrgunitlibraryComponent implements OnInit {
 
   ougroups =  [];
+  defaultgroup = [
+    { value: 'Ewarn Report', viewValue: 'Ewarn Report' },
+    { value: 'PHC Report', viewValue: 'PHC Report' },
+    { value: 'Hospital Report', viewValue: 'Hospital Report' },
+    { value: 'Medical Center', viewValue: 'Medical Center' }
+  ];
   displayedColumns = ['id', 'name'];
   ouHeaders = [];
   // row:string;
@@ -57,7 +63,7 @@ export class OrgunitlibraryComponent implements OnInit {
 
 
     //code to change color of selected ou
-    element.currentTarget.style.color = "#3f51b5";
+    element.currentTarget.classList.add("mainfont");
     element.currentTarget.classList.add("bold");
     this.selectedOrgUnit = rowid.attributes[0].value.substring(0, 11);
 
@@ -76,8 +82,9 @@ export class OrgunitlibraryComponent implements OnInit {
 
     //code to change color back to normal on unselect
     if (this.previousSelection.id != element.currentTarget.id) {
-      this.previousSelection.classList.value = this.previousSelection.classList.value.split(" ")[0];
-      this.previousSelection.style.color = "black";
+      this.previousSelection.classList.remove("mainfont");
+      this.previousSelection.classList.remove("bold");
+      // this.previousSelection.style.color = "black";
     }
     this.previousSelection = element.currentTarget;
   }
@@ -151,7 +158,7 @@ export class OrgunitlibraryComponent implements OnInit {
 
   printTable(head) {
     for (let i = 0; i < head.length; i++) {
-      if (head[i].child) var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;color:#3f51b5" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+      if (head[i].child) var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid  mainfont" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
       else var row = '<tr id="' + head[i].id + i + '"><td style="cursor:pointer !important;" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
       $('#outable > tbody').append(row);
       this.hashmapForClasses[head[i].id] = false;
@@ -159,10 +166,11 @@ export class OrgunitlibraryComponent implements OnInit {
     }
     this.mapClasses();
   }
+
   padding: any = 0;
   printOuChild(head, rowElement) {
     for (let i = 0; i < head.length; i++) {
-      if (head[i].child) var row = '<tr id="' + head[i].id + i + '"  class="' + head[i].parent + '"><td style="cursor:pointer !important;color:#3f51b5;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
+      if (head[i].child) var row = '<tr id="' + head[i].id + i + '"  class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid mainfont" value="' + head[i].id + '" child="true" clicked="false"><i class="fa fa-plus-square-o" aria-hidden="true"></i></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
       else var row = '<tr id="' + head[i].id + i + '" class="' + head[i].parent + '"><td style="cursor:pointer !important;padding-left:' + this.padding + 'px" class="ouid" value="' + head[i].id + '" child="false" clicked="false"></td><td class="ouselect" value="' + head[i].id + '" style="cursor:pointer !important;padding-left:' + this.padding + 'px" id="' + head[i].id + '">' + head[i].name + '</td></tr>';
       var index = rowElement.parentElement.rowIndex;
       $('#outable > tbody > tr').eq(index).after(row);
@@ -184,7 +192,9 @@ export class OrgunitlibraryComponent implements OnInit {
   checkOulevel(orgunit) {
     this.orgunitService.getOuLevel(orgunit)
     .subscribe(response => {
-      if(response.level == "1" || response.level == "2"){}
+      if(response.level == "1" || response.level == "2"){
+        this.callingBridge.callMethodToSendOu(this.defaultgroup);
+      }
       else{
         this.callOuGroups(orgunit);
       }
@@ -210,12 +220,3 @@ export class OrgunitlibraryComponent implements OnInit {
 
 
 }
-
-// export interface typearr {
-//   id: string,
-//   style: typearr2,
-//   classList:
-// }
-// export interface typearr2 {
-//   color: string
-// }
