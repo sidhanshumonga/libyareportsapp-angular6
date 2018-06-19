@@ -1,6 +1,5 @@
 .row{
   width:100%;
-  padding:10px;
 }
 table{
   width:100%;
@@ -12,6 +11,9 @@ table{
 
 .ex-element{
   display: none;
+}
+#print-preview{
+  display:none !important;
 }
 
 /* loader css */

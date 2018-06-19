@@ -1,11 +1,13 @@
-import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 import { AjaxserviceService } from 'src/app/ajaxservice.service';
 import * as $ from 'jquery';
-import { LoaderComponent } from 'src/app/loader/loader.component';
 import { MatSnackBar } from '@angular/material';
 import { UtilityserviceService } from '../utilityservice.service';
-import * as arrays from 'src/app/CONSTANTS';
+import 'src/app/Jsfiles/sum.js';
+import * as jsPDF from 'jspdf';
+
+declare var cellSumFunction: any;
 
 @Component({
   selector: 'app-tablecard',
@@ -104,32 +106,23 @@ export class TablecardComponent {
     $(".custom-table-div tr td").attr("style", "word-wrap:break-word;");
     // $(".custom-table table").attr("id", "table1");
     $(".custom-table-div table").addClass("table table-bordered table2excel");
-    if (this.ds != "h1Q03rJqNQr") {
+    
       $(".custom-table-div table").attr("style", "max-width:100% !important;" +
         "background-color:white !important;" +
         "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;" +
-        "table-layout:fixed;");
-    }
-    else {
-      $(".custom-table-div table").attr("style", "max-width:100% !important;" +
-        "background-color:white !important;" +
-        "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;");
-    }
+        "");
+   
 
     $('table td:has(span)').text(function () {
       return $(this).text()
     })
 
-    // $('.custom-print-table').html($('#custom-table-div table').html());
-
-    // $('.custom-print-table table:has(table)').html(function () {
-    //   return $(this).html()
-    // });
+    cellSumFunction.ewarnReport();
   }
 
   expandTable() {
     // $('.custom-table').toggleClass('expand-table');
-    var html = $(".custom-table").html();
+    var html = $("#expand").html();
     $("#append").empty();
     $("#append").html(html);
     $(".modal").fadeIn(800);
@@ -139,8 +132,18 @@ export class TablecardComponent {
   }
 
   exportToExcel() {
-    let util = new UtilityserviceService();
-    util.tablesToExcel(['table1'], ['Dataset'], 'Datasets-Report.xls', 'Excel');
+    // let util = new UtilityserviceService();
+    // util.tablesToExcel(['table1'], ['Dataset'], 'Datasets-Report.xls', 'Excel');
+
+  //   var options = {
+  //     background: '#fff',
+  //     pagesplit: true
+  // };
+  //  const elementToPrint = document.getElementsByClassName('custom-table-div'); //The html element to become a pdf
+  //  const pdf = new jsPDF('l', 'pt', 'a4');
+  //  pdf.addHTML(elementToPrint,0,0,options, () => {
+  //  pdf.save('report.pdf');
+// });
   }
 
 
