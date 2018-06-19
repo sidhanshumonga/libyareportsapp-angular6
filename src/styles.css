@@ -6,6 +6,21 @@ html, body {
     padding: 0;
     background-color: white;
     font-size: 10pt;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+
+::-webkit-scrollbar {
+     /* remove scrollbar space */
+    background: transparent;
+    max-width:6px;
+    border-radius: 20px;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 20px;
 }
 
 .not-for-screen {
