@@ -53,6 +53,7 @@ import { RightbarselectionsComponent } from './rightbarselections/rightbarselect
 import { OrgunitlibraryComponent } from './orgunitlibrary/orgunitlibrary.component';
 import { TablecardComponent } from './tablecard/tablecard.component';
 import { LoaderComponent } from './loader/loader.component';
+import { AlltablesComponent } from './alltables/alltables.component';
 
 @NgModule({
   exports: [
@@ -111,7 +112,7 @@ export class DemoMaterialModule {}
   entryComponents: [AppComponent],
   declarations: [AppComponent,DatasetstabsComponent,
     HeaderselectionsComponent,RightbarselectionsComponent,
-    OrgunitlibraryComponent,TablecardComponent,LoaderComponent],
+    OrgunitlibraryComponent,TablecardComponent,LoaderComponent,AlltablesComponent],
   bootstrap: [AppComponent,LoaderComponent],
   providers: [
     {

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ElementRef,HostBinding,Inject } from '@angular/core';
+import { Component, OnInit, ElementRef,HostBinding,Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { OverlayContainer} from '@angular/cdk/overlay';
 import * as $ from 'jquery';

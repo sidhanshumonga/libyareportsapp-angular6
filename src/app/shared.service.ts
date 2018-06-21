@@ -64,4 +64,17 @@ export class SharedService {
     this.methodToSendOu.next(array);
   }
 
+  //code to call function from tablecard to alltables
+  public methodToSendOuandPe = new Subject<any>();
+  ouandPeServiceMethod = this.methodToSendOuandPe.asObservable();
+  callMethodToSendOuandPe(array){
+    this.methodToSendOuandPe.next(array);
+  }
+
+  //code to call function from headers to alltables
+  public methodToSendDsArray = new Subject<any>();
+  dsArrayServiceMethod = this.methodToSendDsArray.asObservable();
+  callMethodToSendDsArray(array){
+    this.methodToSendDsArray.next(array);
+  }
 }

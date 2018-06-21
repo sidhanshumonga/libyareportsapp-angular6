@@ -5,7 +5,6 @@ import * as $ from 'jquery';
 import { MatSnackBar } from '@angular/material';
 import { UtilityserviceService } from '../utilityservice.service';
 import 'src/app/Jsfiles/sum.js';
-import * as jsPDF from 'jspdf';
 
 declare var cellSumFunction: any;
 
@@ -117,7 +116,8 @@ export class TablecardComponent {
       return $(this).text()
     })
 
-    cellSumFunction.ewarnReport();
+    cellSumFunction.sumReports();
+    // this.callingBridge.callMethodToSendOuandPe([this.ou,this.pe]);
   }
 
   expandTable() {
@@ -150,6 +150,10 @@ export class TablecardComponent {
   exportAllToExcel() {
     let util = new UtilityserviceService();
     // util.tablesToExcel(, ['Dataset'], 'Datasets-Report.xls', 'Excel');
+  }
+
+  exportToPdf(){
+    this.callingBridge.callMethodToSendOuandPe([this.ou,this.pe]);
   }
 
 

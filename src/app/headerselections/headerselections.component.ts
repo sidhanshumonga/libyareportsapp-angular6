@@ -102,6 +102,7 @@ export class HeaderselectionsComponent {
       if (this.reportName == "Hospital Report" && !this.checked) this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_HOSPITAL);
       if (this.reportName == "Medical Center" && !this.checked) this.callingBridge.callMethodToChangeChips(x.DATASETS_ID_MEDICALCENTER);
     }
+    this.callingBridge.callMethodToSendDsArray(this.reportName);
     this.getDatasets();
   }
 

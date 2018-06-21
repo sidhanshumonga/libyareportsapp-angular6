@@ -2,7 +2,8 @@
 
   <div class="row no-gutters">
     <div class="col">
-      <button class="btn btn-default" onclick="printJS('expand', 'html')" >Export to pdf</button>
+      <button class="btn btn-default" onclick="printJS('expand', 'html')"  style="display:inline-block" >Export to pdf</button>
+      <button class="btn btn-default" (click)="exportToPdf()" style="display:inline-block" >Export all datasets to pdf</button>
       <mat-icon class="ex-element" matSuffix style="cursor:pointer;float:right" (click)="expandTable();">zoom_out_map</mat-icon>
       <p class="ex-element" style="float:right;margin-right: 8px;margin-top:4px;">Expand Table</p>
       <!-- The Modal -->
@@ -32,8 +33,6 @@
       <div class="col custom-table-div" id="expand" style="display:none;transition: transform .2s">
         
       </div>
-      <table class="custom-print-table" style="display:none">
-
-      </table>
+      
     </div>
   </div>
