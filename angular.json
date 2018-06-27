@@ -29,7 +29,8 @@
             "styles": [
               "src/styles.css",
               "src/custom-themes.scss",
-              "src/theme.scss"
+              "src/theme.scss",
+              "src/media.css"
             ],
             "scripts": [
               "src/app/Jsfiles/sum.js"

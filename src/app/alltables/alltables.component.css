@@ -1,13 +1,8 @@
-@media print {
-    body * {
-      visibility: hidden;
-    }
-    #alltables, #alltables * {
-      visibility: visible;
-    }
-    #alltables {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
+
+  #alltables{
+    display:none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width:100%;
   }

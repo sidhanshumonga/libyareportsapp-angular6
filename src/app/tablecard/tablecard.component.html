@@ -2,10 +2,21 @@
 
   <div class="row no-gutters">
     <div class="col">
-      <button class="btn btn-default" onclick="printJS('expand', 'html')"  style="display:inline-block" >Export to pdf</button>
-      <button class="btn btn-default" (click)="exportToPdf()" style="display:inline-block" >Export all datasets to pdf</button>
-      <mat-icon class="ex-element" matSuffix style="cursor:pointer;float:right" (click)="expandTable();">zoom_out_map</mat-icon>
-      <p class="ex-element" style="float:right;margin-right: 8px;margin-top:4px;">Expand Table</p>
+<div class="row no-gutters ex-element-main">      
+      <div class="col" style="float:left;width:32%;padding-left:10%">
+          <mat-icon class="ex-element-i" matSuffix style="cursor:pointer;" onclick="printJS('expand', 'html')">print</mat-icon>
+          <p class="ex-element-p" style="margin-right: 8px;margin-top:4px;">Export to pdf</p>  
+      </div>
+      <div class="col" style="float:left;width:32%;padding-left:10%">
+          <mat-icon class="ex-element-i" matSuffix style="cursor:pointer;" (click)="exportToPdf();">print</mat-icon>
+          <p class="ex-element-p" style="margin-right: 8px;margin-top:4px;">Export all datasets to pdf</p>  
+      </div>
+      <div class="col" style="float:left;width:32%;padding-left:10%">
+        <mat-icon class="ex-element-i" matSuffix style="cursor:pointer;" (click)="expandTable();">zoom_out_map</mat-icon>
+        <p class="ex-element-p" style="margin-right: 8px;margin-top:4px;">Expand Table</p>  
+      </div>
+</div>
+      
       <!-- The Modal -->
     <div id="myModal" class="modal">
 

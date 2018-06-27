@@ -1,0 +1,19 @@
+@media print {
+    body .hideme{
+      /* visibility: hidden; */
+      display: none;
+    }
+    #alltables{
+      /* visibility: visible; */
+      display: block;
+    }
+    
+    table { 
+      page-break-inside:avoid;
+      width:28cm;
+      text-align:center; }
+    tr    { 
+     page-break-inside:avoid;
+     page-break-after:auto }
+   
+  }

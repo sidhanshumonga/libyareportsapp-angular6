@@ -14,6 +14,7 @@ $default-theme: mat-light-theme($default-main, $default-sub);
 
 .main {
   background-color: mat-color($default-main) !important;
+  color:white;
 }
 .mainfont{
   color:mat-color($default-main) !important;
@@ -37,6 +38,7 @@ $teal-theme:   mat-light-theme($teal-main, $teal-sub);
   @include angular-material-theme($teal-theme);
   .main {
     background-color: mat-color($teal-main) !important;
+    color:white;
   }
   .sub {
     background-color: mat-color($teal-sub) !important;
@@ -62,6 +64,7 @@ $pink-theme:   mat-light-theme($pink-main, $pink-sub);
   @include angular-material-theme($pink-theme);
   .main {
     background-color: mat-color($pink-main) !important;
+    color:white;
   }
   .sub {
     background-color: mat-color($pink-sub) !important;
@@ -86,6 +89,7 @@ $cyan-theme:   mat-light-theme($cyan-main, $cyan-sub);
   @include angular-material-theme($cyan-theme);
   .main {
     background-color: mat-color($cyan-main) !important;
+    color:white;
   }
   .sub {
     background-color: mat-color($cyan-sub) !important;

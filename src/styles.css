@@ -7,14 +7,15 @@ html, body {
     background-color: white;
     font-size: 10pt;
     overflow: auto;
-    overflow-x: hidden;
 }
-
-
+.mat-app-background{
+    background : white !important;
+}
 ::-webkit-scrollbar {
      /* remove scrollbar space */
     background: transparent;
     max-width:6px;
+    max-height:6px;
     border-radius: 20px;  /* optional: just make scrollbar invisible */
 }
 /* optional: show position indicator in red */

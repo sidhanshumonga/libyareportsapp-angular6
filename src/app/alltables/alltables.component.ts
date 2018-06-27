@@ -18,13 +18,16 @@ ou: any;
 pe: any;
 ds: any;
 dsArray: typearr[];
+globalvar : boolean = false;
+
   constructor(private callingBridge: SharedService, private ajax: AjaxserviceService) { 
        //method service which gets selectedOrgUnit from orgunitlibrary
        this.callingBridge.ouandPeServiceMethod.subscribe(
         (params) => {
+          this.globalvar = false;
           this.ou = params[0];
           this.pe = params[1];
-          $("#loader-table").fadeIn(100);
+         
          this.displayReport(this.ou, this.pe);
         }
       );
@@ -45,21 +48,27 @@ dsArray: typearr[];
   }
 
   displayReport(ou, pe) {
-    
+    var counter = 0;
     for(let k=0;k<this.dsArray.length;k++){
      this.ds = this.dsArray[k].id;
 
     this.ajax.getDatasetHTML(ou, pe, this.ds).subscribe(res => {
-        this.modifyReport(res);
+       if(!this.globalvar) this.modifyReport(res);counter++;
+       if(counter == this.dsArray.length-1){
+      //  $('body').not("#alltables").hide(); 
+        setTimeout(this.printFunction,500);
+      }
       });
     }
+  }
 
-    setTimeout(() => {
-      $("#loader-table").fadeOut(500);
-      $("#alltables").fadeIn(1000);
+  printFunction(){ 
+    if(!this.globalvar)cellSumFunction.sumReportsAll();
+      $("#alltables").show();
       window.print();
-    }, 3500);
-    $('#alltables').hide();
+      this.globalvar = true;     
+      $('#alltables').hide();
+     // $('body').not("#alltables").show(); 
   }
 
   modifyReport(response) {
@@ -68,7 +77,6 @@ dsArray: typearr[];
     $(".custom-all-tables-div table").attr("id", "table1");
     $(".custom-all-tables-div table").removeAttr("style");
     $(".custom-all-tables-div style").remove();
-    $(".custom-all-tables-div p").remove();
     $(".custom-all-tables-div table tr td span span").removeAttr("style");
     $(".custom-all-tables-div table tr td span").removeAttr("style");
     $(".custom-all-tables-div table tr td").removeAttr("style");
@@ -80,20 +88,20 @@ dsArray: typearr[];
     $(".custom-all-tables-div table").removeAttr("height");
     $(".custom-all-tables-div table").removeAttr("width");
     $(".custom-all-tables-div tr td").attr("style", "word-wrap:break-word;");
-    $(".custom-all-tables-div table").addClass("table table-bordered table2excel");
+    $(".custom-all-tables-div table").addClass("table table-bordered");
     
-      $(".custom-all-tables-div table").attr("style", "max-width:100% !important;" +
-        "background-color:white !important;" +
-        "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;" +
-        "");
+    $(".custom-all-tables-div table").attr("style", "max-width:100% !important;" +
+      "background-color:white !important;" +
+      "text-align:right;transition: transform .2s;" +
+      "");
    
-
+    $('table td:has(p)').text(function () {
+          return $(this).text()
+    })
     $('table td:has(span)').text(function () {
       return $(this).text()
     })
 
-    cellSumFunction.sumReportsAll();
-    console.log("success");
   }
 }
 

@@ -79,7 +79,7 @@ export class TablecardComponent {
     this.ajax.getDatasetHTML(ou, pe, ds).subscribe(res => {
       setTimeout(() => {
         $("#loader-table").fadeOut(500);
-        $(".ex-element").show();
+        $(".ex-element-main").show();
         $(".custom-table-div").fadeIn(1000);
         this.modifyReport(res);
       }, 3500);
@@ -89,20 +89,22 @@ export class TablecardComponent {
   modifyReport(response) {
    
     $(".custom-table-div").append(response);
+    $(".custom-table-div style").remove();
     $(".custom-table-div table").attr("id", "table1");
     $(".custom-table-div table").removeAttr("style");
     $(".custom-table-div style").remove();
-    $(".custom-table-div table tr td span span").removeAttr("style");
-    $(".custom-table-div table tr td span").removeAttr("style");
-    $(".custom-table-div table tr td").removeAttr("style");
-    $(".custom-table-div table tr").removeAttr("style");
-    $(".custom-table-div table tr").removeAttr("height");
-    $(".custom-table-div table tr td").removeAttr("bgcolor");
-    $(".custom-table-div table tr td").removeAttr("height");
-    $(".custom-table-div table tr td").removeAttr("width");
+    $(".custom-table-div table tbody tr td span span").removeAttr("style");
+    $(".custom-table-div table tbody tr td span").removeAttr("style");
+    $(".custom-table-div table tbody tr td").removeAttr("style");
+    $(".custom-table-div table tbody tr").removeAttr("style");
+    $(".custom-table-div table tbody").removeAttr("style");
+    $(".custom-table-div table tbody tr").removeAttr("height");
+    $(".custom-table-div table tbody tr td").removeAttr("bgcolor");
+    $(".custom-table-div table tbody tr td").removeAttr("height");
+    $(".custom-table-div table tbody tr td").removeAttr("width");
     $(".custom-table-div table").removeAttr("height");
     $(".custom-table-div table").removeAttr("width");
-    $(".custom-table-div tr td").attr("style", "word-wrap:break-word;");
+    $(".custom-table-div table tbody tr td").attr("style", "word-wrap:break-word;");
     // $(".custom-table table").attr("id", "table1");
     $(".custom-table-div table").addClass("table table-bordered table2excel");
     
@@ -110,12 +112,23 @@ export class TablecardComponent {
         "background-color:white !important;" +
         "box-shadow:0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12) !important;text-align:right;transition: transform .2s;" +
         "");
-   
+    $(".custom-table-div table thead").removeAttr("style");    
+    $(".custom-table-div table thead tr").removeAttr("style");
+    $(".custom-table-div table thead tr td").removeAttr("style");
+    $(".custom-table-div table thead tr td").removeAttr("bgcolor");
+    $(".custom-table-div table thead tr td").removeAttr("height");
+    $(".custom-table-div table thead tr td").removeAttr("width");    
+    $(".custom-table-div table thead tr td").attr("style","height:50px;min-width:75px");    
+    $(".custom-table-div table thead").addClass("main");
+    $(".custom-table-div table thead").attr("style","text-align:center");
 
     $('table td:has(span)').text(function () {
       return $(this).text()
     })
 
+    $('table td:has(p)').text(function () {
+      return $(this).text()
+    })
     cellSumFunction.sumReports();
     // this.callingBridge.callMethodToSendOuandPe([this.ou,this.pe]);
   }
@@ -127,32 +140,13 @@ export class TablecardComponent {
     $("#append").html(html);
     $(".modal").fadeIn(800);
   }
+
   close() {
     $(".modal").fadeOut(800);
   }
 
-  exportToExcel() {
-    // let util = new UtilityserviceService();
-    // util.tablesToExcel(['table1'], ['Dataset'], 'Datasets-Report.xls', 'Excel');
-
-  //   var options = {
-  //     background: '#fff',
-  //     pagesplit: true
-  // };
-  //  const elementToPrint = document.getElementsByClassName('custom-table-div'); //The html element to become a pdf
-  //  const pdf = new jsPDF('l', 'pt', 'a4');
-  //  pdf.addHTML(elementToPrint,0,0,options, () => {
-  //  pdf.save('report.pdf');
-// });
-  }
-
-
-  exportAllToExcel() {
-    let util = new UtilityserviceService();
-    // util.tablesToExcel(, ['Dataset'], 'Datasets-Report.xls', 'Excel');
-  }
-
   exportToPdf(){
+    $("#loader-table").fadeIn(100);
     this.callingBridge.callMethodToSendOuandPe([this.ou,this.pe]);
   }
 
