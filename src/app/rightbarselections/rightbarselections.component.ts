@@ -67,6 +67,8 @@ export class RightbarselectionsComponent {
     //method service which gets selectedOrgUnit from orgunitlibrary
     this.callingBridge.orgUnitServiceMethod.subscribe(
       (ou) => {
+        // if(ou.length > 11)this.selectedOrgUnit = ou.substring(0,11);
+        // else 
         this.selectedOrgUnit = ou;
         if(ou !== undefined)this.isthereou = true;
       }

@@ -50,4 +50,8 @@ export class AjaxserviceService {
     return this.http.get(x.BASE_URL + "organisationUnits/" + ou + ".json?fields=organisationUnitGroups[id,name]");
   }
 
+  getOuGroupsDropdown(): Observable<any>{
+    return this.http.get(x.BASE_URL + "organisationUnitGroups.json");
+  }
+
 }

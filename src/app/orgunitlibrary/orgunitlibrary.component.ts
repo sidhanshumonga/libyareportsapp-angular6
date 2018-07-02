@@ -23,6 +23,11 @@ export class OrgunitlibraryComponent implements OnInit {
   ];
   displayedColumns = ['id', 'name'];
   ouHeaders = [];
+  ougroupdropdown = [];
+  //for ougroup
+  selectedvalues:string;
+  checkedOug:boolean;
+
   // row:string;
   constructor(private orgunitService: AjaxserviceService, private onclicks: ElementRef, private callingBridge: SharedService) {
 
@@ -30,6 +35,8 @@ export class OrgunitlibraryComponent implements OnInit {
 
   ngOnInit() {
     this.setOu();
+    this.setOugroup();
+
   }
   selectedOrgUnit: string;
   checked: string;
@@ -60,8 +67,6 @@ export class OrgunitlibraryComponent implements OnInit {
 
   ouselect(element) {
     var rowid = element.currentTarget.parentElement;
-
-
     //code to change color of selected ou
     element.currentTarget.classList.add("mainfont");
     element.currentTarget.classList.add("bold");
@@ -78,8 +83,8 @@ export class OrgunitlibraryComponent implements OnInit {
         utility.setHeaders("ou", name);
       });
     //function to send selectedOrgunit to generate function
-    this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit);
-
+    if(this.checkedOug)this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit + "&selectedOnly=false&dimension=fKvKRriTaSv:"+this.selectedvalues);
+    else this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit + "&selectedOnly=false");
     //code to change color back to normal on unselect
     if (this.previousSelection.id != element.currentTarget.id) {
       this.previousSelection.classList.value = this.previousSelection.classList.value.split(" ")[0]; 
@@ -214,6 +219,21 @@ export class OrgunitlibraryComponent implements OnInit {
     });
   }
 
+ setOugroup(){
+  this.orgunitService.getOuGroupsDropdown()
+  .subscribe(res => {
+    for(let p=0;p<res.organisationUnitGroups.length;p++){
+      var obj = {'name':res.organisationUnitGroups[p].displayName, 'id':res.organisationUnitGroups[p].id};
+      this.ougroupdropdown.push(obj);
+    }
+  });
+ }
+
+sendou(){
+  //function to send selectedOrgunit to generate function
+  if(!this.checkedOug)this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit + "&selectedOnly=false&dimension=fKvKRriTaSv:"+this.selectedvalues);
+  else this.callingBridge.callMethodToSendOrgUnit(this.selectedOrgUnit + "&selectedOnly=false");
+}
 
 
 
